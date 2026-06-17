@@ -29,7 +29,7 @@ jobs:
           npx cap add android 2>/dev/null || echo "already exists"
           npx cap sync android
 
-      - name: Generate icons with capacitor-assets
+      - name: Generate icons
         run: |
           npm install -g @capacitor/assets
           capacitor-assets generate --android
