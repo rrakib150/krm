@@ -32,7 +32,7 @@ jobs:
       - name: Generate icons
         run: |
           npm install -g @capacitor/assets
-          capacitor-assets generate --android
+          capacitor-assets generate --android --asset-path .
 
       - name: Make Gradlew executable
         run: chmod +x android/gradlew
