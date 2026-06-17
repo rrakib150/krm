@@ -20,7 +20,7 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Add Capacitor Android platform
         run: |
           npx cap add android 2>/dev/null || echo "already exists"
