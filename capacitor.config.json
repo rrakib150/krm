@@ -2,18 +2,8 @@
   "appId": "com.evahomeo.kentsrepertory",
   "appName": "Kent's Repertory",
   "webDir": "www",
-  "android": {
-    "buildOptions": {
-      "releaseType": "APK"
-    }
-  },
   "server": {
-    "androidScheme": "https",
-    "cleartext": true
-  },
-  "plugins": {
-    "SplashScreen": {
-      "launchShowDuration": 0
-    }
+    "url": "https://kentsrepertorymobile.netlify.app/",
+    "cleartext": false
   }
 }
