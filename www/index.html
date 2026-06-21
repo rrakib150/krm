@@ -783,8 +783,18 @@ html.light .hamburger-btn { background: rgba(0,0,0,0.05); }
 .right-body::-webkit-scrollbar-track { background:var(--bg); }
 .right-body::-webkit-scrollbar-thumb { background:var(--border2); border-radius:4px; }
 .sel-section { flex-shrink:0; border-bottom:2px solid var(--border); }
-.sel-section-head { padding:6px 10px; display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.015); }
-.sel-section-head span { font-size:0.65rem; color:var(--muted); font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; }
+.sel-section-head {
+  width:100%; padding:8px 10px; display:flex; align-items:center; justify-content:space-between;
+  background:rgba(255,255,255,0.015); border:none; cursor:pointer; font-family:inherit; text-align:left;
+}
+.sel-section-head span { font-size:0.65rem; color:var(--muted); font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.06em; display:flex; align-items:center; gap:6px; }
+.sel-count-chip {
+  background:var(--gold); color:#000; font-size:0.62rem; font-weight:700;
+  border-radius:9px; padding:1px 7px; font-family:'JetBrains Mono',monospace; text-transform:none; letter-spacing:0;
+}
+.sel-section-arrow { color:var(--muted); font-size:0.7rem; transition:transform 0.2s; flex-shrink:0; }
+.sel-section.collapsed .sel-section-arrow { transform:rotate(-90deg); }
+.sel-section.collapsed .sel-section-body { display:none; }
 .sel-section-body { max-height:180px; overflow-y:auto; }
 .sel-section-body::-webkit-scrollbar { width:3px; }
 .sel-section-body::-webkit-scrollbar-thumb { background:var(--border2); }
@@ -826,6 +836,7 @@ html.light .hamburger-btn { background: rgba(0,0,0,0.05); }
 .result-filter-btn { background:rgba(255,255,255,0.03); border:1px solid var(--border2); color:var(--muted); font-size:0.65rem; padding:3px 9px; border-radius:10px; cursor:pointer; font-family:'JetBrains Mono',monospace; transition:all 0.15s; }
 .result-filter-btn:hover, .result-filter-btn.active { background:rgba(200,150,12,0.14); color:var(--gold2); border-color:var(--gold); }
 .result-list { padding:4px 4px 8px; }
+.result-row-wrap { border-bottom:1px solid var(--border); border-radius:6px; margin-bottom:2px; overflow:hidden; }
 .result-item { padding:7px 10px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; border-radius:6px; transition:background 0.12s; cursor:default; }
 .result-item:hover { background:rgba(255,255,255,0.025); }
 .result-rank { font-size:0.65rem; color:var(--muted); font-family:'JetBrains Mono',monospace; width:20px; flex-shrink:0; text-align:center; }
@@ -913,6 +924,15 @@ html.light #pin-overlay { background:#f0f0f0; }
 .mm-source-badge { font-size: 0.6rem; background: rgba(200,150,12,0.15); color: var(--gold); border: 1px solid rgba(200,150,12,0.3); border-radius: 8px; padding: 2px 8px; font-family: 'JetBrains Mono', monospace; margin-top: 3px; display: inline-block; }
 .mm-close { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1.2rem; padding: 4px 8px; border-radius: 6px; transition: all 0.15s; }
 .mm-close:hover { color: var(--danger); background: rgba(224,85,85,0.1); }
+.mm-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); flex-shrink: 0; background: var(--bg2); overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.mm-tab {
+  padding: 9px 16px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace;
+  color: var(--muted); cursor: pointer; border: none; background: transparent;
+  border-bottom: 2px solid transparent; transition: all 0.15s; white-space: nowrap; flex-shrink: 0; flex: 1;
+  text-align: center;
+}
+.mm-tab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.mm-tab.active { color: var(--gold2); border-bottom-color: var(--gold); background: rgba(200,150,12,0.06); }
 .mm-body { overflow-y: auto; padding: 16px 18px 24px; flex: 1; }
 .mm-body::-webkit-scrollbar { width: 4px; }
 .mm-body::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
@@ -953,6 +973,20 @@ html.light #pin-overlay { background:#f0f0f0; }
 .mm-not-found p { font-size: 0.85rem; line-height: 1.7; }
 html.light .mm-sym-block { background: var(--bg3); }
 html.light .mm-mod-block { background: var(--bg3); }
+
+/* ── Allen's Keynotes layout ── */
+.mm-allen-list { margin: 0; padding-left: 0; list-style: none; }
+.mm-allen-list li {
+  font-size: 0.85rem; color: var(--text); line-height: 1.75;
+  padding: 8px 12px 8px 30px; position: relative; border-bottom: 1px solid var(--border);
+}
+.mm-allen-list li:last-child { border-bottom: none; }
+.mm-allen-list li::before { content: '🔑'; position: absolute; left: 4px; top: 8px; font-size: 0.75rem; }
+.mm-allen-section { margin-bottom: 14px; }
+.mm-allen-source-note {
+  font-size: 0.68rem; color: var(--muted); font-family: 'JetBrains Mono', monospace;
+  text-align: center; padding: 10px; margin-top: 8px; border-top: 1px dashed var(--border);
+}
 
 /* result-item clickable */
 .result-item.mm-clickable { cursor: pointer; }
@@ -2272,6 +2306,23 @@ button:focus-visible, input:focus-visible, select:focus-visible {
   /* Rubric breakdown panel: a bit more legible */
   .rb-name { font-size: 0.76rem !important; white-space: normal !important; }
   .rb-panel { padding-left: 14px; }
+
+  /* Each medicine gets clear card-like separation for easy scanning */
+  .result-row-wrap {
+    margin-bottom: 8px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+  }
+  .result-item { padding: 10px 10px; }
+  .result-list > .result-item {
+    margin-bottom: 8px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+  }
+  html.light .result-row-wrap, html.light .result-list > .result-item { background: rgba(0,0,0,0.02); }
+  .result-list { padding: 8px; }
 }
 @media(max-width:600px) {
   header { padding: 8px 12px; gap: 8px; }
@@ -2516,11 +2567,15 @@ html.light ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
       <div class="mm-head-left">
         <div class="mm-remedy-title" id="mm-title">—</div>
         <div class="mm-remedy-full" id="mm-full"></div>
-        <span class="mm-source-badge">Boericke's Materia Medica</span>
       </div>
       <button class="mm-close" onclick="closeMM()">✕</button>
     </div>
-    <div class="mm-body" id="mm-body"></div>
+    <div class="mm-tabs">
+      <button class="mm-tab active" id="mm-tab-boericke" onclick="switchMMTab('boericke')">📘 Boericke's Materia Medica</button>
+      <button class="mm-tab" id="mm-tab-allen" onclick="switchMMTab('allen')">🔑 Allen's Keynotes</button>
+    </div>
+    <div class="mm-body" id="mm-body-boericke"></div>
+    <div class="mm-body" id="mm-body-allen" style="display:none"></div>
   </div>
 </div>
 
@@ -2663,10 +2718,11 @@ html.light ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
         </div>
         <!-- Scrollable body: selected list + result -->
         <div class="right-body">
-          <div class="sel-section">
-            <div class="sel-section-head">
-              <span>নির্বাচিত রুব্রিক</span>
-            </div>
+          <div class="sel-section" id="sel-section">
+            <button class="sel-section-head" id="sel-section-toggle" onclick="toggleSelSection()">
+              <span>নির্বাচিত রুব্রিক <span class="sel-count-chip" id="sel-count-chip">0</span></span>
+              <span class="sel-section-arrow" id="sel-section-arrow">▾</span>
+            </button>
             <div class="sel-section-body" id="sel-list"></div>
           </div>
           <div class="result-section" id="result-area"></div>
@@ -3948,8 +4004,20 @@ function doToggle(id, name, fullPath, chapter, remedies, subRubrics) {
   updateSelUI();
 }
 
+// ══════════════════════════════════════
+//  SELECTED RUBRICS — collapsible dropdown
+// ══════════════════════════════════════
+function toggleSelSection(forceState) {
+  const sec = document.getElementById('sel-section');
+  if (!sec) return;
+  const collapsed = typeof forceState === 'boolean' ? !forceState : !sec.classList.contains('collapsed');
+  sec.classList.toggle('collapsed', collapsed);
+}
+
 function updateSelUI() {
   document.getElementById('sel-count').textContent = selectedRubrics.length;
+  const selChip = document.getElementById('sel-count-chip');
+  if (selChip) selChip.textContent = selectedRubrics.length;
   const mTabBadge = document.getElementById('mptab-sel-count');
   if (mTabBadge) {
     mTabBadge.textContent = selectedRubrics.length;
@@ -4042,18 +4110,24 @@ async function navigateToRubric(rootId, targetId, isSubRubric) {
   }
   if (!r) { showToast('রুব্রিক খুঁজে পাওয়া যায়নি'); return; }
 
-  // Switch to chapter if not already active
+  // Switch to chapter if not already active.
+  // Always call selectChapter directly (don't search .chapter-btn DOM) —
+  // with chapter-list pagination, the target chapter's button may not be
+  // rendered on the current page, so a DOM lookup can silently fail.
   if (activeChapter !== r.chapter) {
-    // Find the chapter button and click
-    const chBtns = document.querySelectorAll('.chapter-btn');
-    let found = false;
-    chBtns.forEach(btn => {
-      if (btn.querySelector('span') && btn.querySelector('span').textContent === r.chapter) {
-        selectChapter(r.chapter, btn);
-        found = true;
-      }
-    });
-    if (!found) await selectChapter(r.chapter, null);
+    await selectChapter(r.chapter, null);
+  }
+
+  // Jump the chapter-list pagination to whichever page contains this chapter,
+  // and re-render so it shows highlighted if the user switches to the Chapter tab/panel.
+  // Use the unfiltered allChapters list (not _renderedChapters) so this works
+  // correctly even if a chapter search filter was previously active.
+  const chSearchEl = document.getElementById('ch-search');
+  if (chSearchEl) chSearchEl.value = '';
+  const chIdx = allChapters.indexOf(r.chapter);
+  if (chIdx >= 0) {
+    _chapterPage = Math.floor(chIdx / PAGE_SIZE_CH) + 1;
+    renderChapterList(allChapters);
   }
 
   // Wait for rubric list to render, then scroll to and highlight the rubric
@@ -4209,7 +4283,7 @@ function renderResult() {
             <span class="rb-name" title="${sel.name}">${sel.name}</span>
           </div>`;
         }).join('');
-        return `<div style="border-bottom:1px solid var(--border);border-radius:6px;margin-bottom:2px;overflow:hidden">
+        return `<div class="result-row-wrap">
           <div class="result-item mm-clickable" onclick="openMM('${d.name}')">
             <div class="result-rank">${d.rank}</div>
             <div style="flex:1;min-width:0">
@@ -4362,6 +4436,7 @@ function _initMobilePanel() {
   if (first) first.classList.add('mpanel-active');
   if (_isMobilePanelMode()) {
     history.replaceState({ mpanel: 'chapter' }, '');
+    toggleSelSection(false); // collapsed by default on phones — result list gets priority
   }
 }
 if (document.readyState === 'loading') {
@@ -4398,7 +4473,7 @@ function switchView(v, btn) {
   _doSwitchView(v, btn);
   // view-specific init (merged here — no double-declaration needed)
   if (v === 'rx' && !rxInited) { rxInited = true; initRxView(); }
-  if (v === 'saved') { renderSavedSets(); }
+  if (v === 'saved') { _savedSetsPage = 1; renderSavedSets(); }
   if (v === 'miasm') { _miasmTab='info'; _miasmSearch=''; document.querySelectorAll('#miasm-tabs .miasm-tab').forEach((b,i)=>{b.classList.toggle('active',i===0);}); renderMiasmBody(); }
   if (v === 'bio') {
     // When coming from nav bar directly (not from showBiochemic), reset to suggest tab
@@ -4582,6 +4657,9 @@ function confirmSaveRubricSet() {
   renderSavedSets();
 }
 
+const PAGE_SIZE_SAVED = 15;
+let _savedSetsPage = 1;
+
 function renderSavedSets() {
   const sets = getSavedSets();
   const el = document.getElementById('saved-list');
@@ -4589,7 +4667,13 @@ function renderSavedSets() {
     el.innerHTML = '<div class="empty-state" style="padding:40px">কোনো সেভড রুব্রিক সেট নেই।</div>';
     return;
   }
-  el.innerHTML = sets.map((s, i) => `
+  const totalPages = Math.max(1, Math.ceil(sets.length / PAGE_SIZE_SAVED));
+  if (_savedSetsPage > totalPages) _savedSetsPage = totalPages;
+  const start = (_savedSetsPage - 1) * PAGE_SIZE_SAVED;
+  const pageItems = sets.slice(start, start + PAGE_SIZE_SAVED);
+  let html = pageItems.map((s, pi) => {
+    const i = start + pi;
+    return `
     <div class="saved-set">
       <div class="saved-set-info">
         <div class="saved-set-name">${s.name}</div>
@@ -4602,7 +4686,15 @@ function renderSavedSets() {
         <button class="del-btn" onclick="deleteSavedSet(${i})">🗑️ মুছুন</button>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
+  html += renderPager('saved-list', sets.length, _savedSetsPage, PAGE_SIZE_SAVED, 'goToSavedSetsPage');
+  el.innerHTML = html;
+}
+
+function goToSavedSetsPage(p) {
+  _savedSetsPage = p;
+  renderSavedSets();
 }
 
 function loadSavedSet(i) {
@@ -5006,22 +5098,44 @@ function saveRx() {
   showToast(`✅ "${name}"-এর প্রেসক্রিপশন সেভ হয়েছে`, "success");
 }
 
+const PAGE_SIZE_RX = 15;
+let _rxHistoryPage = 1;
+
 function showRxHistory() {
   const panel = document.getElementById('rx-history-panel');
   if (panel.style.display !== 'none') { panel.style.display = 'none'; return; }
   panel.style.display = 'block';
+  _rxHistoryPage = 1;
+  renderRxHistoryList();
+}
+
+function renderRxHistoryList() {
   const list = getRxList();
   const el = document.getElementById('rx-history-list');
   if (!list.length) {
     el.innerHTML = '<div class="empty-state" style="padding:20px">কোনো সেভড প্রেসক্রিপশন নেই।</div>';
     return;
   }
-  el.innerHTML = list.map((rx, i) => `
+  const totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE_RX));
+  if (_rxHistoryPage > totalPages) _rxHistoryPage = totalPages;
+  const start = (_rxHistoryPage - 1) * PAGE_SIZE_RX;
+  const pageItems = list.slice(start, start + PAGE_SIZE_RX);
+  let html = pageItems.map((rx, pi) => {
+    const i = start + pi;
+    return `
     <div class="rx-history-item" onclick="loadRx(${i})">
       <div class="rh-name">${rx.patientName}</div>
       <div class="rh-meta">${rx.date} · ${rx.docName || ''}</div>
     </div>
-  `).join('');
+  `;
+  }).join('');
+  html += renderPager('rx-history-list', list.length, _rxHistoryPage, PAGE_SIZE_RX, 'goToRxHistoryPage');
+  el.innerHTML = html;
+}
+
+function goToRxHistoryPage(p) {
+  _rxHistoryPage = p;
+  renderRxHistoryList();
 }
 
 function loadRx(i) {
@@ -8016,6 +8130,399 @@ const MM_DATA = {
 };
 
 // ══════════════════════════════════════
+//  ALLEN'S KEYNOTES AND CHARACTERISTICS
+//  (H.C. Allen — মূল কীনোট, ধাপে ধাপে আরও remedy যুক্ত হবে)
+// ══════════════════════════════════════
+const ALLEN_KEYNOTES = {
+  "Acon": {
+    keynotes: [
+      "হঠাৎ, প্রচণ্ড সূচনা — শুষ্ক, ঠান্ডা বাতাসে এক্সপোজার বা ভয়ের পর",
+      "প্রবল ভয়, উদ্বেগ, মৃত্যুভয়; নিজের মৃত্যুর দিন-ক্ষণ পর্যন্ত বলে দেয়",
+      "তীব্র অস্থিরতা — শরীর ও মন দুটোতেই",
+      "তৃষ্ণা প্রবল, ঠান্ডা পানির জন্য",
+      "এক গালে লাল অন্য গালে ফ্যাকাশে (one-sided redness)",
+      "লক্ষণ হঠাৎ আসে, হঠাৎ যায় — পূর্ণ বিকাশ ছাড়াই তীব্র"
+    ],
+    compare: ["Bell", "Gels", "Verat"]
+  },
+  "Ars": {
+    keynotes: [
+      "প্রচণ্ড অস্থিরতা — মানসিক উদ্বেগ শারীরিক দুর্বলতার সাথে মিলিত",
+      "মধ্যরাতের পর (১২টা–৩টা) সব লক্ষণের বৃদ্ধি",
+      "তৃষ্ণা — অল্প অল্প করে ঘন ঘন পানি পান করে",
+      "উষ্ণতায় উপকার (ব্যতিক্রম: মাথাব্যথা ঠান্ডায় ভালো)",
+      "একা থাকতে ভয় পায়, সঙ্গ চায়, কিন্তু অস্থির হয়ে নড়াচড়া করে",
+      "মৃত্যুভয়সহ চরম দুর্বলতা ও ক্লান্তি; শয্যা পরিবর্তন করতে চায়"
+    ],
+    compare: ["Carb-v", "China", "Verat"]
+  },
+  "Bell": {
+    keynotes: [
+      "হঠাৎ, প্রচণ্ড, একতরফা প্রদাহ — লাল, গরম, স্পন্দনশীল",
+      "তাপ, লালভাব ও স্পন্দন একসাথে — Belladonna-র ত্রিভুজ",
+      "প্রবল উত্তেজনা, প্রলাপ, কামড়ানো-আঁচড়ানো প্রবণতা",
+      "ছোঁয়া, ঝাঁকুনি, আলো ও শব্দে তীব্র অসহিষ্ণুতা",
+      "মাথায় প্রচণ্ড গরম, পা ঠান্ডা — মাথায় রক্তসঞ্চয়",
+      "পিউপিল প্রসারিত, চোখ উজ্জ্বল, মুখ লাল ও উত্তপ্ত"
+    ],
+    compare: ["Acon", "Stram", "Hyos"]
+  },
+  "Bry": {
+    keynotes: [
+      "সামান্যতম নড়াচড়াতেই সব লক্ষণের প্রচণ্ড বৃদ্ধি — স্থির থাকতে চায়",
+      "শুষ্কতা — শুষ্ক মুখ, শুষ্ক ঠোঁট, শুষ্ক কাশি, তৃষ্ণা প্রচুর পানির জন্য একবারে অনেকটা",
+      "চাপ দিলে উপকার — ব্যথার জায়গায় শক্ত করে চেপে ধরে রাখতে চায়",
+      "খিটখিটে মেজাজ, কথা বলতে চায় না, ব্যবসা/বাড়ির চিন্তায় প্রলাপ",
+      "ডান দিকের লক্ষণ প্রবল",
+      "সকালে ৯টায় বৃদ্ধি; গরম আবহাওয়া থেকে ঠান্ডায় গেলে বৃদ্ধি"
+    ],
+    compare: ["Rhus-t", "Nat-m", "Puls"]
+  },
+  "Calc": {
+    keynotes: [
+      "ঠান্ডা, ভেজা, টক গন্ধযুক্ত ঘাম — বিশেষত মাথায় ও পায়ে",
+      "ঠান্ডায় অত্যন্ত সংবেদনশীল, ঠান্ডা বাতাসে বৃদ্ধি",
+      "চর্বিযুক্ত, ফোলা, ফ্যাকাশে শিশু — বিলম্বিত দাঁত ওঠা ও হাঁটা",
+      "অস্বাভাবিক ক্ষুধা — চক, মাটি, অপাচ্য জিনিস খেতে চায়",
+      "পরিশ্রমে সহজে ক্লান্ত, বিশেষত সিঁড়ি বেয়ে ওঠায়",
+      "ভয়ের প্রবণতা — অন্ধকার, একা থাকা, পাগল হয়ে যাওয়ার ভয়"
+    ],
+    compare: ["Sil", "Sul", "Lyc"]
+  },
+  "Cham": {
+    keynotes: [
+      "অসহনীয় খিটখিটে মেজাজ — কিছুতেই সন্তুষ্ট হয় না, কোলে নিলে একটু শান্ত",
+      "ব্যথা অসহ্য মনে হয়, যদিও বাস্তবে তীব্র নাও হতে পারে",
+      "এক গাল লাল গরম, অন্য গাল ফ্যাকাশে ঠান্ডা — বিশেষত দাঁত ওঠার সময়",
+      "শিশুদের দাঁত ওঠার সময়ের প্রধান ঔষধ — ডায়রিয়া, কান্না সহ",
+      "রাগ করলে লক্ষণ বৃদ্ধি পায়",
+      "একটা কান গরম একটা ঠান্ডা (one cheek hot, one cold) — বৈশিষ্ট্যপূর্ণ"
+    ],
+    compare: ["Bell", "Coff", "Mag-p"]
+  },
+  "China": {
+    keynotes: [
+      "শরীরের তরল ক্ষয় থেকে (রক্তক্ষরণ, ডায়রিয়া, ঘাম) দুর্বলতা",
+      "পর্যায়ক্রমিক লক্ষণ — নির্দিষ্ট সময় অন্তর ফিরে আসে (জ্বর, ব্যথা)",
+      "পেট ফাঁপা, গ্যাস — চাপ দিলে বা ঢেকুর তুলেও উপকার হয় না",
+      "অত্যধিক স্পর্শকাতরতা — হালকা ছোঁয়াতেও কষ্ট, শক্ত চাপে উপকার",
+      "ক্ষুধা থাকে কিন্তু খাওয়ার পর পেট ফাঁপে",
+      "দুর্বলতার সাথে মাথা ঘোরা, কানে শব্দ"
+    ],
+    compare: ["Ars", "Carb-v", "Ferr"]
+  },
+  "Coff": {
+    keynotes: [
+      "অতিরিক্ত উত্তেজনা — আনন্দ, দুঃখ বা ব্যথায় স্নায়ুতন্ত্র অতি সংবেদনশীল",
+      "অনিদ্রা — চিন্তার প্রাচুর্য, মন স্থির থাকে না, ঘুম আসে না",
+      "ব্যথা অসহ্য মনে হয়, রাতে বৃদ্ধি পায়",
+      "ঠান্ডা পানিতে দাঁতের ব্যথা সাময়িক উপকার পায়",
+      "অতি আনন্দ বা সুসংবাদে অনিদ্রা — বৈশিষ্ট্যপূর্ণ"
+    ],
+    compare: ["Cham", "Acon", "Ign"]
+  },
+  "Gels": {
+    keynotes: [
+      "ভয় ও উদ্বেগে পক্ষাঘাতের মতো দুর্বলতা — পরীক্ষার আগে ভয়ে কাঁপুনি, ডায়রিয়া",
+      "চোখের পাতা ভারী, খুলে রাখতে কষ্ট হয় — ptosis",
+      "তৃষ্ণাহীনতা সত্ত্বেও জ্বর — অলসতা, ভারী বোধ, কাঁপুনি",
+      "পেশীর দুর্বলতা, কাঁপুনি, সমন্বয়হীনতা",
+      "মাথাব্যথা — মাথার পেছন থেকে চোখের দিকে ছড়ায়, প্রস্রাবের পর উপকার",
+      "সংবাদ শুনে অসুস্থতা — খারাপ বা ভালো সংবাদে কাঁপুনি"
+    ],
+    compare: ["Acon", "Bapt", "Phos-ac"]
+  },
+  "Hep": {
+    keynotes: [
+      "অত্যন্ত ঠান্ডা-সংবেদনশীল — সামান্য ঠান্ডা বাতাসেও বৃদ্ধি",
+      "চরম খিটখিটে, রাগী মেজাজ — ছোট কারণেও তীব্র রাগ",
+      "ছোঁয়াতে অসহিষ্ণু — ব্যথার জায়গায় স্পর্শ সহ্য হয় না",
+      "পুঁজ তৈরির প্রবণতা — সহজে ফোড়া হয়, পুরনো কাটা দাগেও ব্যথা",
+      "টক গন্ধযুক্ত ঘাম, সহজে ঘামে কিন্তু উপকার হয় না",
+      "গলায় খোঁচার মতো ব্যথা — মাছের কাঁটা বিঁধে আছে এমন অনুভূতি"
+    ],
+    compare: ["Merc", "Sil", "Nit-ac"]
+  },
+  "Ign": {
+    keynotes: [
+      "দুঃখ, শোক বা মানসিক আঘাতের পরবর্তী লক্ষণ — চাপা কান্না, দীর্ঘশ্বাস",
+      "বিপরীতমুখী লক্ষণ — হাসতে হাসতে কাঁদে, এক জায়গায় ব্যথা আরেক জায়গায় উপকার",
+      "গলায় বল আটকে আছে এমন অনুভূতি (globus hystericus) — গিলে উপকার হয় না",
+      "মেজাজ দ্রুত পরিবর্তনশীল — অস্বাভাবিক হাসি-কান্না",
+      "একা থাকতে চায়, সান্ত্বনা সহ্য করতে পারে না, বরং বৃদ্ধি পায়",
+      "শোকের কারণে অনিদ্রা বা হিস্টেরিয়া"
+    ],
+    compare: ["Nat-m", "Puls", "Coff"]
+  },
+  "Lach": {
+    keynotes: [
+      "বাম দিক থেকে ডান দিকে লক্ষণের স্থানান্তর — বৈশিষ্ট্যপূর্ণ",
+      "ঘুম থেকে উঠলে সব লক্ষণের বৃদ্ধি — ঘুমিয়ে পড়লেই খারাপ হয়",
+      "গলায় টাইট কাপড়/গয়না সহ্য করতে পারে না — শ্বাসরোধের ভয়",
+      "অতিরিক্ত কথা বলা — এক বিষয় থেকে আরেক বিষয়ে দ্রুত চলে যায়",
+      "ঈর্ষা, সন্দেহ, প্রতিহিংসাপরায়ণ মানসিকতা",
+      "রক্ত জমাট না বেঁধে কালচে তরল রক্তক্ষরণ — ক্ষত সহজে সারে না"
+    ],
+    compare: ["Lyc", "Sep", "Nat-m"]
+  },
+  "Lyc": {
+    keynotes: [
+      "ডান দিকের লক্ষণ, বা ডান থেকে বাম দিকে স্থানান্তর",
+      "বিকাল ৪টা থেকে ৮টা — সব লক্ষণের বৃদ্ধির নির্দিষ্ট সময়",
+      "আত্মবিশ্বাসের অভাব — সাহসী চেহারা কিন্তু ভেতরে ভীরু, নতুন পরিস্থিতির ভয়",
+      "পেট ফাঁপা — সামান্য খাবারেই পেট ভরা মনে হয়, গ্যাসে কষ্ট",
+      "ক্ষমতার আকাঙ্ক্ষা কিন্তু দায়িত্ব এড়িয়ে চলে",
+      "একা একা আনন্দ পেতে চায় কিন্তু কেউ ঘরে থাকুক এটাও চায় (পাশের ঘরে)"
+    ],
+    compare: ["Sep", "Calc", "Sul"]
+  },
+  "Merc": {
+    keynotes: [
+      "প্রচুর দুর্গন্ধযুক্ত ঘাম — কিন্তু ঘামেও উপকার হয় না বরং দুর্বলতা বাড়ে",
+      "অতিরিক্ত লালা ঝরা — বিশেষত রাতে বালিশ ভিজে যায়",
+      "তাপ ও ঠান্ডা উভয়েই অসহিষ্ণু — তাপমাত্রার চরম সংবেদনশীলতা",
+      "জিভে দাঁতের ছাপ পড়ে — ফোলা, ভেজা জিভ",
+      "মুখে ধাতব দুর্গন্ধ, মাড়ি ফোলা ও রক্তপাত",
+      "রাতে লক্ষণের বৃদ্ধি — বিশেষত হাড়ের ব্যথা"
+    ],
+    compare: ["Hep", "Kali-bi", "Lach"]
+  },
+  "Nat-m": {
+    keynotes: [
+      "সান্ত্বনায় বৃদ্ধি — সমবেদনা সহ্য করতে পারে না, একা থেকে কাঁদতে চায়",
+      "পুরনো দুঃখ/শোক ভেতরে চেপে রাখে — প্রকাশ করতে পারে না",
+      "তীব্র লবণের আকাঙ্ক্ষা, রোদে/সমুদ্রে বৃদ্ধি",
+      "সকাল ১০টায় মাথাব্যথার বৃদ্ধির নির্দিষ্ট সময়",
+      "ঠোঁটের কোণে ফাটল, শুষ্ক ঠোঁট",
+      "পরিশ্রমে বৃদ্ধি কিন্তু খোলা বাতাসে উপকার অনুভব করে"
+    ],
+    compare: ["Ign", "Sep", "Puls"]
+  },
+  "Nux-v": {
+    keynotes: [
+      "অতিভোজন, অ্যালকোহল, ওষুধ অতিরিক্ত ব্যবহারের পরবর্তী লক্ষণ",
+      "অত্যন্ত খিটখিটে, রাগী, তাড়াহুড়ো করা স্বভাব — সমালোচনায় অসহিষ্ণু",
+      "সকালে ঘুম থেকে উঠতে কষ্ট, কাজের চাপে বিরক্তি",
+      "মলত্যাগের তাগিদ থাকে কিন্তু সম্পূর্ণ পরিষ্কার হয় না (unsatisfactory)",
+      "ঠান্ডায় অত্যন্ত সংবেদনশীল, ঢেকে রাখতে চায়",
+      "পেটে গ্যাস, এসিডিটি, মসলাযুক্ত-চর্বিযুক্ত খাবারের আকাঙ্ক্ষা"
+    ],
+    compare: ["Nat-m", "Sul", "Lyc"]
+  },
+  "Phos": {
+    keynotes: [
+      "দীর্ঘ, পাতলা গড়নের মানুষ — দ্রুত বৃদ্ধিপ্রাপ্ত, ক্লান্তিপ্রবণ",
+      "রক্তক্ষরণের প্রবণতা — উজ্জ্বল লাল রক্ত, সহজে রক্তপাত",
+      "ঠান্ডা পানি/বরফের আকাঙ্ক্ষা, কিন্তু পেটে গরম হলেই বমি করে দেয়",
+      "একা থাকতে ভয় পায়, সঙ্গ ও সহানুভূতি চায়",
+      "অত্যন্ত সংবেদনশীল — আলো, শব্দ, গন্ধ, বজ্রপাতের প্রতি",
+      "অন্যদের প্রতি অতি সহানুভূতিশীল ও খোলামেলা স্বভাব"
+    ],
+    compare: ["Ars", "Lyc", "Calc-p"]
+  },
+  "Puls": {
+    keynotes: [
+      "লক্ষণ পরিবর্তনশীল — কখনো এক উপসর্গ কখনো আরেকটা, কোনোটাই স্থায়ী নয়",
+      "তৃষ্ণাহীনতা — সাধারণত পিপাসা কম, মুখ শুষ্ক হলেও পানি চায় না",
+      "কোমল, কান্নাপ্রবণ স্বভাব — সহজে কাঁদে, সান্ত্বনায় উপকার (Nat-m-এর বিপরীত)",
+      "খোলা বাতাসে উপকার, গরম ঘরে বৃদ্ধি — তাপ সহ্য করতে পারে না",
+      "চর্বিযুক্ত, ভারী খাবারে অসহিষ্ণুতা — আইসক্রিমেও সমস্যা",
+      "সন্ধ্যায় ও রাতে লক্ষণের বৃদ্ধি"
+    ],
+    compare: ["Nat-m", "Sil", "Kali-s"]
+  },
+  "Rhus-t": {
+    keynotes: [
+      "প্রথম নড়াচড়ায় ব্যথা বৃদ্ধি কিন্তু একটানা নড়াচড়ায় (continued motion) উপকার",
+      "বিশ্রামে শক্ত হয়ে যায়, প্রথম নড়াচড়ায় কষ্ট — \"rust of joints\"",
+      "অস্থিরতা — একই অবস্থানে থাকতে পারে না, বারবার পাশ ফেরে",
+      "ঠান্ডা ভেজা আবহাওয়ায় বৃদ্ধি, উষ্ণতায় ও গরম প্রয়োগে উপকার",
+      "জিভের ডগায় ত্রিভুজাকার লাল দাগ (triangular red tip) — বৈশিষ্ট্যপূর্ণ",
+      "চামড়ায় ফোসকা, এক্জিমা — চুলকানি, গরম সেঁকে উপকার"
+    ],
+    compare: ["Bry", "Calc", "Ruta"]
+  },
+  "Sep": {
+    keynotes: [
+      "উদাসীনতা — পরিবার ও প্রিয়জনদের প্রতি আগ্রহ হারিয়ে ফেলা, বিশেষত নারীদের",
+      "জরায়ু/হরমোনজনিত লক্ষণে প্রাধান্য — গর্ভাবস্থা, মেনোপজ, প্রসবোত্তর",
+      "তলপেটে নিচের দিকে টানের অনুভূতি — সবকিছু যেন বেরিয়ে আসবে",
+      "নাচ বা জোরালো ব্যায়ামে সাময়িক উপকার (ব্যতিক্রমী লক্ষণ)",
+      "ঠান্ডা লাগা সহজে, সন্ধ্যায় বৃদ্ধি, বাম দিকের লক্ষণ",
+      "সান্ত্বনায় বৃদ্ধি (Nat-m-এর মতো) কিন্তু সঙ্গ চায় না"
+    ],
+    compare: ["Lach", "Nat-m", "Puls"]
+  },
+  "Sil": {
+    keynotes: [
+      "দুর্বল গঠন, পুষ্টিহীনতা সত্ত্বেও ভালো ক্ষুধা — পুষ্টি শোষণ করতে পারে না",
+      "ঠান্ডায় অত্যন্ত সংবেদনশীল, ঢাকা থাকতে চায়",
+      "পুঁজ তৈরির ধীর প্রক্রিয়া — পুরনো ক্ষত, ফিস্টুলা সারতে সময় নেয়",
+      "মাথায় ঘাম, বিশেষত রাতে, মাথা ঢেকে রাখতে চায়",
+      "দৃঢ় সংকল্পের অভাব কিন্তু একগুঁয়ে — সিদ্ধান্ত নিতে পারে না",
+      "শরীরে বিদেশী বস্তু বের করে দেওয়ার প্রবণতা — কাঁটা, কাচ"
+    ],
+    compare: ["Calc", "Hep", "Puls"]
+  },
+  "Sul": {
+    keynotes: [
+      "জ্বালাপোড়া — তালু, হাত-পা পুড়ে যাওয়ার মতো গরম, রাতে কম্বলের বাইরে পা রাখে",
+      "অবহেলিত চেহারা — নোংরা, অগোছালো, খারাপ অভ্যাস সম্পর্কে উদাসীন",
+      "সকাল ১১টায় দুর্বলতা/ক্ষুধার নির্দিষ্ট সময় — খেতেই হবে",
+      "দাঁড়িয়ে থাকতে কষ্ট, ধোয়ার পরে চামড়ার সমস্যা বৃদ্ধি",
+      "তাত্ত্বিক চিন্তাবিদ — নিজের তত্ত্ব ও দর্শন নিয়ে মগ্ন থাকে",
+      "চামড়ার রোগে প্রাধান্য — চুলকানি, লালভাব, গরমে বৃদ্ধি"
+    ],
+    compare: ["Calc", "Lyc", "Nat-m"]
+  },
+  "Thuj": {
+    keynotes: [
+      "আঁচিল, মাংসপিণ্ড (warts, condylomata) তৈরির প্রবণতা",
+      "শরীরে কিছু ভঙ্গুর বা কাচের তৈরি অনুভূতি (fixed idea) — বৈশিষ্ট্যপূর্ণ মানসিক লক্ষণ",
+      "টিকার পরবর্তী প্রতিক্রিয়া (vaccinosis)-এর প্রধান ঔষধ",
+      "বাম দিকের ডিম্বাশয়/তলপেটের ব্যথা",
+      "তৈলাক্ত ত্বক, সবুজাভ স্রাব",
+      "৩টায় (রাত বা দুপুর) লক্ষণের বৃদ্ধি"
+    ],
+    compare: ["Sars", "Nit-ac", "Staph"]
+  },
+  "Verat": {
+    keynotes: [
+      "প্রচণ্ড দুর্বলতার সাথে ঠান্ডা ঘাম, বিশেষত কপালে — কলেরা-সদৃশ অবস্থা",
+      "অতি তৃষ্ণা, ঠান্ডা পানির আকাঙ্ক্ষা, কিন্তু পান করলেই বমি",
+      "প্রচণ্ড ডায়রিয়া ও বমি একসাথে — শক-এর মতো অবস্থা",
+      "ক্ষমতা ও মর্যাদার বিভ্রম (delusion of grandeur) — মানসিক লক্ষণে",
+      "ঠান্ডায় বৃদ্ধি, উষ্ণতায় উপকার",
+      "প্রবল কোলাপ্স, নাড়ি দুর্বল ও দ্রুত"
+    ],
+    compare: ["Ars", "Camph", "Carb-v"]
+  },
+  "Apis": {
+    keynotes: [
+      "ফোলা — গোলাপি/লালচে, মৌমাছির কামড়ের মতো, জ্বালাপোড়া ও ছুরিকাঘাতের মতো ব্যথা",
+      "তৃষ্ণাহীনতা সত্ত্বেও জ্বর — বৈশিষ্ট্যপূর্ণ",
+      "ঠান্ডা প্রয়োগে উপকার, উষ্ণতায় বৃদ্ধি (তাপ সহ্য হয় না)",
+      "দ্রুত, হঠাৎ ফোলা — এলার্জিক প্রতিক্রিয়া, এনাফিল্যাক্সিস",
+      "ঈর্ষা, সন্দেহপ্রবণ মানসিকতা, কান্নাপ্রবণ কিন্তু কারণ বলতে পারে না",
+      "প্রস্রাব কম হওয়া, কিডনির প্রদাহে ফোলাভাব"
+    ],
+    compare: ["Nat-m", "Rhus-t", "Canth"]
+  },
+  "Arg-n": {
+    keynotes: [
+      "প্রত্যাশার উদ্বেগ (anticipatory anxiety) — পরীক্ষা/সাক্ষাৎকারের আগে ডায়রিয়া, কাঁপুনি",
+      "তাড়াহুড়ো — সবকিছু দ্রুত করতে হবে, দেরি সহ্য করতে পারে না",
+      "মিষ্টির আকাঙ্ক্ষা কিন্তু খেলে পেট খারাপ হয়",
+      "উচ্চতার ভয়, সরু জায়গায় ভয় (claustrophobia)",
+      "ঢেকুর তোলা — জোরে শব্দ করে ঢেকুর তোলে উপকার পায়",
+      "মাথায় প্রসারণের অনুভূতি — মাথা বড় হয়ে গেছে মনে হয়"
+    ],
+    compare: ["Gels", "Lyc", "Phos"]
+  },
+  "Caust": {
+    keynotes: [
+      "অন্যের দুঃখে গভীর সহানুভূতি — অবিচার দেখলে সহ্য করতে পারে না",
+      "ধীরে ধীরে অগ্রসর হওয়া পক্ষাঘাত (paralysis) — মুখ, কণ্ঠনালী, পায়ের",
+      "শুষ্ক, ঠান্ডা বাতাসে বৃদ্ধি; ভেজা স্যাঁতসেঁতে আবহাওয়ায় উপকার",
+      "কাশতে কাশতে প্রস্রাব বেরিয়ে যাওয়া — বৈশিষ্ট্যপূর্ণ",
+      "ছোট বাচ্চাদের বিছানা ভেজানো, প্রথম ঘুমে",
+      "কণ্ঠস্বর কর্কশ, কথা বলতে কষ্ট, বিশেষত সকালে"
+    ],
+    compare: ["Phos", "Kali-c", "Nux-v"]
+  },
+  "Ferr": {
+    keynotes: [
+      "রক্তাল্পতা সত্ত্বেও মুখ সহজে লাল হয়ে যাওয়া (sham plethora) — সামান্য উত্তেজনায় লাল",
+      "নড়াচড়ায় ভালো লাগে কিন্তু দুর্বলতা থেকে যায় — \"weakness with restlessness\"",
+      "দ্রুত, শক্তিশালী নাড়ি কিন্তু সামান্য পরিশ্রমেই ক্লান্তি",
+      "খাবার গ্রহণের পরপরই বমি করে দেয় (regurgitation)",
+      "ডায়রিয়া ও কোষ্ঠকাঠিন্যের পর্যায়ক্রম",
+      "ঠান্ডা সহ্য করতে পারে না কিন্তু গরম ঘরেও অস্বস্তি"
+    ],
+    compare: ["China", "Calc-p", "Puls"]
+  },
+  "Kali-c": {
+    keynotes: [
+      "ভোর ২টা–৪টা সব লক্ষণের বৃদ্ধির নির্দিষ্ট সময়",
+      "উপরের চোখের পাতায় ফোলা (bag under eyes) — বৈশিষ্ট্যপূর্ণ",
+      "পিঠে দুর্বলতা ও ব্যথা — মেরুদণ্ডের দুর্বলতা",
+      "ঠান্ডায় অত্যন্ত সংবেদনশীল, শক্ত স্বভাবের, রক্ষণশীল মানসিকতা",
+      "তীক্ষ্ণ ছুরিকাঘাতের মতো ব্যথা — বিশেষত বুকে, শ্বাসের সাথে সম্পর্কিত",
+      "একা থাকতে ভয়, কেউ পাশে বসে থাকুক এটা চায়"
+    ],
+    compare: ["Calc", "Nat-m", "Phos"]
+  },
+  "Hyos": {
+    keynotes: [
+      "ঈর্ষাজনিত প্রলাপ, অশ্লীল কথাবার্তা, কাপড় খুলে ফেলার প্রবণতা",
+      "ঐচ্ছিক পেশীর কম্পন (twitching), মৃগীর মতো খিঁচুনি",
+      "লুকিয়ে থাকতে চাওয়া বা পালানোর প্রবণতা — বিছানা থেকে নামার চেষ্টা",
+      "শুয়ে থাকলে কাশি বৃদ্ধি, বসলে উপকার",
+      "সন্দেহপ্রবণতা — বিষ দেওয়া হচ্ছে এই ভয়",
+      "ঘুমের মধ্যে কথা বলা, হাসা, দাঁত কিড়মিড় করা"
+    ],
+    compare: ["Stram", "Bell", "Lach"]
+  },
+  "Ip": {
+    keynotes: [
+      "জিভ পরিষ্কার থাকা সত্ত্বেও প্রবল বমিভাব — বৈশিষ্ট্যপূর্ণ বৈপরীত্য",
+      "বমি করেও বমিভাব কমে না, অবিরাম বমিভাব",
+      "শ্বাসনালীতে রক্তসঞ্চয়, ফেনাযুক্ত রক্তের সাথে কাশি",
+      "হাঁপানির আক্রমণ — বুকে যেন ভর্তি অনুভূতি",
+      "জিভ পরিষ্কার থাকে সবসময়, এমনকি জ্বরেও",
+      "রক্তক্ষরণ উজ্জ্বল লাল, প্রবাহিত, জমাট ছাড়া"
+    ],
+    compare: ["Ars", "Verat", "Tab"]
+  },
+  "Stram": {
+    keynotes: [
+      "তীব্র ভয় ও সহিংস প্রলাপ — অন্ধকারের ভয়, আলো জ্বালিয়ে রাখতে চায়",
+      "তোতলামি, কথা জড়িয়ে যাওয়া, খিঁচুনির সাথে",
+      "মুখ লাল ও উত্তপ্ত, চোখ উজ্জ্বল ও স্থির দৃষ্টি",
+      "পশুর মতো আচরণ — কামড়ানো, আঁচড়ানো প্রবণতা সহিংসতায়",
+      "পানি দেখলে বা পানির শব্দে খিঁচুনি বৃদ্ধি (hydrophobia-সদৃশ)",
+      "শিশুদের রাতের আতঙ্ক (night terrors) — চিৎকার করে ঘুম থেকে ওঠে"
+    ],
+    compare: ["Bell", "Hyos", "Cupr"]
+  },
+  "Arn": {
+    keynotes: [
+      "আঘাত, চোট, অপারেশন-পরবর্তী প্রধান ঔষধ — যেকোনো ট্রমা",
+      "শরীর যেন প্রচণ্ড পেটানো হয়েছে এমন ব্যথা ও কোমলতা (bruised, sore feeling)",
+      "বিছানা শক্ত মনে হয়, যতই নরম হোক — অস্থিরভাবে জায়গা বদলায়",
+      "অসুস্থতা অস্বীকার করে — \"আমি ঠিক আছি\" বলে যদিও গুরুতর অবস্থা",
+      "মাথায় রক্তের প্রবাহ অনুভূতি, শরীর ঠান্ডা",
+      "যেকোনো স্পর্শে ভয় পায় — আঘাতের ভয়ে দূরে সরে যায়"
+    ],
+    compare: ["Bell", "Hyper", "Rhus-t"]
+  },
+  "Graph": {
+    keynotes: [
+      "ত্বকের ভাঁজে (কান পেছনে, বগল, কুঁচকি) আঠালো, মধুর মতো স্রাবযুক্ত একজিমা",
+      "স্থূলতা, ঠান্ডা-সংবেদনশীলতা, কোষ্ঠকাঠিন্য একসাথে",
+      "মাসিকের সময় বিলম্বিত, অল্প রক্তস্রাব",
+      "দ্বিধাগ্রস্ত মানসিকতা — সিদ্ধান্ত নিতে কষ্ট হয়, দুঃখী",
+      "নখ ভঙ্গুর, পুরু ও বিকৃত",
+      "গান শুনলে কান্না পায় — বৈশিষ্ট্যপূর্ণ মানসিক লক্ষণ"
+    ],
+    compare: ["Calc", "Sep", "Sul"]
+  },
+  "Staph": {
+    keynotes: [
+      "দমিয়ে রাখা রাগ ও অপমানবোধ — প্রকাশ না করে ভেতরে রাখা",
+      "অস্ত্রোপচার পরবর্তী ক্ষত, ছুরির মতো কাটা ব্যথা",
+      "নতুন বিয়ের পর সিস্টাইটিস (honeymoon cystitis)",
+      "দাঁত দ্রুত ক্ষয় হওয়া, কালো হয়ে যাওয়া",
+      "যৌন অতিরিক্ততা বা দমনের পরিণতিতে লক্ষণ",
+      "অপমানের পর রাগ বা অসুস্থতা — ক্রোধ চেপে রাখার ফল"
+    ],
+    compare: ["Nat-m", "Caust", "Coloc"]
+  }
+};
+const _ALLEN_LOOKUP = {};
+Object.keys(ALLEN_KEYNOTES).forEach(k => { _ALLEN_LOOKUP[_mmNorm(k)] = k; });
+
+// ══════════════════════════════════════
 //  MM MODAL FUNCTIONS
 // ══════════════════════════════════════
 // Build a normalized lookup map at startup
@@ -8195,20 +8702,34 @@ function openMM(abbr) {
 
   document.getElementById('mm-title').textContent = abbr;
   document.getElementById('mm-overlay').classList.add('open');
+  switchMMTab('boericke');
+
+  const boerickeEl = document.getElementById('mm-body-boericke');
 
   if (!data) {
     document.getElementById('mm-full').textContent = '';
-    document.getElementById('mm-body').innerHTML = `
+    boerickeEl.innerHTML = `
       <div class="mm-not-found">
         <div class="mm-nf-icon">📭</div>
         <p><strong>${abbr}</strong> — এই ঔষধের বিস্তারিত তথ্য এখনো যুক্ত হয়নি।<br>
         ভবিষ্যৎ আপডেটে যুক্ত করা হবে।</p>
       </div>`;
-    return;
+  } else {
+    document.getElementById('mm-full').textContent = data.full;
+    renderBoerickeBody(boerickeEl, data);
   }
 
-  document.getElementById('mm-full').textContent = data.full;
+  renderAllenBody(document.getElementById('mm-body-allen'), abbr, norm);
+}
 
+function switchMMTab(tab) {
+  document.getElementById('mm-tab-boericke').classList.toggle('active', tab === 'boericke');
+  document.getElementById('mm-tab-allen').classList.toggle('active', tab === 'allen');
+  document.getElementById('mm-body-boericke').style.display = tab === 'boericke' ? 'block' : 'none';
+  document.getElementById('mm-body-allen').style.display = tab === 'allen' ? 'block' : 'none';
+}
+
+function renderBoerickeBody(boerickeEl, data) {
   let html = '';
 
   // Keynote
@@ -8260,7 +8781,39 @@ function openMM(abbr) {
     </div>`;
   }
 
-  document.getElementById('mm-body').innerHTML = html;
+  boerickeEl.innerHTML = html;
+}
+
+function renderAllenBody(allenEl, abbr, norm) {
+  // Allen's Keynotes uses its own lookup keyed the same way as MM_DATA/_MM_LOOKUP
+  let allenKey = _ALLEN_LOOKUP[norm];
+  if (!allenKey) allenKey = _MM_ALIAS[norm]; // reuse Boericke alias map for common abbreviations
+  const entry = allenKey ? ALLEN_KEYNOTES[allenKey] : null;
+
+  if (!entry) {
+    allenEl.innerHTML = `
+      <div class="mm-not-found">
+        <div class="mm-nf-icon">🔑</div>
+        <p><strong>${abbr}</strong> — Allen's Keynotes এখনো এই ঔষধের জন্য যুক্ত হয়নি।<br>
+        ধাপে ধাপে আরও ঔষধ যুক্ত করা হবে।</p>
+      </div>`;
+    return;
+  }
+
+  let html = `<div class="mm-allen-section">
+    <ul class="mm-allen-list">${entry.keynotes.map(k => `<li>${k}</li>`).join('')}</ul>
+  </div>`;
+
+  if (entry.compare && entry.compare.length) {
+    html += `<div class="mm-section">
+      <div class="mm-section-title">⚖️ তুলনা (Compare)</div>
+      <div class="mm-rel-tags">${entry.compare.map(r=>`<span class="mm-rel-tag" onclick="openMM('${r}')">${r}</span>`).join('')}</div>
+    </div>`;
+  }
+
+  html += `<div class="mm-allen-source-note">— H.C. Allen's Keynotes and Characteristics with Comparisons</div>`;
+
+  allenEl.innerHTML = html;
 }
 
 function closeMM() {
