@@ -85,6 +85,47 @@ html.light .med-row { background: var(--bg3); }
 html.light .action-btn.secondary { background: var(--bg3); }
 html.light .detail-area { background: var(--bg2); }
 
+/* ── PRINT OVERLAY ── */
+#print-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: #fff; overflow-y: auto;
+  flex-direction: column;
+}
+#print-overlay.open { display: flex; }
+#print-overlay-toolbar {
+  position: sticky; top: 0; z-index: 10000;
+  background: #1a3a6b; color: #fff;
+  padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3); flex-shrink: 0;
+}
+#print-overlay-toolbar .po-title {
+  flex: 1; font-size: 0.85rem; font-weight: 700;
+  font-family: 'Noto Serif Bengali', serif;
+}
+#print-overlay-toolbar .po-hint {
+  font-size: 0.68rem; color: #a0c0e8; line-height: 1.4;
+  font-family: 'JetBrains Mono', monospace;
+}
+#print-overlay-toolbar .po-close {
+  background: rgba(255,255,255,0.15); border: none; color: #fff;
+  border-radius: 8px; padding: 6px 12px; cursor: pointer;
+  font-size: 0.8rem; font-weight: 700; white-space: nowrap;
+  transition: background 0.15s;
+}
+#print-overlay-toolbar .po-close:hover { background: rgba(255,255,255,0.28); }
+#print-overlay-content {
+  flex: 1; padding: 0;
+  font-family: 'Noto Serif Bengali', Arial, sans-serif;
+  font-size: 13px; background: #fff; color: #000;
+}
+@media print {
+  #print-overlay-toolbar { display: none !important; }
+  #print-overlay { position: static !important; }
+  body > *:not(#print-overlay) { display: none !important; }
+  #print-overlay { display: block !important; }
+  @page { margin: 12mm; }
+}
+
 /* ── BIOCHEMIC MODAL (UPGRADED) ── */
 .bio-modal-overlay {
   display: none; position: fixed; inset: 0;
@@ -1121,6 +1162,13 @@ html.light .miasm-table th { background:rgba(160,112,8,0.08); }
 /* chapter search */
 .ch-search { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); padding: 7px 10px; font-size: 0.8rem; font-family: inherit; outline: none; margin-bottom: 8px; }
 .ch-search:focus { border-color: var(--gold); }
+
+/* ── Alphabet bar ── */
+.alpha-bar { display:flex; flex-wrap:wrap; gap:3px; padding:6px 0 4px; margin-bottom:6px; }
+.alpha-btn { flex:0 0 auto; min-width:22px; height:22px; padding:0 3px; background:var(--bg3); border:1px solid var(--border2); border-radius:5px; color:var(--muted); font-size:0.68rem; font-weight:700; font-family:'JetBrains Mono',monospace; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s,color .15s,border-color .15s; }
+.alpha-btn:hover { background:rgba(224,176,48,0.18); color:var(--gold); border-color:var(--gold); }
+.alpha-btn.active { background:var(--gold); color:#000; border-color:var(--gold); }
+.alpha-btn.disabled { opacity:0.25; cursor:default; pointer-events:none; }
 
 
 
@@ -2334,6 +2382,7 @@ button:focus-visible, input:focus-visible, select:focus-visible {
   .db-status { font-size: 0.6rem; padding: 3px 7px; max-width: 110px; overflow: hidden; text-overflow: ellipsis; }
   body { font-size: 14px; }
   .bio-modal, .mm-modal { border-radius: var(--radius-md); }
+  .alpha-btn { min-width:20px; height:20px; font-size:0.62rem; }
 }
 
 /* ── REDUCED MOTION ── */
@@ -2484,83 +2533,6 @@ html.light ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 .ch-search { padding: 8px 12px; }
 
 /* ch-search handled in HTML */
-
-
-/* ── DISEASE ANALYSIS CARD ── */
-.disease-analysis-card {
-  margin: 12px 0 6px 0;
-  background: linear-gradient(135deg, rgba(30,40,60,0.97), rgba(20,28,50,0.97));
-  border: 1px solid rgba(100,160,255,0.18);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.32);
-}
-html.light .disease-analysis-card {
-  background: linear-gradient(135deg, #f0f4ff, #e8eef8);
-  border-color: rgba(80,120,200,0.2);
-}
-.da-header {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 14px 8px 14px;
-  background: rgba(60,100,200,0.1);
-  border-bottom: 1px solid rgba(100,160,255,0.1);
-  cursor: pointer; user-select: none;
-}
-.da-header-icon { font-size: 1.2rem; }
-.da-header-title { font-size: 0.82rem; font-weight: 700; color: var(--gold); letter-spacing: 0.04em; flex: 1; }
-.da-header-toggle { font-size: 0.75rem; color: var(--muted); transition: transform 0.2s; }
-.da-header-toggle.open { transform: rotate(180deg); }
-.da-body { padding: 12px 14px 14px 14px; display: none; }
-.da-body.open { display: block; }
-.da-section { margin-bottom: 12px; }
-.da-section:last-child { margin-bottom: 0; }
-.da-section-label {
-  font-size: 0.67rem; font-weight: 700; letter-spacing: 0.08em;
-  color: var(--muted); text-transform: uppercase; margin-bottom: 6px;
-}
-.da-disease-primary {
-  font-size: 1.05rem; font-weight: 800;
-  color: #7eb8ff; margin-bottom: 2px; line-height: 1.3;
-}
-html.light .da-disease-primary { color: #2255bb; }
-.da-disease-alt {
-  font-size: 0.76rem; color: var(--muted); margin-top: 4px; line-height: 1.5;
-}
-.da-causes-list { list-style: none; padding: 0; margin: 0; }
-.da-causes-list li {
-  font-size: 0.78rem; color: var(--text); padding: 3px 0 3px 18px; position: relative; line-height: 1.5;
-}
-.da-causes-list li::before {
-  content: '→'; position: absolute; left: 2px; color: var(--gold); font-size: 0.7rem;
-}
-.da-miasm-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
-.da-miasm-pill {
-  font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 20px;
-  letter-spacing: 0.04em;
-}
-.da-miasm-pill.psora    { background: rgba(255,200,80,0.15);  color: #f0c040; border: 1px solid rgba(255,200,80,0.3); }
-.da-miasm-pill.sycosis  { background: rgba(80,200,120,0.15);  color: #50c878; border: 1px solid rgba(80,200,120,0.3); }
-.da-miasm-pill.syphilis { background: rgba(200,80,80,0.15);   color: #e07070; border: 1px solid rgba(200,80,80,0.3); }
-.da-miasm-pill.tubercular { background: rgba(180,120,220,0.15); color: #c090e0; border: 1px solid rgba(180,120,220,0.3); }
-html.light .da-miasm-pill.psora    { background: rgba(255,200,40,0.2);  color: #997700; }
-html.light .da-miasm-pill.sycosis  { background: rgba(40,160,80,0.2);   color: #226633; }
-html.light .da-miasm-pill.syphilis { background: rgba(200,50,50,0.2);   color: #aa2222; }
-html.light .da-miasm-pill.tubercular { background: rgba(140,80,180,0.2); color: #663388; }
-.da-remedy-row { display: flex; gap: 6px; flex-wrap: wrap; }
-.da-remedy-chip {
-  font-size: 0.74rem; font-weight: 700; padding: 4px 12px; border-radius: 20px;
-  background: rgba(200,150,12,0.13); color: var(--gold);
-  border: 1px solid rgba(200,150,12,0.3); cursor: pointer; transition: background 0.15s;
-}
-.da-remedy-chip:hover { background: rgba(200,150,12,0.25); }
-.da-confidence-bar-wrap { margin-top: 6px; }
-.da-conf-label { font-size: 0.66rem; color: var(--muted); margin-bottom: 3px; }
-.da-conf-bar { height: 5px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; }
-.da-conf-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #4a90e2, #7eb8ff); transition: width 0.4s; }
-html.light .da-conf-bar { background: rgba(0,0,0,0.08); }
-html.light .da-conf-fill { background: linear-gradient(90deg, #2255bb, #4a90e2); }
-.da-disclaimer { font-size: 0.63rem; color: var(--muted); margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); line-height: 1.5; }
-html.light .da-disclaimer { border-color: rgba(0,0,0,0.08); }
 
 </style>
 
@@ -2768,6 +2740,7 @@ html.light .da-disclaimer { border-color: rgba(0,0,0,0.08); }
           <input type="text" id="rubric-search" placeholder="Rubric খুঁজুন... (বাংলা/English)" oninput="debouncedSearch(this.value)">
           <span class="search-shortcut-hint" title="এই শর্টকাট দিয়ে সরাসরি সার্চ বক্সে যান">/</span>
         </div>
+        <div class="alpha-bar" id="alpha-bar" style="display:none"></div>
         <div id="rubric-list"><div class="empty-state"><span class="empty-state-icon">📚</span>বাম পাশ থেকে একটি Chapter বেছে নিন</div></div>
         <div id="rubric-detail" class="detail-area" style="display:none"></div>
       </div>
@@ -2802,7 +2775,6 @@ html.light .da-disclaimer { border-color: rgba(0,0,0,0.08); }
             </button>
             <div class="sel-section-body" id="sel-list"></div>
           </div>
-          <div id="disease-analysis-wrap"></div>
           <div class="result-section" id="result-area"></div>
         </div>
       </div>
@@ -3000,12 +2972,24 @@ html.light .da-disclaimer { border-color: rgba(0,0,0,0.08); }
           </div>
           <div class="rx-actions">
             <button class="rx-save-btn" onclick="saveRx()">💾 সেভ</button>
-            <button onclick="printRx()">🖨️ প্রিন্ট</button>
+            <button onclick="printRx()">📄 প্রিন্ট / PDF</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Print Overlay -->
+<div id="print-overlay">
+  <div id="print-overlay-toolbar">
+    <div style="display:flex;flex-direction:column;gap:2px;flex:1">
+      <div class="po-title">📄 প্রেসক্রিপশন প্রিভিউ</div>
+      <div class="po-hint">Android: উপরের মেনু (⋮) → Share → Print বা Save as PDF</div>
+    </div>
+    <button class="po-close" onclick="closePrintOverlay()">✕ বন্ধ</button>
+  </div>
+  <div id="print-overlay-content"></div>
 </div>
 
 <!-- Save Rubric Set Modal -->
@@ -3387,6 +3371,7 @@ let _renderedRubrics = [];
 let _chapterLazyMode = false;
 let _chapterLazyName = '';
 let _chapterTotalCount = 0;
+let _alphaFilter = ''; // current active letter filter
 
 function renderPager(containerId, totalItems, currentPage, pageSize, onPageChange) {
   const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
@@ -3462,6 +3447,103 @@ function renderFilteredChapters(chapters) {
   el.innerHTML = html;
 }
 
+// ══════════════════════════════════════
+//  ALPHABET BAR
+// ══════════════════════════════════════
+function buildAlphaBar(availableLetters) {
+  const bar = document.getElementById('alpha-bar');
+  if (!bar) return;
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const avail = new Set((availableLetters || []).map(l => l.toUpperCase()));
+  bar.innerHTML = letters.map(l =>
+    `<button class="alpha-btn${avail.size && !avail.has(l) ? ' disabled' : ''}${_alphaFilter === l ? ' active' : ''}"
+      onclick="filterByAlpha('${l}')">${l}</button>`
+  ).join('');
+  bar.style.display = 'flex';
+}
+
+function filterByAlpha(letter) {
+  // Toggle off if same letter clicked again
+  if (_alphaFilter === letter) {
+    _alphaFilter = '';
+    // Clear search input if it was set by alpha
+    const si = document.getElementById('rubric-search');
+    if (si && si.dataset.alphaSet === '1') { si.value = ''; si.dataset.alphaSet = ''; }
+    // Rebuild bar without active
+    const bar = document.getElementById('alpha-bar');
+    if (bar) bar.querySelectorAll('.alpha-btn').forEach(b => {
+      b.classList.toggle('active', false);
+    });
+    // Restore full chapter list
+    _rubricPage = 1;
+    if (_chapterLazyMode) {
+      const el = document.getElementById('rubric-list');
+      el.innerHTML = '<div class="empty-state"><div class="spinner"></div></div>';
+      dbGetByChapterPage(_chapterLazyName, PAGE_SIZE_RUB, 0).then(p => {
+        _renderedRubrics = p; renderRubricList(p, true);
+      });
+    } else {
+      renderRubricList(_renderedRubrics);
+    }
+    return;
+  }
+  _alphaFilter = letter;
+  // Update active state on buttons
+  const bar = document.getElementById('alpha-bar');
+  if (bar) bar.querySelectorAll('.alpha-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.trim() === letter);
+  });
+  // Set search input to the letter so user sees what's filtered
+  const si = document.getElementById('rubric-search');
+  if (si) { si.value = ''; si.dataset.alphaSet = ''; }
+
+  // Filter from cache if available, else filter current page
+  const cache = _chapterRubricCache[_chapterLazyName || activeChapter];
+  if (cache && cache.length) {
+    const filtered = cache.filter(r => r.name && r.name.toUpperCase().startsWith(letter));
+    _rubricPage = 1;
+    const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE_RUB));
+    const pageItems = filtered.slice(0, PAGE_SIZE_RUB);
+    // Temporarily render using direct approach
+    const el = document.getElementById('rubric-list');
+    if (!filtered.length) { el.innerHTML = '<div class="empty-state">এই অক্ষরে কোনো Rubric নেই</div>'; return; }
+    let html = pageItems.map(r => {
+      const isSel = selectedRubrics.some(s => s.id === r.id);
+      const remCount = (r.remedies || []).length;
+      const safeId = r.id.replace(/"/g, '&quot;');
+      return `<div class="rubric-item ${isSel ? 'selected' : ''}" id="ri-${safeId}" data-rid="${safeId}">
+        <div class="rubric-name" style="cursor:pointer" onclick="showDetail(this.closest('[data-rid]').dataset.rid)">
+          <strong>${r.name}</strong>
+          <small>${r.chapter} · ${remCount} ওষুধ</small>
+        </div>
+        <button class="add-btn ${isSel ? 'added' : ''}" onclick="toggleRubric(this.closest('[data-rid]').dataset.rid,event)">
+          ${isSel ? '✓' : '+'}
+        </button>
+      </div>`;
+    }).join('');
+    html += renderPager('rubric-list', filtered.length, _rubricPage, PAGE_SIZE_RUB, 'goToAlphaPage');
+    el.innerHTML = html;
+  } else {
+    // Cache not ready yet — trigger search with the letter
+    const si = document.getElementById('rubric-search');
+    if (si) { si.value = letter; si.dataset.alphaSet = '1'; }
+    debouncedSearch(letter);
+  }
+}
+
+function goToAlphaPage(p) {
+  if (!_alphaFilter) return;
+  _rubricPage = p;
+  filterByAlpha(_alphaFilter);
+}
+
+function _updateAlphaBarFromCache(ch) {
+  const cache = _chapterRubricCache[ch];
+  if (!cache) return;
+  const letters = [...new Set(cache.map(r => r.name && r.name[0].toUpperCase()).filter(Boolean))];
+  buildAlphaBar(letters);
+}
+
 async function selectChapter(ch, btn) {
   activeChapter = ch;
   // Update active state
@@ -3472,6 +3554,9 @@ async function selectChapter(ch, btn) {
   document.getElementById('rubric-search').value = '';
   document.getElementById('rubric-detail').style.display = 'none';
   document.getElementById('rubric-list').style.display = 'block';
+  _alphaFilter = '';
+  // Show alpha bar with all letters enabled (letters will be refined after cache loads)
+  buildAlphaBar([]);
   switchMobilePanel('rubric'); // on phones, jump straight to the rubric list after picking a chapter
 
   const list = document.getElementById('rubric-list');
@@ -3501,7 +3586,12 @@ async function selectChapter(ch, btn) {
       rubrics.sort((a,b) => (a.fullPath||a.name).localeCompare(b.fullPath||b.name));
       _chapterRubricCache[ch] = rubrics;
       _capCache(_chapterRubricCache, CHAPTER_CACHE_MAX);
+      // Update alpha bar with available letters now that cache is ready
+      if (activeChapter === ch) _updateAlphaBarFromCache(ch);
     }).catch(() => {});
+  } else {
+    // Cache already exists — update alpha bar immediately
+    _updateAlphaBarFromCache(ch);
   }
 }
 
@@ -3645,6 +3735,12 @@ function renderRubricListWithSubs(parents, subResults, query) {
 // ══════════════════════════════════════
 let searchTimer;
 function debouncedSearch(q) {
+  // Clear alpha filter when user types manually
+  if (q && _alphaFilter) {
+    _alphaFilter = '';
+    const bar = document.getElementById('alpha-bar');
+    if (bar) bar.querySelectorAll('.alpha-btn.active').forEach(b => b.classList.remove('active'));
+  }
   clearTimeout(searchTimer);
   searchTimer = setTimeout(() => searchRubrics(q), 450);
 }
@@ -3918,6 +4014,8 @@ async function showDetail(id) {
   if (!r) return;
 
   document.getElementById('rubric-list').style.display = 'none';
+  const _ab = document.getElementById('alpha-bar');
+  if (_ab) _ab.style.display = 'none';
   const det = document.getElementById('rubric-detail');
   det.style.display = 'block';
   det._currentId = id;
@@ -4003,6 +4101,10 @@ function toggleSubRubricByKey(key, name, btn) {
 function backToList() {
   document.getElementById('rubric-detail').style.display = 'none';
   document.getElementById('rubric-list').style.display = 'block';
+  if (activeChapter) {
+    const _ab = document.getElementById('alpha-bar');
+    if (_ab) _ab.style.display = 'flex';
+  }
 }
 
 // ══════════════════════════════════════
@@ -4270,14 +4372,18 @@ function analyze() {
   function collectRemedies(rubricId, rubricName, remedies, subRubrics, parentKey) {
     (remedies || []).forEach(rem => {
       if (!scores[rem.name]) scores[rem.name] = { score:0, count:0, rubricIds:[], rubricNames:{}, rubricBreakdown:{} };
-      scores[rem.name].score += rem.grade;
+      // Fix: only add the difference when a higher grade is found for this rubricId.
+      // Prevents score inflation when the same remedy appears in both parent and sub-rubrics.
+      const _prev = scores[rem.name].rubricBreakdown[rubricId] || 0;
+      if (rem.grade > _prev) {
+        scores[rem.name].score += (rem.grade - _prev);
+        scores[rem.name].rubricBreakdown[rubricId] = rem.grade;
+      }
       if (!scores[rem.name].rubricIds.includes(rubricId)) {
         scores[rem.name].rubricIds.push(rubricId);
         scores[rem.name].count++;
       }
       scores[rem.name].rubricNames[rubricId] = rubricName;
-      const _prev = scores[rem.name].rubricBreakdown[rubricId];
-      if (!_prev || rem.grade > _prev) scores[rem.name].rubricBreakdown[rubricId] = rem.grade;
     });
     (subRubrics || []).forEach((sub, i) => {
       // Skip nested sub if it's already independently selected
@@ -4309,7 +4415,7 @@ function renderResult() {
   const el = document.getElementById('result-area');
   if (!el) return;
   const data = _analysisData;
-  if (!data.length) { el.innerHTML = ''; renderDiseaseCard(); return; }
+  if (!data.length) { el.innerHTML = ''; return; }
   const total = selectedRubrics.length;
   const top3 = data.slice(0, 3);
   let filtered = data;
@@ -4330,7 +4436,6 @@ function renderResult() {
     </div>`;
   };
 
-  renderDiseaseCard();
   el.innerHTML = `
     <div class="result-header">
       <span class="result-header-title">🔬 বিশ্লেষণ ফলাফল</span>
@@ -4412,408 +4517,6 @@ function renderResult() {
 // ══════════════════════════════════════
 //  EXPORT
 // ══════════════════════════════════════
-
-// ══════════════════════════════════════════════════════════════
-//  OFFLINE DISEASE ANALYSIS ENGINE  (v2.20)
-//  Logic: rubric keywords + top remedy fingerprints → disease
-// ══════════════════════════════════════════════════════════════
-
-// Miasm fingerprint per remedy (dominant miasm)
-const REMEDY_MIASM = {
-  // Psoric
-  'Sul':'psora','Calc':'psora','Lyc':'psora','Psor':'psora','Graph':'psora',
-  'Petr':'psora','Mez':'psora','Alum':'psora','Ambr':'psora','Ant-c':'psora',
-  'Bar-c':'psora','Dulc':'psora','Euphr':'psora','Sabad':'psora','Rhod':'psora',
-  // Sycotic
-  'Thuj':'sycosis','Nat-s':'sycosis','Med':'sycosis','Staph':'sycosis',
-  'Nit-ac':'sycosis','Caust':'sycosis','Calc-s':'sycosis','Nat-m':'sycosis',
-  'Sep':'sycosis','Kali-bi':'sycosis','Dulc':'sycosis','Cinn-s':'sycosis',
-  'Ust':'sycosis','Caps':'sycosis','Murx':'sycosis',
-  // Syphilitic
-  'Merc':'syphilis','Aur':'syphilis','Syph':'syphilis','Nit-ac':'syphilis',
-  'Kali-i':'syphilis','Phyt':'syphilis','Fl-ac':'syphilis','Lyss':'syphilis',
-  'Crot-h':'syphilis','Elaps':'syphilis','Vip':'syphilis','Mur-ac':'syphilis',
-  // Tubercular
-  'Tub':'tubercular','Calc-p':'tubercular','Phos':'tubercular','Sil':'tubercular',
-  'Dros':'tubercular','Ferr':'tubercular','Iod':'tubercular','Ars':'tubercular',
-  'Nat-m':'tubercular','Psor':'tubercular','Bac':'tubercular','Stan':'tubercular',
-  // Mixed
-  'Nux-v':'psora','Bry':'psora','Bell':'psora','Acon':'psora','Puls':'psora',
-  'Ign':'psora','Lach':'syphilis','Gels':'psora','Ip':'psora','Rhus-t':'psora',
-  'Apis':'sycosis','Arg-n':'sycosis','Hyos':'syphilis','Stram':'syphilis',
-  'Verat':'psora','Cupr':'tubercular','Coloc':'psora','Mag-p':'psora',
-  'Cina':'psora','Cocc':'psora','Ant-t':'psora','Canth':'sycosis',
-  'Con':'syphilis','Dig':'psora','Ham':'psora','Kreos':'sycosis',
-  'Led':'psora','Mill':'psora','Op':'syphilis','Plat':'syphilis',
-  'Ruta':'psora','Spig':'psora','Tab':'psora','Zinc':'psora',
-  'Bapt':'sycosis','Abrot':'tubercular','Aeth':'psora','Agar':'psora',
-  'All-c':'psora','Aur':'syphilis','Bor':'psora','Carb-v':'psora',
-  'Card-m':'psora','Chel':'psora','Cimic':'sycosis','Colch':'psora',
-  'Eup-per':'psora','Ferr-p':'psora','Glon':'psora','Iris':'psora',
-  'Lac-c':'sycosis','Mosch':'psora','Nat-c':'psora','Phos-ac':'psora',
-  'Plb':'syphilis','Podo':'psora','Sang':'psora','Sec':'syphilis',
-  'Symph':'psora','Tarent':'sycosis','Ter':'sycosis','Tril':'psora',
-};
-
-// Disease knowledge base: keywords in rubric names → disease info
-const DISEASE_DB = [
-  // ─── Respiratory ───────────────────────────────────
-  { id:'pneumonia', name:'নিউমোনিয়া (Pneumonia)', alt:'ফুসফুসের প্রদাহ, শ্বাসতন্ত্রের তীব্র সংক্রমণ',
-    keywords:['pneumonia','chest','breathing','respiration','lungs','expectoration','cough','fever'],
-    remedies:['Ant-t','Lyc','Phos','Bry','Ant-t','Ferr-p'],
-    miasm:['psora','tubercular'],
-    causes:['ব্যাকটেরিয়া বা ভাইরাস সংক্রমণ (Streptococcus, Pneumococcus)','ঠান্ডা ও আর্দ্র আবহাওয়ায় রোগ প্রতিরোধ ক্ষমতা হ্রাস','পূর্বের শ্বাসতন্ত্রের রোগ (ব্রঙ্কাইটিস, ইনফ্লুয়েঞ্জা) থেকে জটিলতা','সোরিক ও টিউবারকুলার ডায়াথেসিস'],
-    weight: 0 },
-
-  { id:'bronchitis', name:'ব্রঙ্কাইটিস (Bronchitis)', alt:'শ্বাসনালির প্রদাহ, দীর্ঘমেয়াদী কাশি',
-    keywords:['bronchitis','cough','expectoration','mucus','chest','bronchial','breathing'],
-    remedies:['Ant-t','Bry','Dros','Phos','Ip','Kali-bi','Hep'],
-    miasm:['psora','tubercular'],
-    causes:['ধূমপান ও বায়ু দূষণ','পুনরাবৃত্ত শ্বাসতন্ত্রের সংক্রমণ','ঠান্ডা ও স্যাঁতসেঁতে পরিবেশ','সোরিক মায়াজম — বারবার রোগ হওয়ার প্রবণতা'],
-    weight: 0 },
-
-  { id:'asthma', name:'হাঁপানি (Asthma / Bronchial Asthma)', alt:'শ্বাসকষ্ট, বুকে শোঁ শোঁ শব্দ',
-    keywords:['asthma','dyspnea','breathing','wheezing','respiration','chest','bronchial'],
-    remedies:['Ars','Nat-s','Ip','Med','Puls','Samb','Spong'],
-    miasm:['sycosis','tubercular'],
-    causes:['সাইকোটিক মায়াজম — গনোরিয়াল ডায়াথেসিস','অ্যালার্জি ও পরিবেশগত উদ্দীপক (ধুলো, পরাগ)','স্যাঁতসেঁতে ও ঠান্ডা আবহাওয়া','পারিবারিক হাঁপানির ইতিহাস (tubercular diathesis)'],
-    weight: 0 },
-
-  // ─── Gastric ───────────────────────────────────────
-  { id:'gastritis', name:'গ্যাস্ট্রাইটিস / অম্বল (Gastritis / Hyperacidity)', alt:'পাকস্থলীর প্রদাহ, বুক জ্বালা',
-    keywords:['stomach','gastric','acidity','burning','nausea','vomiting','eructation','heartburn','digestion'],
-    remedies:['Nux-v','Puls','Arg-n','Ars','Lyc','Rob','Nat-p'],
-    miasm:['psora'],
-    causes:['অনিয়মিত খাদ্যাভ্যাস ও অতিরিক্ত মশলাদার খাবার','অ্যালকোহল ও ক্যাফেইন সেবন','মানসিক চাপ ও উদ্বেগ (সোরিক মায়াজম)','H. pylori ব্যাকটেরিয়া সংক্রমণ'],
-    weight: 0 },
-
-  { id:'ibs', name:'ইরিটেবল বাওয়েল / কলিক (IBS / Abdominal Colic)', alt:'পেটে কামড়ানো ব্যথা, অনিয়মিত মলত্যাগ',
-    keywords:['abdomen','colic','cramping','diarrhea','constipation','flatulence','bowel','colon'],
-    remedies:['Coloc','Mag-p','Nux-v','Lyc','Ars','Cocc','Sul'],
-    miasm:['psora','sycosis'],
-    causes:['মানসিক চাপ ও রাগ দমন করা (Colocynth/Staph প্রোফাইল)','অনিয়মিত জীবনযাপন ও খাদ্যাভ্যাস','সোরিক ও সাইকোটিক মায়াজমের মিশ্রণ','অন্ত্রের মোটর ফাংশন অস্বাভাবিকতা'],
-    weight: 0 },
-
-  { id:'dysentery', name:'আমাশয় / ডায়রিয়া (Dysentery / Diarrhea)', alt:'রক্তমিশ্রিত বা জলীয় মলত্যাগ',
-    keywords:['diarrhea','dysentery','stool','rectum','mucus','blood','tenesmus','bowel'],
-    remedies:['Merc','Ars','Aloe','Sul','Ip','Rhus-t','Canth'],
-    miasm:['psora','sycosis'],
-    causes:['ব্যাকটেরিয়া বা প্যারাসাইট সংক্রমণ (Entamoeba, Shigella)','দূষিত পানি ও খাবার','গরম ও আর্দ্র আবহাওয়া','সোরিক মায়াজম — দুর্বল হজমশক্তি'],
-    weight: 0 },
-
-  // ─── Fever / Infections ────────────────────────────
-  { id:'typhoid', name:'টাইফয়েড জ্বর (Typhoid / Enteric Fever)', alt:'দীর্ঘস্থায়ী জ্বর, দুর্বলতা, পেটের সমস্যা',
-    keywords:['typhoid','fever','enteric','weakness','stupor','tongue','abdomen','slow'],
-    remedies:['Bapt','Mur-ac','Ars','Bry','Rhus-t','Phos-ac'],
-    miasm:['sycosis','psora'],
-    causes:['Salmonella typhi ব্যাকটেরিয়া সংক্রমণ','দূষিত পানি ও খাদ্য','দুর্বল রোগ প্রতিরোধ ক্ষমতা','সাইকোটিক মায়াজম — শরীরে বিষ জমা'],
-    weight: 0 },
-
-  { id:'malaria', name:'ম্যালেরিয়া (Malaria / Intermittent Fever)', alt:'কম্পন দিয়ে জ্বর, পর্যায়ক্রমিক জ্বর',
-    keywords:['malaria','intermittent','chill','fever','perspiration','periodic','ague'],
-    remedies:['China','Nat-m','Ars','Eup-per','Gels','Puls'],
-    miasm:['psora'],
-    causes:['Plasmodium পরজীবী (মশার কামড়ের মাধ্যমে)','দুর্বল রোগ প্রতিরোধ ক্ষমতা','সোরিক মায়াজম — পর্যায়ক্রমিক রোগের প্রবণতা'],
-    weight: 0 },
-
-  { id:'dengue', name:'ডেঙ্গু জ্বর (Dengue Fever)', alt:'হাড় ভাঙা ব্যথা, উচ্চ জ্বর, রক্তপাত',
-    keywords:['dengue','bone','pain','fever','bleeding','rash','weakness','joint'],
-    remedies:['Eup-per','Bry','Acon','Bell','Rhus-t','Ham'],
-    miasm:['psora','sycosis'],
-    causes:['Dengue ভাইরাস (Aedes মশার কামড়)','শরীরে প্লেটলেট কমে যাওয়া','দুর্বল রোগ প্রতিরোধ ক্ষমতা'],
-    weight: 0 },
-
-  { id:'influenza', name:'ইনফ্লুয়েঞ্জা / ফ্লু (Influenza)', alt:'তীব্র সর্দি-জ্বর, শরীরে ব্যথা',
-    keywords:['influenza','coryza','sneezing','fever','weakness','chill','headache','cold'],
-    remedies:['Gels','Bry','Eup-per','Ars','Bapt','Nat-m'],
-    miasm:['psora'],
-    causes:['Influenza ভাইরাস সংক্রমণ','ঠান্ডা ও স্যাঁতসেঁতে আবহাওয়া','দুর্বল রোগ প্রতিরোধ ক্ষমতা (সোরিক)'],
-    weight: 0 },
-
-  // ─── Urinary ───────────────────────────────────────
-  { id:'uti', name:'মূত্রনালির সংক্রমণ / সিস্টাইটিস (UTI / Cystitis)', alt:'প্রস্রাবে জ্বালা, ঘন ঘন প্রস্রাব',
-    keywords:['urine','urination','bladder','burning','frequent','cystitis','urinary'],
-    remedies:['Canth','Apis','Staph','Merc','Berb','Equ'],
-    miasm:['sycosis','psora'],
-    causes:['E. coli ও অন্যান্য ব্যাকটেরিয়া সংক্রমণ','সাইকোটিক মায়াজম — শ্লেষ্মা ঝিল্লির প্রদাহ','কম পানি পান, অস্বাস্থ্যকর যৌনস্বাস্থ্য','নারীদের শারীরিক গঠনগত দুর্বলতা'],
-    weight: 0 },
-
-  { id:'nephritis', name:'নেফ্রাইটিস / কিডনির সমস্যা (Nephritis)', alt:'কিডনির প্রদাহ, পিঠে ব্যথা',
-    keywords:['kidney','nephritis','albumin','urine','back','renal','protein'],
-    remedies:['Apis','Ars','Merc','Ter','Plb','Canth','Solid'],
-    miasm:['psora','syphilis'],
-    causes:['দীর্ঘমেয়াদী সংক্রমণ বা অটোইমিউন প্রতিক্রিয়া','সিফিলিটিক মায়াজম — অঙ্গ ক্ষয়ের প্রবণতা','উচ্চ রক্তচাপ ও ডায়াবেটিস','অতিরিক্ত ওষুধ বা বিষাক্ত পদার্থের ক্ষতি'],
-    weight: 0 },
-
-  // ─── Neurological ──────────────────────────────────
-  { id:'migraine', name:'মাইগ্রেন / তীব্র মাথাব্যথা (Migraine)', alt:'একপাশে তীব্র মাথাব্যথা, বমিভাব',
-    keywords:['headache','migraine','head','pain','nausea','light','vision','throbbing'],
-    remedies:['Nat-m','Bell','Iris','Sang','Lac-c','Glon','Sil'],
-    miasm:['psora','tubercular'],
-    causes:['সোরিক ও টিউবারকুলার ডায়াথেসিস','মানসিক চাপ ও অনিদ্রা','হরমোনের পরিবর্তন (নারীদের মাসিক সম্পর্কিত)','কিছু খাবার ও পরিবেশগত ট্রিগার (আলো, গন্ধ)'],
-    weight: 0 },
-
-  { id:'neuralgia', name:'স্নায়ুশূল / নিউরালজিয়া (Neuralgia)', alt:'স্নায়বিক তীক্ষ্ণ ব্যথা',
-    keywords:['neuralgia','nerve','shooting','tearing','lightning','pain','trigeminal'],
-    remedies:['Mag-p','Spig','Acon','Bell','Verb','Coff','Kali-bi'],
-    miasm:['psora'],
-    causes:['সোরিক মায়াজম — স্নায়বিক সংবেদনশীলতা','সংক্রমণের পরবর্তী জটিলতা (হারপিস)','ঠান্ডা লাগা ও রক্ত সংকোচন','মানসিক চাপ ও অতিরিক্ত কাজ'],
-    weight: 0 },
-
-  { id:'sciatica', name:'সায়াটিকা (Sciatica)', alt:'কোমর থেকে পায়ে ব্যথা',
-    keywords:['sciatica','sciatic','back','lumbar','radiating','leg','pain','lumbago'],
-    remedies:['Coloc','Mag-p','Rhus-t','Bry','Lyc','Tell','Gnaph'],
-    miasm:['psora'],
-    causes:['সোরিক মায়াজম — পেশী ও স্নায়বিক দুর্বলতা','ডিস্ক হার্নিয়েশন বা মেরুদণ্ডের চাপ','ঠান্ডা ও আর্দ্রতায় বাড়ে','দীর্ঘক্ষণ বসে থাকা বা ভুল ভঙ্গিতে কাজ'],
-    weight: 0 },
-
-  // ─── Joint / Musculoskeletal ───────────────────────
-  { id:'arthritis', name:'বাত / আর্থ্রাইটিস (Rheumatoid Arthritis)', alt:'জয়েন্টে প্রদাহ ও ব্যথা',
-    keywords:['joint','arthritis','rheumatic','stiffness','swelling','rheumatism','bones'],
-    remedies:['Rhus-t','Bry','Calc','Calc-p','Colch','Led','Puls','Benz-ac'],
-    miasm:['psora','sycosis'],
-    causes:['সোরিক ও সাইকোটিক মায়াজমের মিশ্রণ','ঠান্ডা ও স্যাঁতসেঁতে আবহাওয়া','অটোইমিউন প্রতিক্রিয়া','ইউরিক অ্যাসিড জমা (গাউট ধরনে)'],
-    weight: 0 },
-
-  { id:'gout', name:'গেঁটেবাত / গাউট (Gout)', alt:'পায়ের আঙুলে তীব্র ব্যথা ও ফোলা',
-    keywords:['gout','uric','toes','heel','burning','joint','crystalline','chalk'],
-    remedies:['Colch','Led','Benz-ac','Lyc','Calc','Ant-c'],
-    miasm:['psora','sycosis'],
-    causes:['সাইকোটিক মায়াজম — বিপাক ক্রিয়ার অস্বাভাবিকতা','রক্তে ইউরিক অ্যাসিড বৃদ্ধি','প্রোটিনসমৃদ্ধ খাবার ও অ্যালকোহল','কিডনির মাধ্যমে ইউরিক অ্যাসিড নিষ্কাশনে ব্যর্থতা'],
-    weight: 0 },
-
-  // ─── Skin ──────────────────────────────────────────
-  { id:'eczema', name:'একজিমা / চর্মরোগ (Eczema / Dermatitis)', alt:'চুলকানিযুক্ত ত্বকের প্রদাহ',
-    keywords:['skin','eruption','itching','eczema','rash','vesicle','dermatitis','burning'],
-    remedies:['Sul','Graph','Psor','Ars','Nat-m','Dulc','Mez'],
-    miasm:['psora'],
-    causes:['সোরিক মায়াজমের প্রধান প্রকাশ — ত্বক থেকে রোগ দূষণ নির্গমন','দমন করা চর্মরোগের অভ্যন্তরীণ প্রতিক্রিয়া','অ্যালার্জি ও সংবেদনশীলতা','দীর্ঘমেয়াদী অ্যালোপ্যাথিক ওষুধের পার্শ্বপ্রতিক্রিয়া'],
-    weight: 0 },
-
-  { id:'psoriasis', name:'সোরিয়াসিস (Psoriasis)', alt:'রুপালি আঁশযুক্ত ত্বকের ক্ষত',
-    keywords:['psoriasis','scales','skin','silvery','eruption','itching','dry','patches'],
-    remedies:['Ars','Sul','Psor','Graph','Sep','Kali-ar','Merc'],
-    miasm:['psora','syphilis'],
-    causes:['সোরিক ও সিফিলিটিক মায়াজমের মিশ্রণ','অটোইমিউন অস্বাভাবিকতা — T-cell সক্রিয়তা','মানসিক চাপ ও আঘাত (Koebner phenomenon)','পারিবারিক ইতিহাস ও জিনগত প্রবণতা'],
-    weight: 0 },
-
-  // ─── Mental / Emotional ────────────────────────────
-  { id:'depression', name:'বিষণ্ণতা / ডিপ্রেশন (Depression)', alt:'মানসিক অবসাদ, জীবনে অনাগ্রহ',
-    keywords:['sadness','depression','grief','weeping','despair','hopeless','suicidal','mind'],
-    remedies:['Nat-m','Aur','Ign','Puls','Lach','Sep','Ars'],
-    miasm:['psora','syphilis'],
-    causes:['সোরিক মায়াজম — শোক ও হতাশার প্রবণতা','সিফিলিটিক মায়াজম — গভীর বিষণ্ণতা (Aur)','দীর্ঘমেয়াদী দুঃখ, ক্ষতি বা ব্যর্থতা','নিউরোট্রান্সমিটারের ভারসাম্যহীনতা (সেরোটোনিন)'],
-    weight: 0 },
-
-  { id:'anxiety', name:'উদ্বেগ / অ্যাংজাইটি (Anxiety Disorder)', alt:'অতিরিক্ত উদ্বেগ, ভয়, ঘাম',
-    keywords:['anxiety','fear','restless','nervousness','palpitation','apprehension','panic','mind'],
-    remedies:['Acon','Arg-n','Ars','Gels','Phos','Kali-p','Ign'],
-    miasm:['psora'],
-    causes:['সোরিক মায়াজম — ভয় ও উদ্বেগের সাংবিধানিক প্রবণতা','মানসিক আঘাত বা দীর্ঘমেয়াদী চাপ','হরমোনের ভারসাম্যহীনতা (থাইরয়েড, অ্যাড্রিনাল)','ঘুমের অভাব ও অতিরিক্ত ক্যাফেইন'],
-    weight: 0 },
-
-  // ─── Cardiac ───────────────────────────────────────
-  { id:'hypertension', name:'উচ্চ রক্তচাপ (Hypertension)', alt:'রক্তচাপ বৃদ্ধি, মাথাব্যথা',
-    keywords:['hypertension','blood pressure','heart','palpitation','pulse','throbbing','vertigo'],
-    remedies:['Glon','Bell','Acon','Lach','Nat-m','Aur','Visc','Stront-c'],
-    miasm:['sycosis','syphilis'],
-    causes:['সাইকোটিক মায়াজম — কার্ডিওভাসকুলার টেনশন','মানসিক চাপ ও রাগ দমন (Nux-v, Aur প্রোফাইল)','স্থূলতা ও লবণাক্ত খাবার','ধমনীর অ্যাথেরোস্ক্লেরোসিস'],
-    weight: 0 },
-
-  { id:'cardiac', name:'হৃদরোগ / বুকে ব্যথা (Cardiac Disease / Angina)', alt:'বুকে ব্যথা, হৃদকম্পন, শ্বাসকষ্ট',
-    keywords:['heart','cardiac','chest','angina','palpitation','pulse','valvular','myocardial'],
-    remedies:['Dig','Lach','Spig','Arn','Aur','Cact','Lat-m'],
-    miasm:['sycosis','syphilis'],
-    causes:['সিফিলিটিক মায়াজম — হৃদ পেশী ও ধমনীর ক্ষয়','ধমনীতে চর্বি জমা (Arteriosclerosis)','মানসিক উত্তেজনা ও ধকল','ডায়াবেটিস ও উচ্চ রক্তচাপের জটিলতা'],
-    weight: 0 },
-
-  // ─── Women's Health ────────────────────────────────
-  { id:'dysmenorrhea', name:'কষ্টকর মাসিক (Dysmenorrhea)', alt:'মাসিকের সময় তীব্র ব্যথা',
-    keywords:['menses','menstrual','dysmenorrhea','uterus','cramping','ovary','period','flow'],
-    remedies:['Mag-p','Coloc','Bell','Puls','Cimic','Lil-t','Sep'],
-    miasm:['psora','sycosis'],
-    causes:['সাইকোটিক মায়াজম — প্রজনন অঙ্গের প্রদাহ','প্রোস্টাগ্ল্যান্ডিনের অতিরিক্ত নিঃসরণ','এন্ডোমেট্রিওসিস বা ফাইব্রয়েড','মানসিক চাপ ও হরমোনের ভারসাম্যহীনতা'],
-    weight: 0 },
-
-  // ─── ENT ───────────────────────────────────────────
-  { id:'tonsillitis', name:'টনসিলের প্রদাহ (Tonsillitis)', alt:'গলা ব্যথা, টনসিল ফোলা, জ্বর',
-    keywords:['tonsils','throat','sore','swallowing','glands','cervical','pain','inflamed'],
-    remedies:['Bell','Merc','Hep','Bar-c','Phyt','Lach','Apis'],
-    miasm:['psora','sycosis'],
-    causes:['সাইকোটিক মায়াজম — বারবার গলার সংক্রমণ','Streptococcus ব্যাকটেরিয়া','ঠান্ডা পানীয় ও আইসক্রিম','দুর্বল লিম্ফ্যাটিক সিস্টেম (সোরিক)'],
-    weight: 0 },
-
-  { id:'allergic_rhinitis', name:'অ্যালার্জিক রাইনাইটিস (Allergic Rhinitis / Hay Fever)', alt:'হাঁচি, সর্দি, চোখ চুলকানো',
-    keywords:['sneezing','coryza','nasal','discharge','hay fever','allergic','watery','itching'],
-    remedies:['All-c','Euphr','Nat-m','Sabad','Ars','Dulc'],
-    miasm:['psora','tubercular'],
-    causes:['সোরিক ও টিউবারকুলার মায়াজম — অ্যালার্জিক প্রবণতা','পরাগ, ধুলো ও প্রাণীর লোম থেকে অ্যালার্জি','IgE-মধ্যস্থ অতিসংবেদনশীলতা প্রতিক্রিয়া','পারিবারিক অ্যালার্জির ইতিহাস'],
-    weight: 0 },
-
-  // ─── Diabetes ──────────────────────────────────────
-  { id:'diabetes', name:'ডায়াবেটিস (Diabetes Mellitus)', alt:'রক্তে শর্করা বৃদ্ধি, অতিরিক্ত তৃষ্ণা',
-    keywords:['diabetes','sugar','thirst','urine','weakness','sweet','glycosuria','hunger'],
-    remedies:['Uran-n','Syz','Acet-ac','Phos-ac','Lyc','Ars','Visc'],
-    miasm:['psora','sycosis'],
-    causes:['সোরিক মায়াজম — বিপাক ক্রিয়ার দুর্বলতা','অগ্ন্যাশয়ের ইনসুলিন উৎপাদনে ব্যর্থতা','স্থূলতা ও অলস জীবনযাপন (Type 2)','পারিবারিক ইতিহাস ও জিনগত প্রবণতা'],
-    weight: 0 },
-
-  // ─── Children ──────────────────────────────────────
-  { id:'worms', name:'অন্ত্রে কৃমি (Intestinal Worms)', alt:'পেটে কৃমি, নাক চুলকানো, দাঁত কিড়মিড়',
-    keywords:['worms','helminth','grinding','nose','itching','rectum','pinworm','ascaris'],
-    remedies:['Cina','Spig','Cal-p','Nat-p','Gran','Teuc'],
-    miasm:['psora'],
-    causes:['সোরিক মায়াজম — হজম দুর্বলতা ও পরজীবী সংক্রমণ','দূষিত খাবার ও পানি সেবন','অস্বাস্থ্যকর হাতের স্বাস্থ্যবিধি','অপুষ্টি ও দুর্বল রোগ প্রতিরোধ ক্ষমতা'],
-    weight: 0 },
-
-  // ─── Hepatic ───────────────────────────────────────
-  { id:'hepatitis', name:'হেপাটাইটিস / জন্ডিস (Hepatitis / Jaundice)', alt:'লিভারের প্রদাহ, হলুদ চোখ ও ত্বক',
-    keywords:['liver','jaundice','hepatitis','yellow','bile','icteric','bilirubin','hepatic'],
-    remedies:['Chel','Nat-s','Card-m','Lyc','Lept','Merc','Phos'],
-    miasm:['psora','sycosis'],
-    causes:['সাইকোটিক মায়াজম — লিভারের পিত্ত ক্ষরণে অস্বাভাবিকতা','Hepatitis A/B/C ভাইরাস সংক্রমণ','অ্যালকোহল ও বিষাক্ত পদার্থের প্রভাব','পিত্তথলির পাথর থেকে বাধা'],
-    weight: 0 },
-];
-
-// ── Miasm scoring per remedy key
-function getMiasmFromRemedies(topRemedies) {
-  const miasmCount = { psora:0, sycosis:0, syphilis:0, tubercular:0 };
-  topRemedies.forEach(name => {
-    const m = REMEDY_MIASM[name];
-    if (m) miasmCount[m]++;
-  });
-  return miasmCount;
-}
-
-// ── Disease scoring: rubric keyword matching + remedy overlap
-function scoreDisease(disease, rubricNames, topRemNames) {
-  let score = 0;
-  const rubricLower = rubricNames.map(r => r.toLowerCase());
-  // Keyword match in rubrics
-  disease.keywords.forEach(kw => {
-    if (rubricLower.some(r => r.includes(kw))) score += 3;
-  });
-  // Top remedy overlap
-  topRemNames.forEach(rem => {
-    if (disease.remedies.includes(rem)) score += 4;
-  });
-  return score;
-}
-
-// ── Main offline disease analysis
-function runDiseaseAnalysis() {
-  if (!_analysisData.length || !selectedRubrics.length) return null;
-
-  const topRemNames = _analysisData.slice(0, 5).map(d => d.name);
-  const rubricNames = selectedRubrics.map(s => s.name);
-  const top3Display = _analysisData.slice(0, 3).map(d => d.name);
-
-  // Score all diseases
-  const scored = DISEASE_DB.map(d => ({
-    ...d,
-    weight: scoreDisease(d, rubricNames, topRemNames)
-  })).filter(d => d.weight > 0)
-     .sort((a, b) => b.weight - a.weight);
-
-  if (!scored.length) return null;
-
-  // Miasm determination
-  const miasmCount = getMiasmFromRemedies(topRemNames);
-  const dominantMiasms = Object.entries(miasmCount)
-    .filter(([, c]) => c > 0)
-    .sort((a, b) => b[1] - a[1])
-    .map(([m]) => m);
-
-  // Confidence (0-100)
-  const maxPossible = scored[0].keywords.length * 3 + 5 * 4;
-  const confidence = Math.min(100, Math.round((scored[0].weight / maxPossible) * 100));
-
-  return {
-    primary: scored[0],
-    alternatives: scored.slice(1, 4),
-    dominantMiasms,
-    miasmCount,
-    top3: top3Display,
-    confidence,
-    rubricCount: selectedRubrics.length
-  };
-}
-
-// ── Render disease analysis card
-function buildDiseaseCardHTML() {
-  const result = runDiseaseAnalysis();
-  if (!result) return '';
-
-  const { primary, alternatives, dominantMiasms, top3, confidence } = result;
-
-  const miasmLabels = { psora:'সোরা', sycosis:'সাইকোসিস', syphilis:'সিফিলিস', tubercular:'টিউবারকুলার' };
-  const miasmPills = dominantMiasms.map(m =>
-    `<span class="da-miasm-pill ${m}">${miasmLabels[m] || m}</span>`
-  ).join('');
-
-  const remedyChips = top3.map(r =>
-    `<span class="da-remedy-chip" onclick="openMM('${r}')">${r}</span>`
-  ).join('');
-
-  const causeItems = primary.causes.map(c => `<li>${c}</li>`).join('');
-
-  const altText = alternatives.length
-    ? alternatives.map(a => a.name).join(', ')
-    : '—';
-
-  return `
-    <div class="disease-analysis-card">
-      <div class="da-header" onclick="toggleDaCard(this)">
-        <span class="da-header-icon">🧠</span>
-        <span class="da-header-title">AI রোগ বিশ্লেষণ</span>
-        <span class="da-header-toggle open">▲</span>
-      </div>
-      <div class="da-body open">
-        <div class="da-section">
-          <div class="da-section-label">সম্ভাব্য প্রধান রোগ</div>
-          <div class="da-disease-primary">${primary.name}</div>
-          <div class="da-disease-alt">${primary.alt}</div>
-        </div>
-        <div class="da-section">
-          <div class="da-section-label">বিকল্প সম্ভাবনা</div>
-          <div class="da-disease-alt" style="color:var(--text)">${altText}</div>
-        </div>
-        <div class="da-section">
-          <div class="da-section-label">মায়াজম নির্ণয়</div>
-          <div class="da-miasm-row">${miasmPills || '<span style="color:var(--muted);font-size:0.75rem">নির্ধারণ করা যাচ্ছে না</span>'}</div>
-        </div>
-        <div class="da-section">
-          <div class="da-section-label">রোগের সম্ভাব্য কারণসমূহ</div>
-          <ul class="da-causes-list">${causeItems}</ul>
-        </div>
-        <div class="da-section">
-          <div class="da-section-label">শীর্ষ ৩টি ঔষধ সুপারিশ</div>
-          <div class="da-remedy-row">${remedyChips}</div>
-        </div>
-        <div class="da-confidence-bar-wrap">
-          <div class="da-conf-label">বিশ্লেষণ নির্ভরযোগ্যতা: ${confidence}%</div>
-          <div class="da-conf-bar"><div class="da-conf-fill" style="width:${confidence}%"></div></div>
-        </div>
-        <div class="da-disclaimer">⚠️ এটি একটি সহায়ক বিশ্লেষণ — চূড়ান্ত নির্ণয় অভিজ্ঞ হোমিওপ্যাথিক চিকিৎসকের বিবেচনার উপর নির্ভর করে।</div>
-      </div>
-    </div>
-  `;
-}
-
-function renderDiseaseCard() {
-  const el = document.getElementById('disease-analysis-wrap');
-  if (el) el.innerHTML = buildDiseaseCardHTML();
-}
-
-
-function toggleDaCard(header) {
-  const body = header.nextElementSibling;
-  const toggle = header.querySelector('.da-header-toggle');
-  const isOpen = body.classList.toggle('open');
-  if (toggle) toggle.classList.toggle('open', isOpen);
-}
-
-
 function exportCSV() {
   if (!selectedRubrics.length) { showToast('⚠️ আগে রুব্রিক নির্বাচন করুন', 'error'); return; }
 
@@ -5692,56 +5395,51 @@ function newRx() {
 function printRx() {
   const headHTML = document.getElementById('rx-preview').querySelector('.rx-preview-head').innerHTML;
   const bodyHTML = document.getElementById('rx-preview-body').innerHTML;
-  const html = `<!DOCTYPE html><html lang="bn"><head>
-    <meta charset="UTF-8">
-    <title>প্রেসক্রিপশন</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&display=swap" rel="stylesheet">
+
+  const contentHTML = `
+    <div style="background:#fff;color:#000;padding:18px 22px 14px;text-align:center;border-bottom:2px solid #1a3a6b;">
+      ${headHTML}
+    </div>
+    <div style="padding:14px 20px;background:#fff;color:#000;">
+      ${bodyHTML}
+    </div>
+  `;
+
+  // Inject print-specific styles into overlay content
+  const styleBlock = `
     <style>
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-      body { font-family: 'Noto Sans Bengali', Arial, sans-serif; font-size: 13px; background: #fff; color: #000; }
-      @media print { body { width: 100%; } @page { margin: 12mm; } }
-      .rx-preview-head { background:#fff; color:#000; padding:18px 22px 14px; text-align:center; border-bottom:2px solid #1a3a6b; }
+      .rx-preview-head { background:#fff!important; color:#000!important; }
       .rx-chamber-name { font-size:1.25rem; font-weight:800; color:#1a3a6b; letter-spacing:0.04em; text-transform:uppercase; border-bottom:1px solid #c8d8f0; padding-bottom:8px; margin-bottom:8px; }
       .rx-doc-name { font-size:0.95rem; font-weight:700; color:#111; }
       .rx-doc-degree { font-size:0.78rem; color:#444; margin-top:2px; }
       .rx-doc-address { font-size:0.73rem; color:#555; margin-top:4px; }
       .rx-doc-timing { font-size:0.7rem; color:#666; margin-top:3px; }
-      .rx-preview-body { padding:14px 20px; }
-      .rx-patient-row { display:flex; gap:16px; flex-wrap:wrap; border-bottom:1px solid #ddd; padding-bottom:10px; margin-bottom:10px; font-size:0.82rem; }
-      .rx-patient-row span { flex:1; min-width:90px; }
+      .rx-preview-body { padding:0!important; background:#fff!important; color:#000!important; }
+      .rx-patient-row { display:flex; gap:16px; flex-wrap:wrap; border-bottom:1px solid #ddd; padding-bottom:10px; margin-bottom:10px; font-size:0.82rem; color:#000!important; }
+      .rx-patient-row span { flex:1; min-width:90px; color:#000!important; }
       .rx-symbol { font-size:2.5rem; color:#1a3a6b; font-weight:900; margin:4px 0 8px; font-style:italic; }
       .rx-med-table { width:100%; border-collapse:collapse; font-size:0.8rem; margin-bottom:10px; }
-      .rx-med-table th { background:#f0f4fa; color:#1a3a6b; text-align:left; padding:5px 7px; border:1px solid #ddd; font-size:0.75rem; }
-      .rx-med-table td { padding:5px 7px; border:1px solid #ddd; vertical-align:top; }
-      .rx-med-table tr:nth-child(even) td { background:#fafbff; }
-      .rx-rubric-box { background:#f8f9fa; border:1px solid #e0e0e0; border-radius:6px; padding:8px 10px; margin-bottom:10px; font-size:0.72rem; color:#555; }
-      .rb-title { font-weight:700; color:#1a3a6b; font-size:0.75rem; margin-bottom:4px; }
-      .rx-food-box { border:1px solid #e0e0e0; border-radius:6px; padding:8px 10px; margin-bottom:10px; font-size:0.75rem; }
+      .rx-med-table th { background:#f0f4fa!important; color:#1a3a6b!important; text-align:left; padding:5px 7px; border:1px solid #ddd; font-size:0.75rem; }
+      .rx-med-table td { padding:5px 7px; border:1px solid #ddd; vertical-align:top; color:#000!important; background:#fff!important; }
+      .rx-med-table tr:nth-child(even) td { background:#fafbff!important; }
+      .rx-rubric-box { background:#f8f9fa!important; border:1px solid #e0e0e0; border-radius:6px; padding:8px 10px; margin-bottom:10px; font-size:0.72rem; color:#555!important; }
+      .rb-title { font-weight:700; color:#1a3a6b!important; font-size:0.75rem; margin-bottom:4px; }
+      .rx-food-box { border:1px solid #e0e0e0; border-radius:6px; padding:8px 10px; margin-bottom:10px; font-size:0.75rem; color:#000!important; background:#fff!important; }
       .rx-footer { display:flex; justify-content:space-between; align-items:flex-end; border-top:1px solid #ddd; padding-top:10px; margin-top:6px; }
       .rx-sig-line { border-top:1px solid #333; width:120px; margin-top:30px; font-size:0.7rem; color:#333; text-align:center; padding-top:3px; }
+      .empty-state { color:#888; }
     </style>
-  </head><body>
-    <div class="rx-preview-head">${headHTML}</div>
-    <div class="rx-preview-body">${bodyHTML}</div>
-    <script>window.onload = function(){ window.print(); };<\/script>
-  </body></html>`;
+  `;
 
-  // Try popup first; fall back to download for mobile/popup-blocked environments
-  const printWin = window.open('', '_blank');
-  if (printWin && !printWin.closed) {
-    printWin.document.write(html);
-    printWin.document.close();
-  } else {
-    // Bug fix: iframe print unreliable on mobile Chrome — use download fallback instead
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `prescription_${new Date().toISOString().slice(0,10)}.html`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 3000);
-    showToast('⚠️ Popup block হয়েছে — HTML ফাইল ডাউনলোড হয়েছে, খুলে প্রিন্ট করুন।', 'error');
-  }
+  const overlay = document.getElementById('print-overlay');
+  const content = document.getElementById('print-overlay-content');
+  content.innerHTML = styleBlock + contentHTML;
+  overlay.classList.add('open');
+  overlay.scrollTop = 0;
+}
+
+function closePrintOverlay() {
+  document.getElementById('print-overlay').classList.remove('open');
 }
 
 // Init modal keyboard
@@ -6528,27 +6226,35 @@ function bioPrint() {
   const scored = _bioResults.filter(r=>r.score>0);
   if (!scored.length) { showToast('কোনো ঔষধ নেই'); return; }
   const rubrics = selectedRubrics.map(r=>r.name).join(', ');
-  const html = `<html><head><title>বায়োকেমিক সাজেশন</title><style>body{font-family:serif;padding:20px;font-size:14px}h2{border-bottom:2px solid #333;padding-bottom:6px}table{width:100%;border-collapse:collapse;margin-top:12px}th,td{border:1px solid #ccc;padding:6px 10px;text-align:left}th{background:#f0f0f0;font-size:12px}tr:nth-child(even){background:#f9f9f9}.rubric{font-size:12px;color:#555;margin-bottom:12px}</style></head><body>
-    <h2>🧪 বায়োকেমিক ঔষধ সাজেশন</h2>
-    <div class="rubric">রুব্রিক: ${rubrics}</div>
-    <table><thead><tr><th>#</th><th>ঔষধ</th><th>স্কোর</th><th>বিবরণ</th></tr></thead><tbody>
-    ${scored.map((r,i)=>`<tr><td>${i+1}</td><td><strong>${r.full}</strong></td><td>${r.score}</td><td>${r.desc}</td></tr>`).join('')}
-    </tbody></table><script>window.onload=function(){window.print();};<\/script></body></html>`;
-  const win = window.open('', '_blank');
-  if (win && !win.closed) {
-    win.document.write(html);
-    win.document.close();
-  } else {
-    // Fallback: download HTML file for mobile/popup-blocked
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `biochemic_${new Date().toISOString().slice(0,10)}.html`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 3000);
-    showToast('⚠️ Popup block — HTML ডাউনলোড হয়েছে, খুলে প্রিন্ট করুন।', 'error');
-  }
+
+  const contentHTML = `
+    <div style="font-family:serif;padding:20px;font-size:14px;background:#fff;color:#000;">
+      <h2 style="border-bottom:2px solid #333;padding-bottom:6px;color:#000;">🧪 বায়োকেমিক ঔষধ সাজেশন</h2>
+      <div style="font-size:12px;color:#555;margin-bottom:12px;">রুব্রিক: ${rubrics}</div>
+      <table style="width:100%;border-collapse:collapse;margin-top:12px;">
+        <thead><tr>
+          <th style="background:#f0f0f0;font-size:12px;border:1px solid #ccc;padding:6px 10px;text-align:left;">#</th>
+          <th style="background:#f0f0f0;font-size:12px;border:1px solid #ccc;padding:6px 10px;text-align:left;">ঔষধ</th>
+          <th style="background:#f0f0f0;font-size:12px;border:1px solid #ccc;padding:6px 10px;text-align:left;">স্কোর</th>
+          <th style="background:#f0f0f0;font-size:12px;border:1px solid #ccc;padding:6px 10px;text-align:left;">বিবরণ</th>
+        </tr></thead>
+        <tbody>
+          ${scored.map((r,i)=>`<tr style="${i%2===1?'background:#f9f9f9;':''}">
+            <td style="border:1px solid #ccc;padding:6px 10px;color:#000;">${i+1}</td>
+            <td style="border:1px solid #ccc;padding:6px 10px;color:#000;"><strong>${r.full}</strong></td>
+            <td style="border:1px solid #ccc;padding:6px 10px;color:#000;">${r.score}</td>
+            <td style="border:1px solid #ccc;padding:6px 10px;color:#000;">${r.desc}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
+
+  const overlay = document.getElementById('print-overlay');
+  const content = document.getElementById('print-overlay-content');
+  document.querySelector('#print-overlay-toolbar .po-title').textContent = '🧪 বায়োকেমিক সাজেশন';
+  content.innerHTML = contentHTML;
+  overlay.classList.add('open');
+  overlay.scrollTop = 0;
 }
 
 // ── মেইন showBiochemic ──
