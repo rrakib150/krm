@@ -85,6 +85,47 @@ html.light .med-row { background: var(--bg3); }
 html.light .action-btn.secondary { background: var(--bg3); }
 html.light .detail-area { background: var(--bg2); }
 
+/* ── PRINT OVERLAY ── */
+#print-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: #fff; overflow-y: auto;
+  flex-direction: column;
+}
+#print-overlay.open { display: flex; }
+#print-overlay-toolbar {
+  position: sticky; top: 0; z-index: 10000;
+  background: #1a3a6b; color: #fff;
+  padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3); flex-shrink: 0;
+}
+#print-overlay-toolbar .po-title {
+  flex: 1; font-size: 0.85rem; font-weight: 700;
+  font-family: 'Noto Serif Bengali', serif;
+}
+#print-overlay-toolbar .po-hint {
+  font-size: 0.68rem; color: #a0c0e8; line-height: 1.4;
+  font-family: 'JetBrains Mono', monospace;
+}
+#print-overlay-toolbar .po-close {
+  background: rgba(255,255,255,0.15); border: none; color: #fff;
+  border-radius: 8px; padding: 6px 12px; cursor: pointer;
+  font-size: 0.8rem; font-weight: 700; white-space: nowrap;
+  transition: background 0.15s;
+}
+#print-overlay-toolbar .po-close:hover { background: rgba(255,255,255,0.28); }
+#print-overlay-content {
+  flex: 1; padding: 0;
+  font-family: 'Noto Serif Bengali', Arial, sans-serif;
+  font-size: 13px; background: #fff; color: #000;
+}
+@media print {
+  #print-overlay-toolbar { display: none !important; }
+  #print-overlay { position: static !important; }
+  body > *:not(#print-overlay) { display: none !important; }
+  #print-overlay { display: block !important; }
+  @page { margin: 12mm; }
+}
+
 /* ── BIOCHEMIC MODAL (UPGRADED) ── */
 .bio-modal-overlay {
   display: none; position: fixed; inset: 0;
@@ -1121,6 +1162,13 @@ html.light .miasm-table th { background:rgba(160,112,8,0.08); }
 /* chapter search */
 .ch-search { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); padding: 7px 10px; font-size: 0.8rem; font-family: inherit; outline: none; margin-bottom: 8px; }
 .ch-search:focus { border-color: var(--gold); }
+
+/* ── Alphabet bar ── */
+.alpha-bar { display:flex; flex-wrap:wrap; gap:3px; padding:6px 0 4px; margin-bottom:6px; }
+.alpha-btn { flex:0 0 auto; min-width:22px; height:22px; padding:0 3px; background:var(--bg3); border:1px solid var(--border2); border-radius:5px; color:var(--muted); font-size:0.68rem; font-weight:700; font-family:'JetBrains Mono',monospace; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s,color .15s,border-color .15s; }
+.alpha-btn:hover { background:rgba(224,176,48,0.18); color:var(--gold); border-color:var(--gold); }
+.alpha-btn.active { background:var(--gold); color:#000; border-color:var(--gold); }
+.alpha-btn.disabled { opacity:0.25; cursor:default; pointer-events:none; }
 
 
 
@@ -2334,6 +2382,7 @@ button:focus-visible, input:focus-visible, select:focus-visible {
   .db-status { font-size: 0.6rem; padding: 3px 7px; max-width: 110px; overflow: hidden; text-overflow: ellipsis; }
   body { font-size: 14px; }
   .bio-modal, .mm-modal { border-radius: var(--radius-md); }
+  .alpha-btn { min-width:20px; height:20px; font-size:0.62rem; }
 }
 
 /* ── REDUCED MOTION ── */
@@ -2691,6 +2740,7 @@ html.light ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
           <input type="text" id="rubric-search" placeholder="Rubric খুঁজুন... (বাংলা/English)" oninput="debouncedSearch(this.value)">
           <span class="search-shortcut-hint" title="এই শর্টকাট দিয়ে সরাসরি সার্চ বক্সে যান">/</span>
         </div>
+        <div class="alpha-bar" id="alpha-bar" style="display:none"></div>
         <div id="rubric-list"><div class="empty-state"><span class="empty-state-icon">📚</span>বাম পাশ থেকে একটি Chapter বেছে নিন</div></div>
         <div id="rubric-detail" class="detail-area" style="display:none"></div>
       </div>
@@ -2922,12 +2972,24 @@ html.light ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
           </div>
           <div class="rx-actions">
             <button class="rx-save-btn" onclick="saveRx()">💾 সেভ</button>
-            <button onclick="printRx()">🖨️ প্রিন্ট</button>
+            <button onclick="printRx()">📄 প্রিন্ট / PDF</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Print Overlay -->
+<div id="print-overlay">
+  <div id="print-overlay-toolbar">
+    <div style="display:flex;flex-direction:column;gap:2px;flex:1">
+      <div class="po-title">📄 প্রেসক্রিপশন প্রিভিউ</div>
+      <div class="po-hint">Android: উপরের মেনু (⋮) → Share → Print বা Save as PDF</div>
+    </div>
+    <button class="po-close" onclick="closePrintOverlay()">✕ বন্ধ</button>
+  </div>
+  <div id="print-overlay-content"></div>
 </div>
 
 <!-- Save Rubric Set Modal -->
@@ -3309,6 +3371,7 @@ let _renderedRubrics = [];
 let _chapterLazyMode = false;
 let _chapterLazyName = '';
 let _chapterTotalCount = 0;
+let _alphaFilter = ''; // current active letter filter
 
 function renderPager(containerId, totalItems, currentPage, pageSize, onPageChange) {
   const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
@@ -3384,6 +3447,103 @@ function renderFilteredChapters(chapters) {
   el.innerHTML = html;
 }
 
+// ══════════════════════════════════════
+//  ALPHABET BAR
+// ══════════════════════════════════════
+function buildAlphaBar(availableLetters) {
+  const bar = document.getElementById('alpha-bar');
+  if (!bar) return;
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const avail = new Set((availableLetters || []).map(l => l.toUpperCase()));
+  bar.innerHTML = letters.map(l =>
+    `<button class="alpha-btn${avail.size && !avail.has(l) ? ' disabled' : ''}${_alphaFilter === l ? ' active' : ''}"
+      onclick="filterByAlpha('${l}')">${l}</button>`
+  ).join('');
+  bar.style.display = 'flex';
+}
+
+function filterByAlpha(letter) {
+  // Toggle off if same letter clicked again
+  if (_alphaFilter === letter) {
+    _alphaFilter = '';
+    // Clear search input if it was set by alpha
+    const si = document.getElementById('rubric-search');
+    if (si && si.dataset.alphaSet === '1') { si.value = ''; si.dataset.alphaSet = ''; }
+    // Rebuild bar without active
+    const bar = document.getElementById('alpha-bar');
+    if (bar) bar.querySelectorAll('.alpha-btn').forEach(b => {
+      b.classList.toggle('active', false);
+    });
+    // Restore full chapter list
+    _rubricPage = 1;
+    if (_chapterLazyMode) {
+      const el = document.getElementById('rubric-list');
+      el.innerHTML = '<div class="empty-state"><div class="spinner"></div></div>';
+      dbGetByChapterPage(_chapterLazyName, PAGE_SIZE_RUB, 0).then(p => {
+        _renderedRubrics = p; renderRubricList(p, true);
+      });
+    } else {
+      renderRubricList(_renderedRubrics);
+    }
+    return;
+  }
+  _alphaFilter = letter;
+  // Update active state on buttons
+  const bar = document.getElementById('alpha-bar');
+  if (bar) bar.querySelectorAll('.alpha-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.trim() === letter);
+  });
+  // Set search input to the letter so user sees what's filtered
+  const si = document.getElementById('rubric-search');
+  if (si) { si.value = ''; si.dataset.alphaSet = ''; }
+
+  // Filter from cache if available, else filter current page
+  const cache = _chapterRubricCache[_chapterLazyName || activeChapter];
+  if (cache && cache.length) {
+    const filtered = cache.filter(r => r.name && r.name.toUpperCase().startsWith(letter));
+    _rubricPage = 1;
+    const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE_RUB));
+    const pageItems = filtered.slice(0, PAGE_SIZE_RUB);
+    // Temporarily render using direct approach
+    const el = document.getElementById('rubric-list');
+    if (!filtered.length) { el.innerHTML = '<div class="empty-state">এই অক্ষরে কোনো Rubric নেই</div>'; return; }
+    let html = pageItems.map(r => {
+      const isSel = selectedRubrics.some(s => s.id === r.id);
+      const remCount = (r.remedies || []).length;
+      const safeId = r.id.replace(/"/g, '&quot;');
+      return `<div class="rubric-item ${isSel ? 'selected' : ''}" id="ri-${safeId}" data-rid="${safeId}">
+        <div class="rubric-name" style="cursor:pointer" onclick="showDetail(this.closest('[data-rid]').dataset.rid)">
+          <strong>${r.name}</strong>
+          <small>${r.chapter} · ${remCount} ওষুধ</small>
+        </div>
+        <button class="add-btn ${isSel ? 'added' : ''}" onclick="toggleRubric(this.closest('[data-rid]').dataset.rid,event)">
+          ${isSel ? '✓' : '+'}
+        </button>
+      </div>`;
+    }).join('');
+    html += renderPager('rubric-list', filtered.length, _rubricPage, PAGE_SIZE_RUB, 'goToAlphaPage');
+    el.innerHTML = html;
+  } else {
+    // Cache not ready yet — trigger search with the letter
+    const si = document.getElementById('rubric-search');
+    if (si) { si.value = letter; si.dataset.alphaSet = '1'; }
+    debouncedSearch(letter);
+  }
+}
+
+function goToAlphaPage(p) {
+  if (!_alphaFilter) return;
+  _rubricPage = p;
+  filterByAlpha(_alphaFilter);
+}
+
+function _updateAlphaBarFromCache(ch) {
+  const cache = _chapterRubricCache[ch];
+  if (!cache) return;
+  const letters = [...new Set(cache.map(r => r.name && r.name[0].toUpperCase()).filter(Boolean))];
+  buildAlphaBar(letters);
+}
+
 async function selectChapter(ch, btn) {
   activeChapter = ch;
   // Update active state
@@ -3394,6 +3554,9 @@ async function selectChapter(ch, btn) {
   document.getElementById('rubric-search').value = '';
   document.getElementById('rubric-detail').style.display = 'none';
   document.getElementById('rubric-list').style.display = 'block';
+  _alphaFilter = '';
+  // Show alpha bar with all letters enabled (letters will be refined after cache loads)
+  buildAlphaBar([]);
   switchMobilePanel('rubric'); // on phones, jump straight to the rubric list after picking a chapter
 
   const list = document.getElementById('rubric-list');
@@ -3423,7 +3586,12 @@ async function selectChapter(ch, btn) {
       rubrics.sort((a,b) => (a.fullPath||a.name).localeCompare(b.fullPath||b.name));
       _chapterRubricCache[ch] = rubrics;
       _capCache(_chapterRubricCache, CHAPTER_CACHE_MAX);
+      // Update alpha bar with available letters now that cache is ready
+      if (activeChapter === ch) _updateAlphaBarFromCache(ch);
     }).catch(() => {});
+  } else {
+    // Cache already exists — update alpha bar immediately
+    _updateAlphaBarFromCache(ch);
   }
 }
 
@@ -3567,6 +3735,12 @@ function renderRubricListWithSubs(parents, subResults, query) {
 // ══════════════════════════════════════
 let searchTimer;
 function debouncedSearch(q) {
+  // Clear alpha filter when user types manually
+  if (q && _alphaFilter) {
+    _alphaFilter = '';
+    const bar = document.getElementById('alpha-bar');
+    if (bar) bar.querySelectorAll('.alpha-btn.active').forEach(b => b.classList.remove('active'));
+  }
   clearTimeout(searchTimer);
   searchTimer = setTimeout(() => searchRubrics(q), 450);
 }
@@ -3840,6 +4014,8 @@ async function showDetail(id) {
   if (!r) return;
 
   document.getElementById('rubric-list').style.display = 'none';
+  const _ab = document.getElementById('alpha-bar');
+  if (_ab) _ab.style.display = 'none';
   const det = document.getElementById('rubric-detail');
   det.style.display = 'block';
   det._currentId = id;
@@ -3925,6 +4101,10 @@ function toggleSubRubricByKey(key, name, btn) {
 function backToList() {
   document.getElementById('rubric-detail').style.display = 'none';
   document.getElementById('rubric-list').style.display = 'block';
+  if (activeChapter) {
+    const _ab = document.getElementById('alpha-bar');
+    if (_ab) _ab.style.display = 'flex';
+  }
 }
 
 // ══════════════════════════════════════
@@ -4192,14 +4372,18 @@ function analyze() {
   function collectRemedies(rubricId, rubricName, remedies, subRubrics, parentKey) {
     (remedies || []).forEach(rem => {
       if (!scores[rem.name]) scores[rem.name] = { score:0, count:0, rubricIds:[], rubricNames:{}, rubricBreakdown:{} };
-      scores[rem.name].score += rem.grade;
+      // Fix: only add the difference when a higher grade is found for this rubricId.
+      // Prevents score inflation when the same remedy appears in both parent and sub-rubrics.
+      const _prev = scores[rem.name].rubricBreakdown[rubricId] || 0;
+      if (rem.grade > _prev) {
+        scores[rem.name].score += (rem.grade - _prev);
+        scores[rem.name].rubricBreakdown[rubricId] = rem.grade;
+      }
       if (!scores[rem.name].rubricIds.includes(rubricId)) {
         scores[rem.name].rubricIds.push(rubricId);
         scores[rem.name].count++;
       }
       scores[rem.name].rubricNames[rubricId] = rubricName;
-      const _prev = scores[rem.name].rubricBreakdown[rubricId];
-      if (!_prev || rem.grade > _prev) scores[rem.name].rubricBreakdown[rubricId] = rem.grade;
     });
     (subRubrics || []).forEach((sub, i) => {
       // Skip nested sub if it's already independently selected
@@ -5211,56 +5395,51 @@ function newRx() {
 function printRx() {
   const headHTML = document.getElementById('rx-preview').querySelector('.rx-preview-head').innerHTML;
   const bodyHTML = document.getElementById('rx-preview-body').innerHTML;
-  const html = `<!DOCTYPE html><html lang="bn"><head>
-    <meta charset="UTF-8">
-    <title>প্রেসক্রিপশন</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&display=swap" rel="stylesheet">
+
+  const contentHTML = `
+    <div style="background:#fff;color:#000;padding:18px 22px 14px;text-align:center;border-bottom:2px solid #1a3a6b;">
+      ${headHTML}
+    </div>
+    <div style="padding:14px 20px;background:#fff;color:#000;">
+      ${bodyHTML}
+    </div>
+  `;
+
+  // Inject print-specific styles into overlay content
+  const styleBlock = `
     <style>
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-      body { font-family: 'Noto Sans Bengali', Arial, sans-serif; font-size: 13px; background: #fff; color: #000; }
-      @media print { body { width: 100%; } @page { margin: 12mm; } }
-      .rx-preview-head { background:#fff; color:#000; padding:18px 22px 14px; text-align:center; border-bottom:2px solid #1a3a6b; }
+      .rx-preview-head { background:#fff!important; color:#000!important; }
       .rx-chamber-name { font-size:1.25rem; font-weight:800; color:#1a3a6b; letter-spacing:0.04em; text-transform:uppercase; border-bottom:1px solid #c8d8f0; padding-bottom:8px; margin-bottom:8px; }
       .rx-doc-name { font-size:0.95rem; font-weight:700; color:#111; }
       .rx-doc-degree { font-size:0.78rem; color:#444; margin-top:2px; }
       .rx-doc-address { font-size:0.73rem; color:#555; margin-top:4px; }
       .rx-doc-timing { font-size:0.7rem; color:#666; margin-top:3px; }
-      .rx-preview-body { padding:14px 20px; }
-      .rx-patient-row { display:flex; gap:16px; flex-wrap:wrap; border-bottom:1px solid #ddd; padding-bottom:10px; margin-bottom:10px; font-size:0.82rem; }
-      .rx-patient-row span { flex:1; min-width:90px; }
+      .rx-preview-body { padding:0!important; background:#fff!important; color:#000!important; }
+      .rx-patient-row { display:flex; gap:16px; flex-wrap:wrap; border-bottom:1px solid #ddd; padding-bottom:10px; margin-bottom:10px; font-size:0.82rem; color:#000!important; }
+      .rx-patient-row span { flex:1; min-width:90px; color:#000!important; }
       .rx-symbol { font-size:2.5rem; color:#1a3a6b; font-weight:900; margin:4px 0 8px; font-style:italic; }
       .rx-med-table { width:100%; border-collapse:collapse; font-size:0.8rem; margin-bottom:10px; }
-      .rx-med-table th { background:#f0f4fa; color:#1a3a6b; text-align:left; padding:5px 7px; border:1px solid #ddd; font-size:0.75rem; }
-      .rx-med-table td { padding:5px 7px; border:1px solid #ddd; vertical-align:top; }
-      .rx-med-table tr:nth-child(even) td { background:#fafbff; }
-      .rx-rubric-box { background:#f8f9fa; border:1px solid #e0e0e0; border-radius:6px; padding:8px 10px; margin-bottom:10px; font-size:0.72rem; color:#555; }
-      .rb-title { font-weight:700; color:#1a3a6b; font-size:0.75rem; margin-bottom:4px; }
-      .rx-food-box { border:1px solid #e0e0e0; border-radius:6px; padding:8px 10px; margin-bottom:10px; font-size:0.75rem; }
+      .rx-med-table th { background:#f0f4fa!important; color:#1a3a6b!important; text-align:left; padding:5px 7px; border:1px solid #ddd; font-size:0.75rem; }
+      .rx-med-table td { padding:5px 7px; border:1px solid #ddd; vertical-align:top; color:#000!important; background:#fff!important; }
+      .rx-med-table tr:nth-child(even) td { background:#fafbff!important; }
+      .rx-rubric-box { background:#f8f9fa!important; border:1px solid #e0e0e0; border-radius:6px; padding:8px 10px; margin-bottom:10px; font-size:0.72rem; color:#555!important; }
+      .rb-title { font-weight:700; color:#1a3a6b!important; font-size:0.75rem; margin-bottom:4px; }
+      .rx-food-box { border:1px solid #e0e0e0; border-radius:6px; padding:8px 10px; margin-bottom:10px; font-size:0.75rem; color:#000!important; background:#fff!important; }
       .rx-footer { display:flex; justify-content:space-between; align-items:flex-end; border-top:1px solid #ddd; padding-top:10px; margin-top:6px; }
       .rx-sig-line { border-top:1px solid #333; width:120px; margin-top:30px; font-size:0.7rem; color:#333; text-align:center; padding-top:3px; }
+      .empty-state { color:#888; }
     </style>
-  </head><body>
-    <div class="rx-preview-head">${headHTML}</div>
-    <div class="rx-preview-body">${bodyHTML}</div>
-    <script>window.onload = function(){ window.print(); };<\/script>
-  </body></html>`;
+  `;
 
-  // Try popup first; fall back to download for mobile/popup-blocked environments
-  const printWin = window.open('', '_blank');
-  if (printWin && !printWin.closed) {
-    printWin.document.write(html);
-    printWin.document.close();
-  } else {
-    // Bug fix: iframe print unreliable on mobile Chrome — use download fallback instead
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `prescription_${new Date().toISOString().slice(0,10)}.html`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 3000);
-    showToast('⚠️ Popup block হয়েছে — HTML ফাইল ডাউনলোড হয়েছে, খুলে প্রিন্ট করুন।', 'error');
-  }
+  const overlay = document.getElementById('print-overlay');
+  const content = document.getElementById('print-overlay-content');
+  content.innerHTML = styleBlock + contentHTML;
+  overlay.classList.add('open');
+  overlay.scrollTop = 0;
+}
+
+function closePrintOverlay() {
+  document.getElementById('print-overlay').classList.remove('open');
 }
 
 // Init modal keyboard
@@ -6047,27 +6226,35 @@ function bioPrint() {
   const scored = _bioResults.filter(r=>r.score>0);
   if (!scored.length) { showToast('কোনো ঔষধ নেই'); return; }
   const rubrics = selectedRubrics.map(r=>r.name).join(', ');
-  const html = `<html><head><title>বায়োকেমিক সাজেশন</title><style>body{font-family:serif;padding:20px;font-size:14px}h2{border-bottom:2px solid #333;padding-bottom:6px}table{width:100%;border-collapse:collapse;margin-top:12px}th,td{border:1px solid #ccc;padding:6px 10px;text-align:left}th{background:#f0f0f0;font-size:12px}tr:nth-child(even){background:#f9f9f9}.rubric{font-size:12px;color:#555;margin-bottom:12px}</style></head><body>
-    <h2>🧪 বায়োকেমিক ঔষধ সাজেশন</h2>
-    <div class="rubric">রুব্রিক: ${rubrics}</div>
-    <table><thead><tr><th>#</th><th>ঔষধ</th><th>স্কোর</th><th>বিবরণ</th></tr></thead><tbody>
-    ${scored.map((r,i)=>`<tr><td>${i+1}</td><td><strong>${r.full}</strong></td><td>${r.score}</td><td>${r.desc}</td></tr>`).join('')}
-    </tbody></table><script>window.onload=function(){window.print();};<\/script></body></html>`;
-  const win = window.open('', '_blank');
-  if (win && !win.closed) {
-    win.document.write(html);
-    win.document.close();
-  } else {
-    // Fallback: download HTML file for mobile/popup-blocked
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `biochemic_${new Date().toISOString().slice(0,10)}.html`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 3000);
-    showToast('⚠️ Popup block — HTML ডাউনলোড হয়েছে, খুলে প্রিন্ট করুন।', 'error');
-  }
+
+  const contentHTML = `
+    <div style="font-family:serif;padding:20px;font-size:14px;background:#fff;color:#000;">
+      <h2 style="border-bottom:2px solid #333;padding-bottom:6px;color:#000;">🧪 বায়োকেমিক ঔষধ সাজেশন</h2>
+      <div style="font-size:12px;color:#555;margin-bottom:12px;">রুব্রিক: ${rubrics}</div>
+      <table style="width:100%;border-collapse:collapse;margin-top:12px;">
+        <thead><tr>
+          <th style="background:#f0f0f0;font-size:12px;border:1px solid #ccc;padding:6px 10px;text-align:left;">#</th>
+          <th style="background:#f0f0f0;font-size:12px;border:1px solid #ccc;padding:6px 10px;text-align:left;">ঔষধ</th>
+          <th style="background:#f0f0f0;font-size:12px;border:1px solid #ccc;padding:6px 10px;text-align:left;">স্কোর</th>
+          <th style="background:#f0f0f0;font-size:12px;border:1px solid #ccc;padding:6px 10px;text-align:left;">বিবরণ</th>
+        </tr></thead>
+        <tbody>
+          ${scored.map((r,i)=>`<tr style="${i%2===1?'background:#f9f9f9;':''}">
+            <td style="border:1px solid #ccc;padding:6px 10px;color:#000;">${i+1}</td>
+            <td style="border:1px solid #ccc;padding:6px 10px;color:#000;"><strong>${r.full}</strong></td>
+            <td style="border:1px solid #ccc;padding:6px 10px;color:#000;">${r.score}</td>
+            <td style="border:1px solid #ccc;padding:6px 10px;color:#000;">${r.desc}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
+
+  const overlay = document.getElementById('print-overlay');
+  const content = document.getElementById('print-overlay-content');
+  document.querySelector('#print-overlay-toolbar .po-title').textContent = '🧪 বায়োকেমিক সাজেশন';
+  content.innerHTML = contentHTML;
+  overlay.classList.add('open');
+  overlay.scrollTop = 0;
 }
 
 // ── মেইন showBiochemic ──
@@ -8507,6 +8694,1273 @@ const ALLEN_KEYNOTES = {
     ],
     compare: ["Calc", "Sep", "Sul"]
   },
+
+  "Kali-bi": {
+    keynotes: [
+      "ঘন, দড়ির মতো টেনে লম্বা করা যায় এমন হলুদ-সবুজ স্রাব — এটি Kali-bi-র সবচেয়ে বিখ্যাত বৈশিষ্ট্য",
+      "ব্যথা ছোট একটি বিন্দুতে কেন্দ্রীভূত — আঙুলের ডগা দিয়ে চিহ্নিত করা যায়",
+      "নাকের গভীরে ঘা, সাইনাস সমস্যা, নাকের হাড়ে ক্ষয়",
+      "পাকস্থলীতে খাওয়ার পরপরই ব্যথা — খাবার সহ্য হয় না",
+      "লক্ষণ পর্যায়ক্রমে আসে — এক সময় জয়েন্টে, আরেক সময় পাকস্থলীতে",
+      "শীতকালে ও ঠান্ডায় বাড়ে, গরমে উপকার"
+    ],
+    compare: ["Bry", "Hep", "Puls"]
+  },
+  "Mag-p": {
+    keynotes: [
+      "তীব্র স্নায়বিক ব্যথা — কলিক, ক্র্যাম্প, স্প্যাজম — গরম সেঁক ও চাপে তাৎক্ষণিক উপকার",
+      "ডানদিকের লক্ষণ বেশি",
+      "মাসিকের আগে ও সময়ে তীব্র ব্যথা — গরম বোতলে উপশম",
+      "নিউরালজিয়া, টিক ডলুরো, মাথাব্যথা — সবই গরমে ভালো",
+      "পেটের কলিক শিশুদের — পা ভাঁজ করে ধরলে আরাম",
+      "দুর্বলতা ও কাঁপুনি, অতিরিক্ত লেখালেখিতে হাতের ক্র্যাম্প"
+    ],
+    compare: ["Coloc", "Dios", "Bell"]
+  },
+  "Cina": {
+    keynotes: [
+      "কৃমির প্রধান ঔষধ — নাক খোঁটা, দাঁত কিড়মিড়, রাতে অস্থিরতা",
+      "শিশু অত্যন্ত খিটখিটে — কাউকে ধরতে বা স্পর্শ করতে দেয় না",
+      "নাকের চারদিকে নীলাভ রেখা, মুখ ফ্যাকাশে",
+      "ক্ষুধা অতিরিক্ত কিন্তু শরীর শুকিয়ে যায়",
+      "ঘুমের মধ্যে দাঁত কামড়ানো, চিৎকার করে উঠা",
+      "চোখের মণি বড় হওয়া (dilated pupils), আলোর প্রতি সংবেদনশীলতা"
+    ],
+    compare: ["Spig", "Calc", "Sil"]
+  },
+  "Ruta": {
+    keynotes: [
+      "টেন্ডন ও পেরিওস্টিয়ামের আঘাত — Arnica-র পরে যখনও সারছে না",
+      "চোখের অতিরিক্ত ব্যবহারে ক্লান্তি — পড়া বা সূক্ষ্ম কাজে চোখে ব্যথা",
+      "কব্জি, গোড়ালি মচকানো — হাড়ের কাছের ব্যথা",
+      "মলদ্বার থেকে মলত্যাগের সময় রেক্টাম বের হয়ে আসা",
+      "হাঁটুর ব্যথা — সিঁড়ি নামতে কষ্ট",
+      "সারা শরীরে ক্লান্তি ও জড়তা, বিশ্রামেও ভালো লাগে না"
+    ],
+    compare: ["Arn", "Rhus-t", "Symph"]
+  },
+  "Dros": {
+    keynotes: [
+      "হুপিং কাশি — ভোর রাতে তীব্র কাশির ঝাপটা, বমি পর্যন্ত হয়",
+      "কাশির সময় মনে হয় গলায় কিছু আটকে আছে, শ্বাস বন্ধ হয়ে যাচ্ছে",
+      "কথা বলতে বা গান গাইতে গেলে কাশি বাড়ে",
+      "খাওয়ার পরপরই কাশি ও বমি",
+      "রাত ১২টার পর থেকে কাশি শুরু হয় বা বাড়ে",
+      "হাড়ের গভীরে ব্যথা — বিশেষত পা ও বুকের"
+    ],
+    compare: ["Bell", "Ip", "Spong"]
+  },
+  "Canth": {
+    keynotes: [
+      "প্রস্রাবে জ্বালাপোড়া — ফোঁটা ফোঁটা প্রস্রাব, ছুরির মতো কাটা ব্যথা",
+      "প্রস্রাব করার আগে-পরে-মধ্যে তীব্র জ্বালা — থামে না",
+      "পোড়া ঘা — ফোসকা পড়া পোড়ায় তাৎক্ষণিক উপকার",
+      "মূত্রথলিতে তীব্র প্রদাহ, রক্তমিশ্রিত প্রস্রাব",
+      "যৌনাঙ্গে অত্যধিক উত্তেজনা, লালসা — রোগকে আরও বাড়ায়",
+      "গলায়, পেটে জ্বালাপোড়া — পানি পান করলে বাড়ে"
+    ],
+    compare: ["Apis", "Merc", "Equis"]
+  },
+  "Alum": {
+    keynotes: [
+      "অ্যালুমিনার প্রধান লক্ষণ — কোষ্ঠকাঠিন্য, মল নরম হলেও চাপ দিতে হয়",
+      "পরিচয়ের বিভ্রম — নিজেকে অন্য মনে করে, দুর্বল স্মৃতি",
+      "শুষ্কতা — ত্বক, মিউকাস মেমব্রেন, চোখ সব শুকনো",
+      "পা দুটো যেন তুলো দিয়ে ঢাকা — অনুভূতিহীনতা",
+      "আলু ও মাংস দেখলে ঘেন্না লাগে",
+      "বার্ধক্যজনিত দুর্বলতা ও মানসিক শূন্যতা"
+    ],
+    compare: ["Bry", "Plat", "Sil"]
+  },
+  "Amm-c": {
+    keynotes: [
+      "ঠান্ডা লাগার পর নাক বন্ধ — রাতে মুখ হা করে ঘুমায়",
+      "হৃদপিণ্ডের দুর্বলতা — সিঁড়ি উঠলে শ্বাসকষ্ট",
+      "মাসিকে কালো, দলামোচা রক্ত — কোমরে ব্যথা",
+      "হাতের তালু ও পায়ে জ্বালাপোড়া",
+      "ডান কাঁধে ব্যথা, বিশেষত লিভার এলাকায়",
+      "শরীর ভারী, অলস, সামান্য পরিশ্রমে ক্লান্ত"
+    ],
+    compare: ["Carb-v", "Lach", "Mur-ac"]
+  },
+  "Anac": {
+    keynotes: [
+      "দুটো মনের দ্বন্দ্ব — একটা বলে করো, আরেকটা বলে করো না",
+      "স্মৃতিভ্রংশ — হঠাৎ সব ভুলে যায়, পরীক্ষার ভয়",
+      "খাওয়ার পরে সব কষ্ট কমে — খালি পেটে সব বাড়ে",
+      "নিষ্ঠুর আচরণের প্রবণতা, গালিগালাজ করে",
+      "মলদ্বার যেন প্লাগ দিয়ে আটকানো — কোষ্ঠকাঠিন্য",
+      "বাহ্যিক চাপ বা স্পর্শে উপকার, নিজেকে চিমটি কাটলে ভালো লাগে"
+    ],
+    compare: ["Lyc", "Plat", "Arg-n"]
+  },
+  "Ant-c": {
+    keynotes: [
+      "জিহ্বায় সাদা পুরু আবরণ — Ant-c-র সবচেয়ে বৈশিষ্ট্যপূর্ণ লক্ষণ",
+      "অতিরিক্ত খাওয়ার পর হজম না হওয়া, বমিভাব",
+      "শিশু অত্যন্ত খিটখিটে — ধরলে কাঁদে",
+      "গরম গোসল বা রোদে কষ্ট বাড়ে",
+      "আঙুল ও পায়ের নখে শক্ত হর্নি বৃদ্ধি",
+      "বিষণ্ণতা ও কান্নার প্রবণতা, বিশেষত সন্ধ্যায়"
+    ],
+    compare: ["Ip", "Puls", "Nux-v"]
+  },
+  "Ant-t": {
+    keynotes: [
+      "বুকে কফ জমা কিন্তু বের হয় না — গড়গড় শব্দ হয় কিন্তু তুলতে পারে না",
+      "নিউমোনিয়ার শেষ পর্যায়ে, বৃদ্ধ ও শিশুদের শ্বাসকষ্ট",
+      "মুখ ঠান্ডা, বমিভাব ও দুর্বলতা একসাথে",
+      "ঘুমের মধ্যে শ্বাস নিতে কষ্ট হয়",
+      "বসন্ত রোগ — পুঁজভরা গুটি দেরিতে পাকে",
+      "মুখমণ্ডলে নীলাভ আভা, শ্বাস ঘন ঘন"
+    ],
+    compare: ["Ip", "Tart-ac", "Lyc"]
+  },
+  "Bar-c": {
+    keynotes: [
+      "শিশু ও বৃদ্ধদের ঔষধ — দুই প্রান্তের দুর্বলতা",
+      "বুদ্ধি ও শারীরিক বিকাশে পিছিয়ে থাকা শিশু",
+      "টনসিল বারবার ফুলে ওঠে — সামান্য ঠান্ডায়",
+      "অপরিচিতদের দেখলে লুকিয়ে পড়ে, সংকোচ চরম",
+      "বার্ধক্যে ধমনী শক্ত হওয়া, উচ্চ রক্তচাপ",
+      "পায়ের তলায় ঘাম, ঠান্ডা পায়ে"
+    ],
+    compare: ["Calc", "Sil", "Lyc"]
+  },
+  "Calc-p": {
+    keynotes: [
+      "হাড় ও দাঁতের বিকাশে সমস্যা — দাঁত উঠতে দেরি, হাড় ভাঙলে দেরিতে জোড়া লাগে",
+      "বাড়ন্ত বয়সে হাড়ে ব্যথা, স্কুলের শিশুদের মাথাব্যথা",
+      "পেট চ্যাপটা, অস্বাভাবিক রোগা, গলা লম্বা",
+      "খাবারের পর তাৎক্ষণিক মলত্যাগের বেগ",
+      "ঠান্ডা ও স্যাঁতসেঁতে আবহাওয়ায় সব কষ্ট বাড়ে",
+      "ভ্রমণ করতে চায়, নতুন জায়গায় যেতে আগ্রহী"
+    ],
+    compare: ["Calc", "Sil", "Phos"]
+  },
+  "Carb-v": {
+    keynotes: [
+      "জীবনীশক্তি প্রায় শেষ — ভেন্টিলেশন চায়, পাখা চাই",
+      "গ্যাস ও পেট ফোলা — উপরের পেট বিশেষত; ঢেকুরে সাময়িক উপকার",
+      "চামড়া নীলাভ, ঠান্ডা — কিন্তু পাখার বাতাস চায়",
+      "গুরুতর অসুস্থতার পরে দুর্বলতা — ইনফ্লুয়েঞ্জা, টাইফয়েড পরবর্তী",
+      "রক্ত জমে যাওয়ার প্রবণতা, শিরায় রক্ত থমকে থাকা",
+      "বার্ধক্যে বা কঠিন রোগে মুমূর্ষু অবস্থায় — 'corpse reviver'"
+    ],
+    compare: ["Camph", "Ars", "Chin"]
+  },
+  "Cocc": {
+    keynotes: [
+      "যানবাহনে বমিভাব ও মাথা ঘোরা — motion sickness-এর প্রধান ঔষধ",
+      "রাত জাগার পরে বা অসুস্থ পরিজনের সেবায় থেকে ক্লান্তি",
+      "মাথা এত ভারী যে ধরে রাখা যায় না",
+      "মাসিকের সময় মাথা ঘোরা ও অজ্ঞান হওয়ার ভয়",
+      "হাত ও পা অসাড় হয়ে যায়, খালি ঘুমাতে চায়",
+      "দুঃখ ও শোক থেকে রোগের সূচনা"
+    ],
+    compare: ["Petr", "Tab", "Nux-v"]
+  },
+  "Con": {
+    keynotes: [
+      "মাথা ঘোরা — শুলে বা মাথা ঘুরালে বাড়ে, বিশেষত বাঁদিকে",
+      "যৌন সংযমের পরিণতিতে রোগ — দীর্ঘদিন যৌনতা না থাকলে",
+      "স্তনে শক্ত গোটা, ক্যান্সারের প্রবণতা",
+      "পা থেকে ওপরে উঠতে থাকা অবশতা",
+      "বার্ধক্যে প্রতিক্রিয়াশীলতা কমে যাওয়া",
+      "আলোতে চোখ সহ্য হয় না, চোখ দিয়ে পানি পড়ে"
+    ],
+    compare: ["Rhus-t", "Calc", "Puls"]
+  },
+  "Cupr": {
+    keynotes: [
+      "খিঁচুনি ও কনভালশন — হাত-পায়ের আঙুল থেকে শুরু হয়",
+      "হুপিং কাশির তীব্র খিঁচুনি — মুখ নীল হয়ে যায়",
+      "কলিক — হাঁটু ভাঁজ করলে উপকার, ঠান্ডা পানিতে উপকার",
+      "পেশী সংকোচ ও ক্র্যাম্প, পায়ের পাতায় বেশি",
+      "কলেরায় তীব্র খিঁচুনি সহ বমি ও ডায়রিয়া",
+      "মানসিক উত্তেজনা ও ভয় থেকে খিঁচুনি"
+    ],
+    compare: ["Camph", "Verat", "Bell"]
+  },
+  "Dig": {
+    keynotes: [
+      "নাড়ি অনিয়মিত ও ধীর — হার্টের দুর্বলতার প্রধান ঔষধ",
+      "চেহারা মৃতের মতো ফ্যাকাশে, নীলাভ ঠোঁট",
+      "সামান্য নড়াচড়ায় হার্ট ধড়ফড়",
+      "লিভার বড় হওয়া, পেটে পানি জমা, শোথ",
+      "বমিভাব — দেখলেই বমি, খেলেই বমি",
+      "প্রস্রাব কম হওয়া, ফোঁটা ফোঁটা"
+    ],
+    compare: ["Cratt", "Lach", "Camph"]
+  },
+  "Dulc": {
+    keynotes: [
+      "ঠান্ডা ও ভেজা আবহাওয়ায় রোগ — বৃষ্টিতে ভিজে বা গরম থেকে ঠান্ডায় গেলে",
+      "ঠান্ডার সাথে ঘাম বন্ধ হয়ে রোগ শুরু",
+      "ডায়রিয়া — হলুদ-সবুজ, ঠান্ডায় বাড়ে",
+      "ত্বকে আঁচিল, একজিমা — ঠান্ডায় বাড়ে",
+      "প্রস্রাবে সমস্যা — ঠান্ডায় বসলে বা শুলে",
+      "বাত — বৃষ্টির আগে জয়েন্টে ব্যথা বাড়ে"
+    ],
+    compare: ["Calc", "Puls", "Rhus-t"]
+  },
+  "Euphr": {
+    keynotes: [
+      "চোখ দিয়ে তীব্র পানি ঝরা — জ্বালাপোড়াসহ, তীক্ষ্ণ",
+      "নাক দিয়ে সর্দি কিন্তু জ্বালাহীন — All-c-র বিপরীত",
+      "চোখে আলোতে কষ্ট, সকালে চোখ জুড়ে ঘুম",
+      "চোখের কর্নিয়ায় ঘা বা অস্বচ্ছতা",
+      "হাঁচিতে চোখ দিয়ে পানি পড়ে",
+      "সর্দি-জ্বরে চোখের সমস্যাই প্রধান"
+    ],
+    compare: ["All-c", "Merc", "Puls"]
+  },
+  "Ham": {
+    keynotes: [
+      "শিরার দুর্বলতা — অর্শ, ভেরিকোস ভেইন, রক্তক্ষরণ",
+      "কালো রক্ত ঝরা — নাক, মলদ্বার, জরায়ু থেকে",
+      "অর্শ — ব্যথাযুক্ত, রক্তপাত, পেশী শিথিল",
+      "আঘাতের পরে রক্ত জমে যাওয়া",
+      "অণ্ডকোষে ব্যথা ও প্রদাহ (orchitis)",
+      "সর্বত্র ক্লান্তি, শরীরে ঘায়ের মতো ব্যথা"
+    ],
+    compare: ["Arn", "Puls", "Mill"]
+  },
+  "Hell": {
+    keynotes: [
+      "মানসিক শূন্যতা — স্বয়ংক্রিয়ভাবে বসে থাকে, কথা বলে না",
+      "মস্তিষ্কের প্রদাহ বা মেনিনজাইটিস — গভীর ঘুম, জাগানো যায় না",
+      "শিশু মাথা পেছনে হেলিয়ে রাখে",
+      "জলপানে গলা কামড়ে উঠে",
+      "ধীরে ধীরে অসাড় হয়ে আসা — হাত ও পা",
+      "দুঃখ বা ভয় থেকে মস্তিষ্কের রোগ"
+    ],
+    compare: ["Zinc", "Apis", "Tub"]
+  },
+  "Iod": {
+    keynotes: [
+      "খুব খায় কিন্তু শুকিয়ে যায় — দ্রুত ওজন কমা",
+      "থাইরয়েড গ্রন্থি বড় হওয়া, হৃদপিণ্ড দ্রুত স্পন্দন",
+      "গরমে কষ্ট — সব সময় গরম লাগে",
+      "নাক দিয়ে তীব্র সর্দি ঝরা, জ্বালাসহ",
+      "গ্রন্থি বড় হওয়া — টনসিল, লিম্ফ নোড",
+      "অস্থিরতা — বসে থাকতে পারে না, সারাক্ষণ নড়াচড়া"
+    ],
+    compare: ["Nat-m", "Lach", "Spon"]
+  },
+  "Kali-p": {
+    keynotes: [
+      "স্নায়বিক ক্লান্তি ও দুর্বলতা — পড়াশোনা বা মানসিক পরিশ্রমে ক্লান্তি",
+      "বিষণ্ণতা, উদ্বেগ, ঘুমের সমস্যা — ভয়ের স্বপ্ন",
+      "মাথার পেছনে ব্যথা, ছাত্রদের মাথাব্যথা",
+      "পক্ষাঘাত ও অসাড়তা — স্নায়বিক ক্লান্তি থেকে",
+      "শরীরের দুর্গন্ধ — মলে, মূত্রে, ঘামে",
+      "সামান্য পরিশ্রমে নিঃশ্বাস উঠে যায়"
+    ],
+    compare: ["Pic-ac", "Nat-m", "Phos"]
+  },
+  "Kreos": {
+    keynotes: [
+      "স্রাব ক্ষয়কারী ও পচাগন্ধ — শ্বেতস্রাব, ঋতুস্রাব, পাকস্থলীর রস",
+      "দাঁত দ্রুত ক্ষয়, কালো হওয়া, শিশুদের দাঁত পচা",
+      "মাসিকে কালো রক্ত, জ্বালাকর — ঘুমের পর বাড়ে",
+      "গর্ভাবস্থায় বমি — খাওয়ার কয়েক ঘণ্টা পরে অর্ধহজম খাবার বমি",
+      "শ্রবণশক্তি কমে যাওয়া, ট্রেনের শব্দে বা সংগীতে ভালো শোনে",
+      "ক্যান্সারের প্রবণতা — বৃদ্ধ মহিলাদের গর্ভাশয়ে"
+    ],
+    compare: ["Ars", "Sep", "Carb-ac"]
+  },
+  "Led": {
+    keynotes: [
+      "পোকামাকড়ের কামড় বা ছিদ্রকারী আঘাত — ক্ষত ঠান্ডা কিন্তু ঠান্ডায় উপকার",
+      "গাউট — পায়ের আঙুল থেকে শুরু হয়ে উপরে ওঠে",
+      "কালো চোখ (black eye) — আঘাত পেয়ে চোখ কালো হলে",
+      "জয়েন্টে ব্যথা — ঠান্ডা প্রয়োগে উপকার, উত্তাপে বাড়ে",
+      "সারা শরীর ঠান্ডা কিন্তু তাপ সহ্য হয় না",
+      "মশার কামড়ের পরে সংক্রমণ ঠেকাতে"
+    ],
+    compare: ["Arn", "Puls", "Bry"]
+  },
+  "Mez": {
+    keynotes: [
+      "মাথার চামড়ায় পুরু মামড়া — চুলে আটকে থাকে, পোকা থাকে",
+      "স্নায়বিক ব্যথা — হারপিস জোস্টারের পরের ব্যথা, তীব্র",
+      "হাড়ের গভীরে ব্যথা — রাতে বাড়ে, চাপে উপকার",
+      "চুল উঠে মাথা ফাঁকা হয়ে যাচ্ছে",
+      "মুখে মামড়া, ঠোঁটে ফাটল",
+      "ব্যথা তাপে বাড়ে, ঠান্ডায় কমে"
+    ],
+    compare: ["Rhus-t", "Calc", "Ars"]
+  },
+  "Mill": {
+    keynotes: [
+      "রক্তক্ষরণের প্রধান ঔষধ — নাক, ফুসফুস, মূত্রথলি থেকে লাল তাজা রক্ত",
+      "আঘাতের পরে রক্তপাত, বিশেষত অভ্যন্তরীণ",
+      "নাক থেকে প্রচুর রক্ত — শরীর ঠান্ডা থেকেও রক্ত পড়ে",
+      "অর্শ থেকে রক্ত — ব্যথাহীন কিন্তু প্রচুর",
+      "মাসিকে অতিরিক্ত রক্ত — লাল, তরল",
+      "মূত্রে রক্ত — আঘাত বা পাথর থেকে"
+    ],
+    compare: ["Ham", "Ip", "Phos"]
+  },
+  "Mur-ac": {
+    keynotes: [
+      "শরীর পুড়ে গেছে মনে হয় — তীব্র দুর্বলতা ও অবসাদ",
+      "মলদ্বার থেকে মলত্যাগের বেগ — বসতেই আসে, চাপ ধরে রাখতে পারে না",
+      "মুখে ঘা — গভীর, ধূসর রঙের, বেদনাদায়ক",
+      "টাইফয়েডে অচেতনের মতো অবস্থা — পিঠের ওপর শুয়ে থাকে",
+      "নাড়ি দ্রুত ও দুর্বল, মুমূর্ষু অবস্থা",
+      "হাত ঠান্ডা, পা গরম — অদ্ভুত বৈপরীত্য"
+    ],
+    compare: ["Ars", "Merc", "Carb-v"]
+  },
+  "Nit-ac": {
+    keynotes: [
+      "ছিদ্রকারী তীক্ষ্ণ ব্যথা — যেন কাঁচ বা ছুরি লাগছে",
+      "মিউকাস মেমব্রেনের সংযোগস্থলে ঘা — মুখের কোণে, নাকের ডগায়",
+      "স্রাবে রক্ত মিশ্রিত ও দুর্গন্ধ",
+      "মলত্যাগের পরে দীর্ঘ ব্যথা — ঘণ্টার পর ঘণ্টা",
+      "শীত পছন্দ করে, গরমে বাড়ে",
+      "কোনো চিকিৎসায় সুস্থ না হওয়ার হতাশা"
+    ],
+    compare: ["Merc", "Thuj", "Hep"]
+  },
+  "Op": {
+    keynotes: [
+      "সংবেদনহীনতা — ব্যথা নেই, অনুভূতি নেই — 'painless complaints'",
+      "ভয় থেকে রোগ — বিশেষত মৃত্যুভয়ের পর শরীর অসাড়",
+      "গভীর ঘুম — জাগানো যায় না, তীব্র নাক ডাকা",
+      "কোষ্ঠকাঠিন্য — কালো ছোট গুটি, কোনো বেগ নেই",
+      "মুখমণ্ডল লালবর্ণ ও উত্তপ্ত, ঘুমের মধ্যে",
+      "বৃদ্ধ বা শিশুদের অচেতনতা ও অসাড়তা"
+    ],
+    compare: ["Bell", "Stram", "Hyos"]
+  },
+  "Petr": {
+    keynotes: [
+      "যানবাহনে বমিভাব — Cocc-এর মতো কিন্তু মাথার পেছনে ব্যথাসহ",
+      "শীতকালে বাড়ে, গ্রীষ্মে ভালো থাকে — Cocc-এর বিপরীত",
+      "ত্বকের ফাটল — আঙুলের ডগায়, পায়ে, শীতকালে রক্ত পড়ে",
+      "ডায়রিয়া — শুধু সকালে, দিনে সব ঠিক",
+      "মাথার পেছনে ভার, চোখ খুলতে কষ্ট",
+      "ক্ষুধা প্রবল — না খেলে মাথা ঘোরে"
+    ],
+    compare: ["Cocc", "Calc", "Graph"]
+  },
+  "Phyt": {
+    keynotes: [
+      "গলার ব্যথা — গাঢ় লাল, ডান দিক বেশি, কানে ছড়িয়ে যায়",
+      "স্তনে ব্যথা ও শক্ত গোটা — বুকের দুধ খাওয়ানোর সময় মাস্টাইটিস",
+      "বাত — হাড়ে ব্যথা, বৃষ্টিতে বাড়ে, ঠান্ডায় বাড়ে",
+      "গ্রন্থি বড় হওয়া — বিশেষত গলায়",
+      "গরম পানীয়ে বাড়ে — গলার কষ্ট ঠান্ডায় ভালো",
+      "সায়াটিকা — পা বেয়ে নিচে ছুরির মতো ব্যথা"
+    ],
+    compare: ["Bell", "Merc", "Lach"]
+  },
+  "Plan": {
+    keynotes: [
+      "দাঁতের ব্যথার প্রধান ঔষধ — তীব্র স্নায়বিক দাঁতের ব্যথা",
+      "প্রস্রাবে সমস্যা — বিছানায় প্রস্রাব করা, অনিয়ন্ত্রিত",
+      "কানে ব্যথা — দাঁতের সাথে সম্পর্কিত",
+      "মুখে অতিরিক্ত লালা আসা",
+      "বাহ্যিক প্রয়োগেও কার্যকর — দাঁতে সরাসরি লাগানো",
+      "শিশুদের দাঁত উঠার সময় ব্যথা ও বিরক্তি"
+    ],
+    compare: ["Cham", "Bell", "Merc"]
+  },
+  "Plat": {
+    keynotes: [
+      "অহংকার ও আত্মম্ভরিতা — নিজেকে সবার চেয়ে বড় মনে করে",
+      "যৌনাঙ্গে অতিরিক্ত সংবেদনশীলতা — সামান্য স্পর্শে অসহ্য",
+      "অসাড়তা ও ভারী অনুভূতি — পিঠে, পায়ে",
+      "পরীক্ষায় উত্তীর্ণ না হলে অপমানবোধ, হতাশা",
+      "কোষ্ঠকাঠিন্য — মলদ্বারে আঠালো, পেট আঁটসাঁট",
+      "নারীদের হিস্টিরিয়া ও মাসিকের সমস্যা"
+    ],
+    compare: ["Ign", "Lach", "Sep"]
+  },
+  "Psor": {
+    keynotes: [
+      "সোরিক মায়াজমের প্রধান ঔষধ — দীর্ঘমেয়াদী চর্মরোগ",
+      "ত্বক চুলকায়, রাতে বাড়ে — ঘামাচি, খোস-পাঁচড়া",
+      "শরীরে দুর্গন্ধ — গোসলেও যায় না",
+      "শীত সহ্য হয় না — সারা বছর গরম কাপড় পরে",
+      "ভবিষ্যৎ নিয়ে দুশ্চিন্তা, হতাশা — ব্যবসায় ক্ষতি হওয়ার ভয়",
+      "সুস্থ হয়ে আর অসুস্থ হয় — একটার পর একটা রোগ"
+    ],
+    compare: ["Sul", "Tub", "Mez"]
+  },
+  "Rhod": {
+    keynotes: [
+      "বজ্রপাতের আগে বা ঝড়ের আগে সব কষ্ট বাড়ে",
+      "বাত ও নিউরালজিয়া — ভেজা, ঠান্ডা, ঝড়ো আবহাওয়ায় বাড়ে",
+      "অণ্ডকোষে ব্যথা ও শক্ত হওয়া",
+      "ঘুমের মধ্যে ব্যথা বাড়ে, নড়াচড়ায় কমে",
+      "ডানদিকের লক্ষণ বেশি — কাঁধ ও বাহুতে",
+      "মাথায় ভারী অনুভূতি, মাথা ঘোরা"
+    ],
+    compare: ["Rhus-t", "Dulc", "Bry"]
+  },
+  "Sabad": {
+    keynotes: [
+      "হাঁচি — প্রচণ্ড, থামে না, নাক জ্বালা করে, পানি পড়ে",
+      "ফুলের গন্ধে বা ঘাসে গেলে হাঁচি শুরু — পরাগ অ্যালার্জি",
+      "চোখ লাল ও জ্বালা করে, কিন্তু কম পানি",
+      "গলায় গোলকের মতো অনুভূতি — গিলতে কষ্ট",
+      "কৃমির কারণে শিশুদের নাক চুলকানো ও হাঁচি",
+      "লক্ষণ বাঁ দিক থেকে ডানে যায়"
+    ],
+    compare: ["All-c", "Nat-m", "Euphr"]
+  },
+  "Sang": {
+    keynotes: [
+      "ডানদিকের মাথাব্যথা — ঘাড় থেকে মাথায় উঠে চোখের উপর থেমে যায়",
+      "মুখমণ্ডল লাল, জ্বালাকর — রজোনিবৃত্তির সময় গরম আসে",
+      "কাঁধে ব্যথা — ডান কাঁধে, রাতে বাড়ে",
+      "শ্বাসনালিতে জ্বালা ও কাশি",
+      "ফুলের গন্ধে মাথাব্যথা বাড়ে",
+      "বমি করলে মাথাব্যথা কমে"
+    ],
+    compare: ["Bell", "Iris", "Lac-c"]
+  },
+  "Sec": {
+    keynotes: [
+      "রক্তক্ষরণ — কালো, পানির মতো তরল, থামে না",
+      "জরায়ু সংকোচনে ব্যর্থতা — প্রসবের পরে রক্তপাত",
+      "সারা শরীরে জ্বালাপোড়া কিন্তু ঠান্ডা স্পর্শ চায়",
+      "গ্যাংগ্রিন — অঙ্গ শুকিয়ে যাচ্ছে, কালো হচ্ছে",
+      "বার্ধক্যে অঙ্গ-প্রত্যঙ্গের শুষ্কতা ও শীর্ণতা",
+      "ডায়াবেটিসের জটিলতা ও গ্যাংগ্রিন"
+    ],
+    compare: ["Ars", "Carb-v", "Chin"]
+  },
+  "Spig": {
+    keynotes: [
+      "হার্টের ব্যথা — তীক্ষ্ণ, বুক থেকে বাঁ হাতে ছড়ায়",
+      "নিউরালজিয়া — বাম দিকের মুখে, চোখে, মাথায়",
+      "স্পর্শে বা নড়াচড়ায় ব্যথা তীব্র হয়",
+      "চোখ নড়ালে ব্যথা — চোখে যেন সুঁচ ঢোকানো",
+      "কৃমির জন্য শিশুদের পেটে ব্যথা",
+      "হার্টের ধড়ফড়ানি — নাড়ি অনুভব করা যায় গলায়"
+    ],
+    compare: ["Arn", "Bell", "Gels"]
+  },
+  "Squil": {
+    keynotes: [
+      "কাশিতে প্রস্রাব ঝরে — বিশেষত বৃদ্ধদের",
+      "তীব্র কাশি — বুকে বেঁধে থাকা কফ, শ্বাসকষ্ট",
+      "চোখ দিয়ে পানি পড়ে — হাঁচির সাথে",
+      "প্রস্রাব বেশি কিন্তু জ্বালা নেই",
+      "হাতের আঙুলে ঝিনঝিন, পা ঠান্ডা",
+      "পেটে কামড়ানো ব্যথা ও ডায়রিয়া"
+    ],
+    compare: ["Caps", "Dros", "Euphr"]
+  },
+  "Sulph-ac": {
+    keynotes: [
+      "সবকিছু দ্রুত হয় — দ্রুত ক্লান্তি, দ্রুত অবনতি",
+      "পেটে ও পাকস্থলীতে জ্বালা — ঠান্ডা পানিতে উপকার",
+      "কালো রক্ত ঝরা — নাক, মলদ্বার, জরায়ু",
+      "অ্যালকোহলের জন্য আকুলতা — মাতাল থেকে বিরত থাকার কষ্ট",
+      "শরীরে যেন জলন্ত অনুভূতি",
+      "আঘাতের পরে দীর্ঘমেয়াদী নীলচে দাগ"
+    ],
+    compare: ["Ars", "Carb-v", "Chin"]
+  },
+  "Syph": {
+    keynotes: [
+      "সিফিলিটিক মায়াজমের প্রধান ঔষধ",
+      "রাতে সব বাড়ে — সূর্যাস্ত থেকে সূর্যোদয় পর্যন্ত কষ্ট",
+      "হাড়ের গভীরে ব্যথা — বিশেষত রাতে অসহ্য",
+      "মুখে ঘা — মিউকাস মেমব্রেনে ক্ষয়",
+      "স্মৃতিশক্তি হারিয়ে যাওয়া, অ্যালকোহলের আসক্তি",
+      "উত্তরাধিকারসূত্রে পাওয়া রোগ — জন্মগত সমস্যা"
+    ],
+    compare: ["Merc", "Nit-ac", "Aur"]
+  },
+  "Tab": {
+    keynotes: [
+      "বমিভাব ও মাথা ঘোরা — অত্যন্ত তীব্র, সামান্য নড়লে বাড়ে",
+      "মুখমণ্ডল বরফের মতো ঠান্ডা, ঘাম ও মাথা ঘোরা একসাথে",
+      "সমুদ্রে ভ্রমণে বমি — সেরা ঔষধ",
+      "হৃদপিণ্ডের ধড়ফড়ানি — অ্যাঞ্জাইনার মতো",
+      "তামাকের ধোঁয়া বা গন্ধে অসুস্থতা",
+      "চোখের সামনে অন্ধকার দেখা, জ্ঞান হারানোর ভয়"
+    ],
+    compare: ["Cocc", "Nux-v", "Ip"]
+  },
+  "Tell": {
+    keynotes: [
+      "ত্বকের রোগ — গোলাকার, আংটির মতো দাদ",
+      "কান থেকে দুর্গন্ধযুক্ত স্রাব, মাছের পানির মতো গন্ধ",
+      "মেরুদণ্ডের সংবেদনশীলতা — স্পর্শে বা শোয়ার সময় ব্যথা",
+      "পায়ের তলায় ও আঙুলে দাদ — চুলকানিসহ",
+      "ত্বকের ক্ষত সহজে সারে না",
+      "পেশীর মোচড় ও কাঁপুনি"
+    ],
+    compare: ["Nat-m", "Sep", "Sil"]
+  },
+  "Tub": {
+    keynotes: [
+      "যক্ষ্মাজ ডায়াথেসিস — দ্রুত শুকিয়ে যাওয়া, ঘন ঘন সর্দি",
+      "পরিবর্তন চায় সব সময় — নতুন জায়গা, নতুন মানুষ",
+      "রাতের ঘাম — কাপড় ভিজে যায়",
+      "শিশুরা দ্রুত রোগা হয়, ক্ষুধামন্দা থাকা সত্ত্বেও",
+      "বিড়াল অপছন্দ, কুকুর পছন্দ — অদ্ভুত বৈশিষ্ট্য",
+      "পারিবারিক যক্ষ্মার ইতিহাস, বারবার শ্বাসতন্ত্রের রোগ"
+    ],
+    compare: ["Calc", "Phos", "Sil"]
+  },
+  "Ust": {
+    keynotes: [
+      "জরায়ু থেকে অতিরিক্ত রক্তপাত — রজোনিবৃত্তির আশেপাশে",
+      "কালো দলামোচা রক্ত — দীর্ঘস্থায়ী",
+      "ডিম্বাশয়ে ব্যথা — বাম দিকে বেশি",
+      "মাথার চুল উঠে যাওয়া",
+      "বিষণ্ণতা ও কান্নার প্রবণতা",
+      "রক্তপাত দীর্ঘ হওয়া, দুর্বলতা"
+    ],
+    compare: ["Sec", "Ham", "Mill"]
+  },
+  "Valer": {
+    keynotes: [
+      "স্নায়বিক অস্থিরতা — বসে থাকতে পারে না, হাঁটলে ভালো লাগে",
+      "হিস্টিরিয়া — হঠাৎ হাসি বা কান্না",
+      "ঘুমের সমস্যা — রাতে মন সক্রিয়, শুয়ে থাকা কঠিন",
+      "পায়ে ব্যথা — হাঁটলে কমে, বিশ্রামে বাড়ে",
+      "পেটে গ্যাস ও পেট ফোলা — হাঁটলে কমে",
+      "শিশুদের নাকে বিদেশি বস্তু অনুভূতি"
+    ],
+    compare: ["Ign", "Mosch", "Asaf"]
+  },
+  "Vip": {
+    keynotes: [
+      "সাপের বিষ থেকে তৈরি — রক্ত জমাট বাঁধার সমস্যায়",
+      "রক্তনালি ফুলে যাওয়া — শিরায় প্রদাহ (phlebitis)",
+      "হাত উঁচু করলে ব্যথা কমে — পা ঝুলালে বাড়ে",
+      "কামড়ানোর পরে ব্যথা ও ফোলা",
+      "রক্তপাত — কালো, জমাট না বাঁধা",
+      "পক্ষাঘাত ও অসাড়তার সাথে শিরার সমস্যা"
+    ],
+    compare: ["Lach", "Crot-h", "Elaps"]
+  },
+  "Zinc": {
+    keynotes: [
+      "মস্তিষ্কের ক্লান্তি — পড়তে পড়তে মাথা ব্যথা, ভুলে যাওয়া",
+      "পায়ে অস্থিরতা — বিশেষত রাতে, ঘুমের মধ্যে নড়তে থাকে (restless legs)",
+      "ফুসকুড়ি বের হতে না পারলে অভ্যন্তরে বিপদ",
+      "শিশুদের দেরি করে হাঁটা ও কথা বলা",
+      "মেরুদণ্ডে দুর্বলতা, পিঠে চাপ দিলে ভালো লাগে",
+      "দুধ ও মদ সহ্য হয় না"
+    ],
+    compare: ["Ign", "Nat-m", "Phos"]
+  },
+  "Abrot": {
+    keynotes: [
+      "উপরের সমস্যা সারলে নিচে দেখা দেয় — আর্থ্রাইটিস সারলে ডায়রিয়া",
+      "শিশু রোগা, শুকনো, বৃদ্ধ দেখতে — পা থেকে মাংস ঝরে যাচ্ছে",
+      "ঘাড়ে শক্ত হওয়া, নাড়াতে কষ্ট",
+      "পেট বড় হওয়া কিন্তু অঙ্গ-প্রত্যঙ্গ শুকনো",
+      "সকালে ডায়রিয়া — গোঁজামিলানো পেট",
+      "হাইড্রোসিল ও বাতের পরস্পর সম্পর্ক"
+    ],
+    compare: ["Nat-m", "Sars", "Iod"]
+  },
+  "Acet-ac": {
+    keynotes: [
+      "ফ্যাকাশে, রক্তহীন চেহারা — মোমের মতো",
+      "অত্যধিক তৃষ্ণা — ঠান্ডা পানির জন্য",
+      "ডায়াবেটিস — দুর্বলতা, তৃষ্ণা, প্রচুর প্রস্রাব",
+      "পোড়া ঘা — Canth-এর মতো কিন্তু ঠান্ডা আবেদন চায়",
+      "পেট ফুলে ওঠা, ঢেকুর ও বমিভাব",
+      "এনিমিয়া — অপুষ্টি থেকে রক্তশূন্যতা"
+    ],
+    compare: ["Ars", "Chin", "Phos"]
+  },
+  "Aeth": {
+    keynotes: [
+      "শিশু মায়ের বুকের দুধ বা কৃত্রিম দুধ খেলেই বমি — গরম, দানা বাঁধা",
+      "বমির পর ক্লান্ত হয়ে ঘুমিয়ে পড়ে, জেগে আবার ক্ষুধা",
+      "শিশুদের গ্রীষ্মকালীন ডায়রিয়া — সবুজ, পানির মতো",
+      "মুখের চারদিকে সাদা আভা, নাকের চারদিকে হলুদ",
+      "মাথার পরীক্ষার আগে উদ্বেগ — স্মৃতিশক্তি হারিয়ে যাওয়া",
+      "শিশুর দাঁত উঠার সময় হজম সমস্যা"
+    ],
+    compare: ["Cal-p", "Ip", "Sil"]
+  },
+  "Agar": {
+    keynotes: [
+      "ঠান্ডায় চুলকানি ও লাল হওয়া — তুষারে জমে যাওয়ার মতো (chilblains)",
+      "পেশীর মোচড় ও কাঁপুনি — বিভিন্ন স্থানে",
+      "মেরুদণ্ডে স্পর্শে সংবেদনশীলতা",
+      "কথায় ও কাজে বেমানান — মস্তিষ্কের অনিয়ন্ত্রিত কার্যক্রম",
+      "মাতালের মতো হাঁটা — সমন্বয়হীনতা",
+      "যৌনাঙ্গে ও পায়ে ঠান্ডা অনুভূতি"
+    ],
+    compare: ["Zinc", "Gels", "Arg-n"]
+  },
+  "All-c": {
+    keynotes: [
+      "সর্দি — পানির মতো তরল, নাক ও চোখ জ্বালা করে",
+      "চোখ জ্বালা করে কিন্তু কম পানি — Euphr-এর বিপরীত",
+      "পেঁয়াজ কাটলে যেমন হয় ঠিক তেমন লক্ষণ",
+      "লক্ষণ উষ্ণ ঘরে বাড়ে, ঠান্ডায় কমে",
+      "কাশি — শুষ্ক, খসখসে, স্বরনালীতে যেন কিছু আটকে",
+      "নিউরালজিয়া — পরিবর্তনশীল স্থানে"
+    ],
+    compare: ["Euphr", "Nat-m", "Sabad"]
+  },
+  "Ambr": {
+    keynotes: [
+      "বার্ধক্যজনিত স্নায়বিক দুর্বলতা — ভুলে যাওয়া, মাথা ঘোরা",
+      "লজ্জাবোধ — অন্যের উপস্থিতিতে সব লক্ষণ বাড়ে",
+      "একা থাকলে ভালো, মানুষ দেখলে অস্বস্তি",
+      "ঘুম না আসা — মাথায় ব্যবসার চিন্তা",
+      "শ্বাসকষ্ট — বৃদ্ধদের বুকে আঁটসাঁট অনুভূতি",
+      "চুলকানি ও উত্তেজনা — যৌনাঙ্গে, বিশেষত বৃদ্ধাদের"
+    ],
+    compare: ["Cocc", "Nat-m", "Phos-ac"]
+  },
+  "Aur": {
+    keynotes: [
+      "গভীর বিষণ্ণতা — আত্মহত্যার চিন্তা, জীবন অর্থহীন মনে হয়",
+      "হৃদরোগ ও উচ্চ রক্তচাপ — ব্যর্থতার কারণে মানসিক কষ্ট",
+      "হাড়ে ব্যথা — রাতে তীব্র, সিফিলিসের ইতিহাসে",
+      "নাকে ঘা ও ক্ষয় — সিফিলিটিক",
+      "সোনার মতো শিশু — অতিরিক্ত দায়িত্ববোধ, নিখুঁত হতে চায়",
+      "কর্তৃত্বের বিরুদ্ধে বিদ্রোহ, তারপর হতাশা"
+    ],
+    compare: ["Ign", "Nat-m", "Phos"]
+  },
+  "Bapt": {
+    keynotes: [
+      "টাইফয়েড-সদৃশ অবস্থা — শরীর পচে যাচ্ছে মনে হয়",
+      "বিভ্রম — শরীরের অংশগুলো আলাদা মনে হয়",
+      "মুখে ও শরীরে দুর্গন্ধ — পচা মাংসের মতো",
+      "গলা গাঢ় লাল কিন্তু ব্যথাহীন",
+      "শুয়ে পড়লে বিছানা শক্ত মনে হয় — পাশ ফেরায়",
+      "দ্রুত দুর্বলতা, প্রস্রাবে দুর্গন্ধ"
+    ],
+    compare: ["Mur-ac", "Phos-ac", "Arn"]
+  },
+  "Bor": {
+    keynotes: [
+      "নিচের দিকে নামার ভয় — সিঁড়ি নামতে, দোলনায়, শিশুকে কোলে নিলে",
+      "মুখে ঘা — শিশুদের থ্রাশ, মুখ গরম ও লাল",
+      "হাঁচিতে প্রস্রাব ঝরে",
+      "চুল জট পাকে — আঁচড়ানো যায় না",
+      "ধোঁয়া ও তামাকের গন্ধে বমিভাব",
+      "শিশু ঘুমের মধ্যে চমকে ওঠে"
+    ],
+    compare: ["Calc", "Sil", "Nat-m"]
+  },
+  "Calc-f": {
+    keynotes: [
+      "ইলাস্টিক টিস্যুর শিথিলতা বা কাঠিন্য — দুটোই",
+      "শিরা ফুলে যাওয়া (varicose veins), অর্শ",
+      "হাড়ের টিউমার ও গিঁট, এক্সোস্টোসিস",
+      "দাঁত ও এনামেলের দুর্বলতা",
+      "নিউক্লিয়াস পালপোসাস ক্ষয় — স্লিপ ডিস্ক",
+      "শক্ত গোটা — স্তনে, গ্রন্থিতে, যা ধীরে সারে"
+    ],
+    compare: ["Calc", "Sil", "Ruta"]
+  },
+  "Calc-s": {
+    keynotes: [
+      "পুঁজ পাকানোর শেষ পর্যায় — Hep-এর পরে Calc-s",
+      "হলুদ ঘন পুঁজ — প্রচুর পরিমাণে",
+      "ক্ষত যা সারছে না, দীর্ঘমেয়াদী পুঁজ",
+      "সর্দিতে হলুদ ঘন স্রাব",
+      "কিশোরদের ব্রণ — পুঁজভরা, সারতে চায় না",
+      "লিভার ও পিত্তথলির সমস্যা"
+    ],
+    compare: ["Hep", "Sil", "Puls"]
+  },
+  "Camph": {
+    keynotes: [
+      "কলেরার প্রথম পর্যায় — ঠান্ডা, নীলাভ, শক অবস্থায়",
+      "সারা শরীর বরফের মতো ঠান্ডা কিন্তু কাপড় ছেড়ে দেয়",
+      "হঠাৎ পতন — সংজ্ঞাহীনতা",
+      "পেটে তীব্র কামড়ানো ব্যথা",
+      "অন্য ঔষধের প্রতিক্রিয়া বাতিল করতে — অ্যান্টিডোট",
+      "শীতলতার সাথে জ্বালাপোড়া অনুভূতি"
+    ],
+    compare: ["Carb-v", "Verat", "Cupr"]
+  },
+  "Cann-s": {
+    keynotes: [
+      "মূত্রনালিতে জ্বালা — প্রস্রাবের সময় ও পরে",
+      "যৌনাঙ্গে উত্তেজনা ও চুলকানি",
+      "প্রস্রাবে সুতার মতো স্রাব (gonorrhea)",
+      "মানসিক বিভ্রম — সময় ও দূরত্বের বোধ পরিবর্তন",
+      "গলায় কাটা কাটা অনুভূতি",
+      "হাসির অনিয়ন্ত্রিত প্রবণতা"
+    ],
+    compare: ["Canth", "Petros", "Med"]
+  },
+  "Caps": {
+    keynotes: [
+      "লালযুক্ত শ্লেষ্মা — মুখে, গলায়, মলদ্বারে জ্বালাপোড়া",
+      "কানের ব্যথা — গলার সাথে সম্পর্কিত, মাস্টয়েড",
+      "বাড়ির জন্য কান্নাকাটি — nostalgia বা গৃহকাতরতা",
+      "শীত পছন্দ করে না, ঠান্ডা সহ্য হয় না",
+      "পেটে জ্বালা — মুখ থেকে মলদ্বার পর্যন্ত",
+      "মোটা কিন্তু ঠান্ডা ও অলস স্বভাব"
+    ],
+    compare: ["Bell", "Puls", "Lyc"]
+  },
+  "Carb-an": {
+    keynotes: [
+      "গ্রন্থি বড় হওয়া — পাথরের মতো শক্ত, ব্যথাহীন",
+      "স্তনক্যান্সার — শক্ত, পাথুরে টিউমার",
+      "শরীর থেকে দুর্গন্ধ — মলদ্বার থেকে গ্যাস",
+      "বার্ধক্যে দুর্বলতা ও মানসিক শূন্যতা",
+      "অঙ্গ অসাড় হয়ে যাওয়া, বিশেষত হাত",
+      "গলা ও ঘাড়ের গ্রন্থিতে সমস্যা"
+    ],
+    compare: ["Carb-v", "Con", "Sil"]
+  },
+  "Card-m": {
+    keynotes: [
+      "লিভার ও পিত্তের সেরা ঔষধ — সিরোসিস, হেপাটাইটিস",
+      "ডান কোলের নিচে ব্যথা — লিভার এলাকায়",
+      "বমি — তেতো, হলুদ",
+      "হলুদ জন্ডিস",
+      "পেট ফুলে ওঠা ও অজীর্ণ",
+      "মদপানকারীদের লিভারের সমস্যায়"
+    ],
+    compare: ["Chel", "Lyc", "Nat-s"]
+  },
+  "Chel": {
+    keynotes: [
+      "লিভারের ঔষধ — ডান স্কন্ধাস্থির নিচে ব্যথা (right shoulder blade)",
+      "জন্ডিস — হলুদ ত্বক, হলুদ চোখ",
+      "মল মাটির রঙের, প্রস্রাব গাঢ় হলুদ",
+      "ডান দিকের লক্ষণ — ডান পাশে শুলে কষ্ট",
+      "হাতের তালু গরম",
+      "সকালে সব খারাপ লাগে"
+    ],
+    compare: ["Lyc", "Nat-s", "Card-m"]
+  },
+  "Cic": {
+    keynotes: [
+      "মাথার আঘাত বা মৃগীরোগে — পশ্চাৎমুখী মাথা বাঁকানো",
+      "খিঁচুনি — চোখ উপরে উঠে যায়, শরীর পিছনে বাঁকে",
+      "মুখে অদ্ভুত বিস্তার অনুভূতি, মাথা ঘোরা",
+      "বিজাতীয় খাদ্য খাওয়ার ইচ্ছা — কাদা, চক",
+      "শিশুর খিঁচুনি — দাঁত উঠার সময়",
+      "অভ্যাস হারিয়ে ফেলা — পরিচিত মানুষ চেনে না"
+    ],
+    compare: ["Bell", "Cupr", "Hyos"]
+  },
+  "Cimic": {
+    keynotes: [
+      "নারীদের ঔষধ — জরায়ু ও ডিম্বাশয়ের সমস্যা",
+      "মাসিকের সময় পেশীতে ব্যথা — পিঠে, কোমরে",
+      "গর্ভাবস্থায় বিষণ্ণতা — প্রসব ভয়",
+      "গলায় ভারী অনুভূতি, মাথাব্যথা — মাসিকের আগে",
+      "বাত — পরিবর্তনশীল স্থানে, ঠান্ডায় বাড়ে",
+      "প্রসব যন্ত্রণা — তীব্র কিন্তু অকার্যকর"
+    ],
+    compare: ["Puls", "Sep", "Lil-t"]
+  },
+  "Clem": {
+    keynotes: [
+      "ত্বকের রোগ — হাতে, আঙুলে আর্দ্র ফুসকুড়ি, চুলকানি",
+      "অণ্ডকোষে শক্ত হওয়া ও ব্যথা — সিফিলিটিক",
+      "মূত্রনালিতে সংকীর্ণতা — প্রস্রাব সরু ধারায় আসে",
+      "একজিমা — হাতে, আঙুলের ফাঁকে",
+      "ঠান্ডা পানিতে স্নানে উপকার, উষ্ণতায় বাড়ে",
+      "চোখে প্রদাহ — ঠান্ডায় বের হলে চোখে পানি"
+    ],
+    compare: ["Thuj", "Nit-ac", "Sep"]
+  },
+  "Colch": {
+    keynotes: [
+      "গাউট — বৃদ্ধাঙ্গুলিতে তীব্র ব্যথা, স্পর্শে অসহ্য",
+      "রান্নার গন্ধে বমিভাব — বিশেষত মাংসের গন্ধে",
+      "পেটে কামড়ানো ব্যথা, সাদা ফেনা বমি",
+      "হৃদপিণ্ড ও কিডনিতে গাউটের প্রভাব",
+      "শরৎকালে বাড়ে — গাউটের আক্রমণ",
+      "অত্যন্ত দুর্বল, সামান্য পরিশ্রমে ক্লান্ত"
+    ],
+    compare: ["Led", "Benz-ac", "Lyc"]
+  },
+  "Coloc": {
+    keynotes: [
+      "কলিক — দুমড়ে কুঁকড়ে যাওয়া, চাপ দিলে উপকার",
+      "রাগ বা অপমান থেকে রোগ",
+      "ডায়রিয়া — সবুজ, জেলির মতো, খাওয়া বা পান করার পরে",
+      "ডিম্বাশয়ের ব্যথা — ডান দিকে, ঝুঁকলে কমে",
+      "সায়াটিকা — বাঁ দিকে, গরমে উপকার",
+      "পেটে কামড় — সামনে ঝুঁকলে বা পেটে চাপ দিলে কমে"
+    ],
+    compare: ["Mag-p", "Dios", "Cham"]
+  },
+  "Croc": {
+    keynotes: [
+      "রক্তপাত — কালো, দড়ির মতো জমাট বাঁধা রক্ত",
+      "মেজাজের হঠাৎ পরিবর্তন — এক মুহূর্তে হাসি, পরে কান্না",
+      "শরীরের ভেতরে কিছু নড়ছে মনে হয়",
+      "মাসিকে কালো দলামোচা রক্ত",
+      "চোখ জড়িয়ে আসে, ঘুম ঘুম ভাব",
+      "নাক থেকে কালো রক্ত"
+    ],
+    compare: ["Sec", "Ham", "Puls"]
+  },
+  "Crot-h": {
+    keynotes: [
+      "সাপের বিষ থেকে — রক্ত না জমাটবদ্ধ হওয়া, সব ছিদ্র থেকে রক্ত",
+      "ডান দিকের লক্ষণ — ডান দিক থেকে বাঁয়ে যায়",
+      "লিভার ক্যান্সার ও সিরোসিস",
+      "হলুদ জন্ডিস — মারাত্মক",
+      "ঘুমের মধ্যে শুয়ে থাকতে পারে না, উঠে পড়তে হয়",
+      "অ্যালকোহলিক — মদপানে প্রচণ্ড আকর্ষণ"
+    ],
+    compare: ["Lach", "Vip", "Elaps"]
+  },
+  "Elaps": {
+    keynotes: [
+      "ঠান্ডা পানীয় ও খাবারের জন্য আকাঙ্ক্ষা",
+      "কানে ব্যথা — কানের ভেতরে সংক্রমণ, ঠান্ডায় বাড়ে",
+      "রক্তপাত — কালো, ঘন — ফুসফুস, পাকস্থলী",
+      "মুখে ও গলায় ঠান্ডা অনুভূতি",
+      "ত্বকে আঁইশের মতো চর্মরোগ",
+      "ডানদিকের লক্ষণ বেশি"
+    ],
+    compare: ["Lach", "Crot-h", "Vip"]
+  },
+  "Eup-per": {
+    keynotes: [
+      "হাড়ের ব্যথা — হাড় ভাঙছে মনে হয়, ইনফ্লুয়েঞ্জায়",
+      "চোখের গোলায় ব্যথা — ডেঙ্গু বা ফ্লুতে",
+      "ঘাম — ব্যথা কমায় না, কিন্তু মাথায় ঘাম নেই",
+      "বমিভাব ও বিলিয়াস বমি — জ্বরের সাথে",
+      "তৃষ্ণা প্রবল — ঠান্ডা পানির জন্য",
+      "শীত — কাঁপুনিসহ, ঠান্ডা পানিতে শুরু"
+    ],
+    compare: ["Bry", "Nat-m", "Gels"]
+  },
+  "Ferr-p": {
+    keynotes: [
+      "প্রদাহের প্রথম পর্যায় — রক্তনালি উষ্ণ ও উত্তেজিত",
+      "জ্বরের প্রথম ধাপ — Bell ও Acon-এর মতো কিন্তু ধীর",
+      "নাক থেকে রক্ত — সকালে, ফ্যাকাশে মুখে",
+      "কাশি — শুষ্ক, বুকে আঘাতের পরে",
+      "কানের প্রদাহ (otitis media) — প্রাথমিক পর্যায়ে",
+      "দ্রুত নাড়ি কিন্তু দুর্বল"
+    ],
+    compare: ["Bell", "Acon", "Gels"]
+  },
+  "Fl-ac": {
+    keynotes: [
+      "দাঁতের ক্ষয় — দ্রুত ও গভীর ক্যারিজ",
+      "ফিস্টুলা — পুরনো, যা সারছে না",
+      "শিরায় প্রদাহ — ভেরিকোস আলসার",
+      "তরুণদের বার্ধক্যজনিত লক্ষণ — চুল পড়া",
+      "গরম সহ্য হয় না, ঠান্ডায় ভালো",
+      "যৌন অতিরিক্ততার ক্ষতি থেকে"
+    ],
+    compare: ["Sil", "Lyss", "Ars"]
+  },
+  "Glon": {
+    keynotes: [
+      "সূর্যের তাপে মাথাব্যথা — মাথায় রক্ত উঠে যায়",
+      "হঠাৎ উচ্চ রক্তচাপ — মাথা থেকে রক্ত সরিয়ে দেওয়া",
+      "ধড়ফড়ানি — পুরো শরীরে অনুভব হয়",
+      "মাথায় বিস্ফোরণের মতো ব্যথা, নমনীয় হওয়া কষ্ট",
+      "রাস্তা ভুলে যাওয়া — পরিচিত রাস্তায়ও হারিয়ে যায়",
+      "গলার বোতাম আঁটলে অসহ্য লাগে"
+    ],
+    compare: ["Bell", "Sang", "Ferr-p"]
+  },
+  "Gran": {
+    keynotes: [
+      "রক্তক্ষরণ — তীব্র, অতিরিক্ত মাসিক বা নাক থেকে",
+      "পেটে কৃমির লক্ষণ — নাক চুলকানো",
+      "ত্বকে ফুসকুড়ি — খোস পাঁচড়ার মতো",
+      "হৃদপিণ্ডের ধড়ফড়ানি ও দুর্বলতা",
+      "যৌনাঙ্গে চুলকানি",
+      "ডায়রিয়া — সবুজ, পানির মতো"
+    ],
+    compare: ["Cina", "Calc", "Chin"]
+  },
+  "Ind": {
+    keynotes: [
+      "স্নায়বিক ক্লান্তি ও বিষণ্ণতা — প্রচুর পড়াশোনায়",
+      "মাথায় যেন পাথর চাপা দেওয়া",
+      "হৃদপিণ্ডের ধড়ফড়ানি — উদ্বেগসহ",
+      "গলায় কিছু আটকে থাকার অনুভূতি",
+      "তরুণদের বিষণ্ণতা ও ক্লান্তি",
+      "স্মৃতিশক্তি কমে যাওয়া"
+    ],
+    compare: ["Kali-p", "Phos-ac", "Nat-m"]
+  },
+  "Iris": {
+    keynotes: [
+      "মাথাব্যথা — চোখের সামনে ঝাপসা দেখার পর শুরু",
+      "বমি — তীব্র, পিত্তমিশ্রিত, জ্বালাকর",
+      "অগ্ন্যাশয়ের সমস্যা — ডায়াবেটিস ও হজম সমস্যায়",
+      "রাতে বা রবিবারে মাথাব্যথা",
+      "মুখ ও গলায় জ্বালা — বমির সাথে",
+      "ডান দিকে বেশি লক্ষণ"
+    ],
+    compare: ["Sang", "Lac-c", "Bry"]
+  },
+  "Lac-c": {
+    keynotes: [
+      "গলার ব্যথা — পর্যায়ক্রমে বাম-ডান করে",
+      "নারীদের আত্মসম্মানহীনতা — নিজেকে তুচ্ছ মনে করে",
+      "মাসিকে স্তনে ব্যথা ও ফোলা",
+      "সাপের স্বপ্ন",
+      "দুধ সহ্য হয় না — পান করলে বাড়ে",
+      "ডিম্বাশয়ে ব্যথা — মাসিকের আগে"
+    ],
+    compare: ["Lach", "Sang", "Sep"]
+  },
+  "Lil-t": {
+    keynotes: [
+      "তাড়াহুড়া — সব কাজ তাড়াতাড়ি করতে চায়",
+      "ডিম্বাশয়ে ব্যথা — নিচে নামার মতো অনুভূতি",
+      "যৌন উত্তেজনা ও পাপের ভয় — ধার্মিক মহিলাদের",
+      "হৃদপিণ্ড — যেন হাত দিয়ে ধরে চেপে ধরা হচ্ছে",
+      "খোলা বাতাসে ভালো লাগে",
+      "হিস্টিরিয়া — বিরোধী অনুভূতি একসাথে"
+    ],
+    compare: ["Sep", "Nat-m", "Cimic"]
+  },
+  "Lyss": {
+    keynotes: [
+      "পানির ভয় — জলাতঙ্কের মতো লক্ষণ",
+      "কুকুরের কামড়ের পরে — Hydrophobinum",
+      "স্নায়বিক উত্তেজনা — সামান্য শব্দে, আলোতে কাঁপে",
+      "লালা অতিরিক্ত নিঃসরণ",
+      "মুখ দিয়ে ফেনা আসা",
+      "সংকোচন — গলা ও শ্বাসনালিতে"
+    ],
+    compare: ["Hyos", "Bell", "Stram"]
+  },
+  "Mang": {
+    keynotes: [
+      "গলার দীর্ঘমেয়াদী সমস্যা — ক্রনিক ল্যারিনজাইটিস",
+      "পেরিওস্টিয়ামে ব্যথা — হাড়ের বাইরের আবরণে",
+      "স্পর্শে অসহ্য ব্যথা — গলা স্পর্শ করলে কাশি",
+      "রক্তাল্পতা — ফ্যাকাশে চেহারা",
+      "মাসিকে দেরি, কম রক্ত",
+      "সকালে কাশি বেশি — শ্লেষ্মা ওঠে"
+    ],
+    compare: ["Dros", "Rum", "Phos"]
+  },
+  "Med": {
+    keynotes: [
+      "গনোরিয়াল মায়াজম (সাইকোসিস) — সাইকোটিক ডায়াথেসিস",
+      "সবকিছু ভুলে যাওয়া — সবে বলা কথা মনে নেই",
+      "তীব্র উদ্বেগ ও আতঙ্ক — রাতে বাড়ে",
+      "যৌনাঙ্গ থেকে ঘন স্রাব",
+      "হাঁপানি — ভোর রাতে, শুলে বাড়ে",
+      "পরিবর্তনশীল লক্ষণ — মিলেও যায়, না-ও মেলে"
+    ],
+    compare: ["Thuj", "Nat-s", "Sep"]
+  },
+  "Mosch": {
+    keynotes: [
+      "হিস্টিরিয়া — হঠাৎ জ্ঞান হারানো, শ্বাস বন্ধ হওয়ার ভয়",
+      "ধড়ফড়ানি ও অস্থিরতা — সামান্য উত্তেজনায়",
+      "একটি অংশ ঠান্ডা আরেকটি গরম",
+      "বমিভাব ও ঢেকুর",
+      "গ্লোবাস হিস্টেরিকাস — গলায় বলের অনুভূতি",
+      "মহিলাদের হিস্টিরিক্যাল কাশি"
+    ],
+    compare: ["Ign", "Valer", "Asaf"]
+  },
+  "Murx": {
+    keynotes: [
+      "জরায়ুর ব্যথা — নিচে নামার মতো, যেন অঙ্গ বের হবে",
+      "যৌন উত্তেজনা — অত্যধিক, সামান্য স্পর্শেই",
+      "মাসিকে তীব্র ব্যথা, অনিয়মিত",
+      "ডিম্বাশয়ে ব্যথা — বাম দিকে",
+      "মানসিক বিষণ্ণতা — একা থাকতে চায় না",
+      "পেটে চাপ দিলে কষ্ট কমে"
+    ],
+    compare: ["Sep", "Lil-t", "Puls"]
+  },
+  "Nat-c": {
+    keynotes: [
+      "সূর্যের তাপ সহ্য হয় না — মাথাব্যথা, মাথা ঘোরা",
+      "হজম দুর্বল — দুধ ও কিছু খাবার সহ্য হয় না",
+      "মানুষ ও সমাজ এড়িয়ে চলা — একাকীত্ব পছন্দ",
+      "গোড়ালি মচকানোর প্রবণতা",
+      "কোমল প্রকৃতি — সংগীতে কান্না আসে",
+      "ঠান্ডা আবহাওয়ায় ও সূর্যালোকে উভয়ই কষ্ট"
+    ],
+    compare: ["Nat-m", "Sul", "Glon"]
+  },
+  "Nat-s": {
+    keynotes: [
+      "মাথায় আঘাতের পরে মানসিক পরিবর্তন — মাথার চোট থেকে দীর্ঘমেয়াদী সমস্যা",
+      "ভেজা ও স্যাঁতসেঁতে আবহাওয়ায় সব বাড়ে",
+      "সকালে ডায়রিয়া — সবুজ-হলুদ",
+      "লিভারের সমস্যা — বিলিয়াস অবস্থা",
+      "বিষণ্ণতা — আত্মহত্যার চিন্তা তবে ধর্মের কারণে দূরে রাখে",
+      "হাঁপানি — ভেজায় বাড়ে, ভোরে বাড়ে"
+    ],
+    compare: ["Nat-m", "Card-m", "Merc"]
+  },
+  "Nux-m": {
+    keynotes: [
+      "ঘুম ঘুম ভাব — সব সময়, খাওয়ার পরে",
+      "মুখ শুকনো কিন্তু তৃষ্ণা নেই",
+      "পেট ফুলে ওঠা — গ্যাস, অজীর্ণ",
+      "স্মৃতিশক্তি হারিয়ে যাওয়া — মাঝে মাঝে কিছু মনে থাকে না",
+      "হিস্টিরিয়া — হঠাৎ হাসি বা কান্না, ঘুমের মতো",
+      "ঠান্ডায় ও ভেজায় সব বাড়ে"
+    ],
+    compare: ["Puls", "Cocc", "Op"]
+  },
+  "Oci": {
+    keynotes: [
+      "কিডনিতে পাথর — প্রচণ্ড ব্যথা, প্রস্রাব লাল ও লালাভ",
+      "প্রস্রাবে রক্ত, ব্যথা কোমর থেকে মূত্রথলিতে",
+      "ডান দিকের কিডনির সমস্যা",
+      "বমিভাব ও অস্থিরতা ব্যথার সাথে",
+      "প্রস্রাব করতে কষ্ট — ফোঁটা ফোঁটা",
+      "মূত্রনালিতে জ্বালাপোড়া"
+    ],
+    compare: ["Berb", "Canth", "Lyc"]
+  },
+  "Par": {
+    keynotes: [
+      "চোখের পেছনে ব্যথা — মাথার গভীরে যায়",
+      "পিঠের ব্যথা — কোমরে, সকালে বাড়ে",
+      "চামড়া আঁটসাঁট মনে হয়",
+      "মাথা ভার, গলা টেনে ধরা",
+      "মূত্রনালিতে ব্যথা — প্রস্রাব পরিষ্কার কিন্তু কষ্টে",
+      "বাম দিকের লক্ষণ বেশি"
+    ],
+    compare: ["Bell", "Phos", "Spig"]
+  },
+  "Phos-ac": {
+    keynotes: [
+      "দুঃখ ও দুর্দশা থেকে দুর্বলতা — শোক বা পরীক্ষায় ব্যর্থতা",
+      "উদাসীনতা — কোনোকিছুতে আগ্রহ নেই",
+      "ডায়রিয়া — পানির মতো, সাদা, ব্যথাহীন",
+      "প্রস্রাব দুধের মতো — phosphaturia",
+      "মাথায় ভার, চুল পড়া — দুর্বলতার কারণে",
+      "যৌন অতিরিক্ততার পরে শারীরিক ভাঙন"
+    ],
+    compare: ["Chin", "Nat-m", "Kali-p"]
+  },
+  "Pic-ac": {
+    keynotes: [
+      "মস্তিষ্ক ও মেরুদণ্ডের তীব্র ক্লান্তি — পড়তে বা কাজ করতে অক্ষম",
+      "পিঠে ভার ও ব্যথা — মেরুদণ্ডে",
+      "পুরুষাঙ্গে ঘন ঘন উত্তেজনা — দুর্বল অবস্থায়",
+      "কানে গোলমাল শোনে",
+      "মাথায় তীব্র গরম অনুভূতি",
+      "অতিরিক্ত পড়াশোনার পরে মস্তিষ্কের ক্লান্তি"
+    ],
+    compare: ["Kali-p", "Gels", "Sil"]
+  },
+  "Pip-m": {
+    keynotes: [
+      "পেটে ব্যথা — কামড়ানো, বাঁ দিকে",
+      "প্রস্রাব বেশি, ঘন ঘন",
+      "হজমের সমস্যা — গ্যাস ও ফোলা",
+      "মাথাব্যথা — সকালে বাড়ে",
+      "চোখে ব্যথা — পড়ার পরে",
+      "বুক ধড়ফড়ানি ও উদ্বেগ"
+    ],
+    compare: ["Kali-c", "Lyc", "Nux-v"]
+  },
+  "Plb": {
+    keynotes: [
+      "পেটে তীব্র কামড়ানো ব্যথা — নাভি টেনে ধরে মেরুদণ্ডে যায়",
+      "কোষ্ঠকাঠিন্য — কালো, ছোট গুটি, মল বলের মতো",
+      "পক্ষাঘাত — এক্সটেনসর পেশীর, হাত ঝুলে পড়ে",
+      "ধমনী শক্ত হওয়া, উচ্চ রক্তচাপ",
+      "চামড়া ধূসর বা হলুদাভ",
+      "কিডনির রোগ — অ্যালবুমিন প্রস্রাবে"
+    ],
+    compare: ["Op", "Nux-v", "Alum"]
+  },
+  "Podo": {
+    keynotes: [
+      "সকালে ডায়রিয়া — তাড়াতাড়ি উঠতে হয়, গড়গড় শব্দ",
+      "লিভার বড় হওয়া — ডান দিকে ভার ও ব্যথা",
+      "দাঁতে চোয়াল কামড়ানো — শিশুদের দাঁত উঠার সময়",
+      "হলুদ মল — বিলিয়াস ডায়রিয়া",
+      "মলদ্বার বের হয়ে আসা — ডায়রিয়ার সময়",
+      "গরম পানীয়ে ভালো লাগে"
+    ],
+    compare: ["Aloe", "Sul", "Nat-s"]
+  },
+  "Prun": {
+    keynotes: [
+      "চোখের ব্যথা — তীব্র, ভেতর থেকে বাইরে চাপ দেওয়ার মতো",
+      "গ্লুকোমায় — চোখে প্রচণ্ড চাপ",
+      "বুকে ও হৃদপিণ্ডে ব্যথা",
+      "প্রস্রাবে সমস্যা",
+      "নার্ভাস ট্যুইচিং",
+      "চোখের প্রদাহ"
+    ],
+    compare: ["Glon", "Bell", "Spig"]
+  },
+  "Sars": {
+    keynotes: [
+      "প্রস্রাব — শেষ দিকে তীব্র ব্যথা ও জ্বালা",
+      "শিশুদের প্রস্রাবে বালির দানা — ইউরিক অ্যাসিড",
+      "ত্বকে শুষ্কতা ও ফেটে যাওয়া",
+      "মলদ্বারের সমস্যা — ব্যথা ও জ্বালা",
+      "ডান দিকে বেশি লক্ষণ",
+      "বাত — জয়েন্টে ব্যথা ও ফোলা"
+    ],
+    compare: ["Canth", "Lyc", "Berb"]
+  },
+  "Scil": {
+    keynotes: [
+      "কাশি — বিকেলে ৪-৫টায় বাড়ে, হুপিং কাশির মতো",
+      "প্রস্রাবে সমস্যা — অতিরিক্ত, রাতে বাড়ে",
+      "হৃদপিণ্ডের দুর্বলতা — শোথ",
+      "নাক দিয়ে হাঁচি ও সর্দি",
+      "চোখে ব্যথা",
+      "পেটে গ্যাস ও ফোলা"
+    ],
+    compare: ["Dig", "Squil", "Apis"]
+  },
+  "Solid": {
+    keynotes: [
+      "কিডনির সমস্যা — প্রস্রাবে প্রোটিন, কিডনির ব্যর্থতা",
+      "পিঠে ব্যথা — কিডনি এলাকায়",
+      "শ্বাসতন্ত্রের সমস্যা — হাঁপানি ও ব্রঙ্কাইটিস একসাথে",
+      "প্রস্রাব কম ও ঘন",
+      "কোমরে ব্যথা — উপরে ছড়ায়",
+      "মূত্রথলির প্রদাহ"
+    ],
+    compare: ["Berb", "Equis", "Canth"]
+  },
+  "Spong": {
+    keynotes: [
+      "কাশি — ক্রুপ কাশি, করাতের মতো শব্দ, শ্বাসনালি সংকীর্ণ",
+      "গলগণ্ড (goitre) — থাইরয়েড বড় হওয়া",
+      "হৃদপিণ্ড — ব্যথা ও ধড়ফড়ানি, শুলে বাড়ে",
+      "ঘুমের মধ্যে শ্বাস বন্ধ হয়ে ভয়ে জেগে ওঠে",
+      "ঠান্ডায় ও রাতে বাড়ে",
+      "খাওয়া বা পান করলে কাশি কমে"
+    ],
+    compare: ["Dros", "Hep", "Acon"]
+  },
+  "Stan": {
+    keynotes: [
+      "দুর্বলতা — কথা বলতে বলতে কণ্ঠস্বর ক্লান্ত হয়",
+      "ফুসফুসের দীর্ঘস্থায়ী রোগ — সবুজ বা হলুদ কফ",
+      "কাশি — মিষ্টি গন্ধের কফ, সবুজ, প্রচুর",
+      "দুর্বলতা এত তীব্র যে সিঁড়ি উঠতে পারে না",
+      "পেটে ও জরায়ুতে খিঁচুনি",
+      "মানসিক দুর্বলতা ও কান্নার প্রবণতা"
+    ],
+    compare: ["Puls", "Kali-s", "Phos"]
+  },
+  "Stront-c": {
+    keynotes: [
+      "ধমনী শক্ত হওয়া — উচ্চ রক্তচাপ ও বার্ধক্যে",
+      "হাড়ের ব্যথা — দীর্ঘমেয়াদী, ঠান্ডায় বাড়ে",
+      "গোড়ালিতে ব্যথা — হাঁটতে কষ্ট",
+      "আঘাতের পরে দীর্ঘস্থায়ী সমস্যা",
+      "রক্তপাত — দীর্ঘমেয়াদী, অতিরিক্ত",
+      "মাথাব্যথা — কান পর্যন্ত ছড়ায়"
+    ],
+    compare: ["Bar-c", "Calc", "Con"]
+  },
+  "Symph": {
+    keynotes: [
+      "হাড় জোড়া লাগানোর সেরা ঔষধ — ফ্র্যাকচার পরবর্তী",
+      "হাড়ের ব্যথা — চোটের পর দীর্ঘমেয়াদী",
+      "চোখে আঘাত পেলে — কনজাংটিভায় ব্যথা",
+      "পেরিওস্টিয়ামের প্রদাহ",
+      "হাড়ের মধ্যে নতুন হাড় তৈরিতে সাহায্য",
+      "দাঁতের গোড়ায় ব্যথা"
+    ],
+    compare: ["Calc-p", "Ruta", "Arn"]
+  },
+  "Tarent": {
+    keynotes: [
+      "অস্থিরতা — সারাক্ষণ নড়াচড়া, বসে থাকতে পারে না",
+      "সংগীতে উপকার — তালে তালে নড়ে শান্ত হয়",
+      "ধ্বংসাত্মক প্রবণতা — কাপড় ছিঁড়ে, মাথা ঠোকায়",
+      "চুলকানি — সারা শরীরে, তীব্র",
+      "হাত-পায়ে কাঁপুনি ও মোচড়",
+      "হিস্টিরিয়া — মেয়েদের, উত্তেজনায়"
+    ],
+    compare: ["Hyos", "Stram", "Zinc"]
+  },
+  "Ter": {
+    keynotes: [
+      "মূত্রথলি ও কিডনির সমস্যা — তীব্র প্রদাহ",
+      "রক্তমিশ্রিত প্রস্রাব — উজ্জ্বল লাল",
+      "প্রস্রাবে তীব্র জ্বালা ও ব্যথা",
+      "পেটে কামড়ানো ব্যথা — নাভির কাছে",
+      "পিঠে ব্যথা — কিডনি এলাকায়",
+      "কোলেসিস্টাইটিস — পিত্তথলির প্রদাহ"
+    ],
+    compare: ["Canth", "Berb", "Equis"]
+  },
+  "Ther": {
+    keynotes: [
+      "মেরুদণ্ডে সংবেদনশীলতা — স্পর্শে বা ঝাঁকুনিতে কষ্ট",
+      "উচ্চতায় বা সমুদ্রে ভ্রমণে কষ্ট",
+      "যক্ষ্মাজ ডায়াথেসিস — দ্রুত শুকিয়ে যাওয়া",
+      "ডান কানে ব্যথা",
+      "ছোট ছোট উদ্দীপনায় অতিরিক্ত প্রতিক্রিয়া",
+      "শব্দ, গন্ধ বা আলোতে অসহ্য সংবেদনশীলতা"
+    ],
+    compare: ["Arg-n", "Sil", "Tub"]
+  },
+  "Tril": {
+    keynotes: [
+      "রক্তক্ষরণ — উজ্জ্বল লাল, প্রচুর — মাসিক বা প্রসবে",
+      "জরায়ু থেকে অতিরিক্ত রক্তপাত — রজোনিবৃত্তির কাছাকাছি",
+      "মাথা ঘোরা ও অজ্ঞান হওয়ার ভয় — রক্তক্ষরণের সাথে",
+      "কোমরে ব্যথা — ধরে বাঁধলে ভালো লাগে",
+      "নাক থেকে রক্ত",
+      "ডায়াবেটিসে রক্তক্ষরণ"
+    ],
+    compare: ["Mill", "Sec", "Ham"]
+  },
+  "Vesp": {
+    keynotes: [
+      "ভীমরুল বা হর্নেটের কামড়ের মতো লক্ষণ",
+      "মুখে ও গলায় ফোলা — কামড়ের পরে",
+      "চুলকানি ও জ্বালাপোড়া — ঠান্ডায় কমে",
+      "ওভারি ও জরায়ুতে ব্যথা",
+      "পিত্তথলির সমস্যা",
+      "গলায় আঁটসাঁট অনুভূতি"
+    ],
+    compare: ["Apis", "Led", "Arn"]
+  },
+  "Visc": {
+    keynotes: [
+      "উচ্চ রক্তচাপ ও ধমনীর শক্ত হওয়া",
+      "মাথাব্যথা — পূর্ণতার অনুভূতি, সকালে",
+      "হৃদপিণ্ডের দুর্বলতা — ধীর নাড়ি",
+      "মৃগীরোগ — বার্ধক্যজনিত",
+      "ডায়াবেটিস — রক্তে শর্করা কমাতে",
+      "ডান দিকের কাঁধে ব্যথা"
+    ],
+    compare: ["Crat", "Bar-c", "Stront-c"]
+  },
+  "Xant": {
+    keynotes: [
+      "মুখের ও ট্রাইজেমিনাল নিউরালজিয়া",
+      "মাসিকে তীব্র ব্যথা — ক্র্যাম্পসহ",
+      "পক্ষাঘাত — একাধিক স্নায়বিক রোগে",
+      "মূত্রথলির সমস্যা — প্রস্রাব ধরে রাখতে পারে না",
+      "মাথাব্যথা — নিউরালজিক",
+      "বাম দিকের লক্ষণ বেশি"
+    ],
+    compare: ["Mag-p", "Spig", "Gels"]
+  },
+
   "Staph": {
     keynotes: [
       "দমিয়ে রাখা রাগ ও অপমানবোধ — প্রকাশ না করে ভেতরে রাখা",
