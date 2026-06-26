@@ -5,11 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Kent's Repertory — হোমিওপ্যাথিক রেপার্টরি ও বায়োকেমিক বিশ্লেষণ টুল">
 <meta name="application-name" content="Kent's Repertory Pro">
-<title>Kent's Repertory Pro v2.7</title>
+<title>Kent's Repertory Pro v2.9</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
 <style>:root{--bg:#0c1118;--bg2:#111923;--bg3:#172030;--border:#1e3048;--border2:#2a4a6a;--gold:#c8960c;--gold2:#f0c040;--blue:#2d6a9f;--text:#d0e4f4;--muted:#6a8aaa;--g3:#f0c040;--g2:#4caf7d;--g1:#7a9ab8;--danger:#e05555;--success:#4caf7d}html.light{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e4ecf4;--border:#c8d8e8;--border2:#a0b8d0;--gold:#a07008;--gold2:#7a5200;--blue:#1a5a8a;--text:#1a2a3a;--muted:#5a7a9a;--g3:#7a5200;--g2:#2a7a50;--g1:#3a6080;--danger:#c03030;--success:#2a8050}html.light body{background:var(--bg)}html.light header{background:linear-gradient(135deg,#dce8f4 0%,#eaf2fc 60%,#dce8f4 100%);box-shadow:0 2px 20px rgba(0,0,0,0.12)}html.light .nav-btn{background:rgba(0,0,0,0.04)}html.light .nav-btn:hover,html.light .nav-btn.active{background:var(--gold);color:#fff}html.light .panel{background:var(--bg2)}html.light .panel-head{background:var(--bg3)}html.light .chapter-btn{color:var(--text)}html.light .chapter-btn:hover{background:rgba(0,0,0,0.04)}html.light .chapter-btn.active{background:rgba(160,112,8,0.1);color:var(--gold2)}html.light .rubric-item:hover{background:rgba(0,0,0,0.03)}html.light .rubric-item.selected{background:rgba(160,112,8,0.08)}html.light .search-wrap input{background:var(--bg3);color:var(--text)}html.light .ch-search{background:var(--bg3);color:var(--text)}html.light .right-actions{background:var(--bg3)}html.light .add-btn{background:rgba(0,0,0,0.05);color:var(--muted)}html.light .add-btn:hover{background:var(--gold);color:#fff}html.light .add-btn.added{background:var(--success);color:#fff}html.light .result-header{background:var(--bg3)}html.light .res-top3{background:var(--bg3)}html.light .result-filter-row{background:var(--bg3)}html.light .sel-item:hover{background:rgba(0,0,0,0.02)}html.light .sel-section-head{background:rgba(0,0,0,0.03)}html.light .modal{background:var(--bg2)}html.light .modal input,html.light .modal textarea,html.light .modal select{background:var(--bg3);color:var(--text)}html.light .rx-form-section{background:var(--bg2)}html.light .rx-field input,html.light .rx-field select,html.light .rx-field textarea{background:var(--bg3);color:var(--text)}html.light .saved-set{background:var(--bg2)}html.light .rx-history-item{background:var(--bg2)}html.light .sub-item{background:var(--bg3)}html.light .upload-card{background:var(--bg2)}html.light #toast{background:var(--bg3);color:var(--text)}html.light .badge{background:var(--bg3)}html.light .med-row{background:var(--bg3)}html.light .action-btn.secondary{background:var(--bg3)}html.light .detail-area{background:var(--bg2)}#print-overlay{display:none;position:fixed;inset:0;z-index:9999;background:#fff;overflow-y:auto;flex-direction:column}#print-overlay.open{display:flex}#print-overlay-toolbar{position:sticky;top:0;z-index:10000;background:#1a3a6b;color:#fff;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,0.3);flex-shrink:0}#print-overlay-toolbar .po-title{flex:1;font-size:0.85rem;font-weight:700;font-family:'Noto Serif Bengali',serif}#print-overlay-toolbar .po-hint{font-size:0.68rem;color:#a0c0e8;line-height:1.4;font-family:'JetBrains Mono',monospace}#print-overlay-toolbar .po-close{background:rgba(255,255,255,0.15);border:none;color:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:0.8rem;font-weight:700;white-space:nowrap;transition:background 0.15s}#print-overlay-toolbar .po-close:hover{background:rgba(255,255,255,0.28)}#print-overlay-content{flex:1;padding:0;font-family:'Noto Serif Bengali',Arial,sans-serif;font-size:13px;background:#fff;color:#000}@media print{#print-overlay-toolbar{display:none !important}#print-overlay{position:static !important}body > *:not(#print-overlay){display:none !important}#print-overlay{display:block !important}@page{margin:12mm}}.bio-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;align-items:center;justify-content:center;padding:12px}.bio-modal-overlay.open{display:flex}.bio-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;width:100%;max-width:680px;max-height:94vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 16px 60px rgba(0,0,0,0.75)}.bio-modal-head{padding:14px 18px 12px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(76,175,125,0.2),rgba(45,130,90,0.06));display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.bio-modal-head-left{display:flex;flex-direction:column;gap:2px}.bio-modal-head h3{font-size:0.95rem;color:#5dd4a0;font-weight:700}.bio-modal-head-sub{font-size:0.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace}.bio-modal-head-right{display:flex;align-items:center;gap:6px}.bio-modal-head .bio-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem;padding:2px 6px;border-radius:4px;transition:all 0.15s}.bio-modal-head .bio-close:hover{color:var(--danger);background:rgba(224,85,85,0.1)}.bio-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg2);overflow-x:auto;-webkit-overflow-scrolling:touch}.bio-tab{padding:9px 16px;font-size:0.75rem;font-family:'JetBrains Mono',monospace;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}.bio-tab:hover{color:#5dd4a0}.bio-tab.active{color:#5dd4a0;border-bottom-color:#5dd4a0;background:rgba(76,175,125,0.05)}.bio-modal-body{overflow-y:auto;padding:14px 16px 20px;flex:1}.bio-modal-body::-webkit-scrollbar{width:4px}.bio-modal-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}.bio-rubric-summary{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:9px 12px;margin-bottom:10px;font-size:0.78rem;line-height:1.6}.bio-rubric-summary-title{font-size:0.62rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:4px}.bio-podium{display:grid;grid-template-columns:1fr 1.18fr 1fr;gap:6px;padding:6px 0 12px;align-items:end}.bio-pod-card{border-radius:12px;padding:12px 8px 10px;text-align:center;position:relative}.bio-pod-card.rank-1{background:linear-gradient(160deg,rgba(76,175,125,0.22),rgba(45,130,90,0.06));border:1px solid rgba(76,175,125,0.5);box-shadow:0 0 18px rgba(76,175,125,0.14)}.bio-pod-card.rank-2{background:linear-gradient(160deg,rgba(122,154,184,0.16),rgba(80,110,140,0.05));border:1px solid rgba(122,154,184,0.32);margin-top:16px}.bio-pod-card.rank-3{background:linear-gradient(160deg,rgba(200,150,12,0.12),rgba(160,112,8,0.04));border:1px solid rgba(200,150,12,0.3);margin-top:24px}.bio-pod-medal{font-size:1.25rem;margin-bottom:4px}.bio-pod-name{font-size:0.78rem;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--text);word-break:break-all;margin-bottom:2px;line-height:1.2}.bio-pod-full{font-size:0.58rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:5px}.bio-pod-score{font-size:1.05rem;font-weight:800;font-family:'JetBrains Mono',monospace}.bio-pod-card.rank-1 .bio-pod-score{color:#5dd4a0}.bio-pod-card.rank-2 .bio-pod-score{color:var(--g1)}.bio-pod-card.rank-3 .bio-pod-score{color:var(--gold)}.bio-pod-tissue{font-size:0.57rem;color:var(--muted);margin:3px 0 2px;line-height:1.4}.bio-pod-bar{height:3px;background:var(--border);border-radius:2px;margin-top:6px;overflow:hidden}.bio-pod-bar-fill{height:100%;border-radius:2px}.bio-pod-card.rank-1 .bio-pod-bar-fill{background:#5dd4a0}.bio-pod-card.rank-2 .bio-pod-bar-fill{background:var(--g1)}.bio-pod-card.rank-3 .bio-pod-bar-fill{background:var(--gold)}.bio-filter-row{display:flex;gap:4px;padding:4px 0 8px;flex-wrap:wrap}.bio-filter-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--muted);font-size:0.63rem;padding:3px 10px;border-radius:10px;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all 0.15s}.bio-filter-btn:hover,.bio-filter-btn.active{background:rgba(76,175,125,0.15);color:#5dd4a0;border-color:var(--g2)}.bio-remedy-card{border-radius:14px;padding:14px 14px 12px;margin-bottom:10px;border:1px solid var(--border);background:var(--bg3);transition:all 0.18s;cursor:pointer}.bio-remedy-card:hover{border-color:rgba(76,175,125,0.45);background:rgba(76,175,125,0.03);transform:translateY(-1px)}.bio-remedy-card.top{border-color:rgba(76,175,125,0.6);background:linear-gradient(135deg,rgba(76,175,125,0.11),rgba(45,130,90,0.04));box-shadow:0 0 20px rgba(76,175,125,0.09)}.bio-remedy-card.expanded{border-color:rgba(76,175,125,0.5)}.bio-card-row1{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px}.bio-card-left{flex:1}.bio-remedy-name{font-size:0.9rem;font-weight:800;color:var(--g2);font-family:'JetBrains Mono',monospace;margin-bottom:1px}.bio-remedy-card.top .bio-remedy-name{color:#5dd4a0}.bio-remedy-full{font-size:0.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:3px}.bio-tissue-line{font-size:0.63rem;color:var(--muted);line-height:1.4}.bio-card-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}.bio-score-chip{font-size:1.15rem;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--g2);background:rgba(76,175,125,0.12);border:1px solid rgba(76,175,125,0.25);border-radius:8px;padding:2px 10px;min-width:42px;text-align:center}.bio-remedy-card.top .bio-score-chip{color:#5dd4a0;background:rgba(76,175,125,0.18);border-color:rgba(76,175,125,0.4)}.bio-score-label{font-size:0.55rem;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center}.bio-score-bar{height:4px;background:var(--border);border-radius:3px;overflow:hidden;margin:4px 0}.bio-score-bar-fill{height:100%;background:var(--g2);border-radius:3px;transition:width 0.5s ease}.bio-remedy-card.top .bio-score-bar-fill{background:#5dd4a0}.bio-remedy-desc{font-size:0.79rem;color:var(--text);line-height:1.65;margin-bottom:8px;padding:8px 10px;background:rgba(255,255,255,0.03);border-radius:8px;border-left:2px solid rgba(76,175,125,0.4)}.bio-matched-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:4px}.bio-matched-label{font-size:0.58rem;color:var(--muted);font-family:'JetBrains Mono',monospace;white-space:nowrap}.bio-matched-tags{display:flex;flex-wrap:wrap;gap:4px}.bio-matched-tag{font-size:0.62rem;padding:2px 7px;border-radius:8px;background:rgba(76,175,125,0.1);color:var(--g2);border:1px solid rgba(76,175,125,0.22);font-family:'JetBrains Mono',monospace}.bio-detail-section{margin-top:10px;border-top:1px solid var(--border);padding-top:10px;display:none}.bio-remedy-card.expanded .bio-detail-section{display:block}.bio-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}.bio-detail-block{background:rgba(255,255,255,0.025);border-radius:8px;padding:8px 10px;border:1px solid var(--border)}.bio-detail-label{font-size:0.6rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:5px}.bio-symptom-list{margin:0;padding-left:14px}.bio-symptom-list li{font-size:0.73rem;color:var(--text);line-height:1.75}.bio-modality{font-size:0.71rem;color:var(--text);line-height:1.6;margin-bottom:3px;padding:3px 8px;border-radius:5px;display:flex;gap:5px;align-items:flex-start}.bio-modality.better{background:rgba(76,175,125,0.08);border-left:2px solid var(--g2)}.bio-modality.worse{background:rgba(224,85,85,0.07);border-left:2px solid var(--danger)}.bio-mod-icon{flex-shrink:0;font-size:0.7rem}.bio-dose-row{display:flex;align-items:center;gap:8px;margin-top:6px;padding:8px 10px;background:rgba(200,150,12,0.07);border:1px solid rgba(200,150,12,0.2);border-radius:8px}.bio-dose-icon{font-size:1rem}.bio-dose-text{font-size:0.73rem;color:var(--gold);font-family:'JetBrains Mono',monospace;flex:1}.bio-comp-row{margin-top:6px}.bio-comp-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}.bio-comp-tag{font-size:0.6rem;padding:2px 7px;border-radius:7px;background:rgba(200,150,12,0.1);color:var(--gold);border:1px solid rgba(200,150,12,0.22);font-family:'JetBrains Mono',monospace}.bio-expand-btn{font-size:0.62rem;color:var(--muted);font-family:'JetBrains Mono',monospace;cursor:pointer;padding:2px 0;display:flex;align-items:center;gap:3px;background:none;border:none;transition:color 0.15s;margin-top:4px}.bio-expand-btn:hover{color:#5dd4a0}.bio-compare-table{width:100%;border-collapse:collapse;font-size:0.74rem;margin-top:8px}.bio-compare-table th{background:rgba(76,175,125,0.1);color:#5dd4a0;font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:6px 8px;border:1px solid var(--border2);text-align:left}.bio-compare-table td{padding:6px 8px;border:1px solid var(--border);color:var(--text);vertical-align:top;line-height:1.5}.bio-compare-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}.bio-compare-table .remedy-col{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--g2);font-size:0.72rem;white-space:nowrap}.bio-chart-row{display:flex;flex-direction:column;gap:6px;margin-top:8px}.bio-chart-item{display:flex;align-items:center;gap:8px}.bio-chart-name{font-size:0.72rem;font-family:'JetBrains Mono',monospace;color:var(--text);width:90px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bio-chart-bar-wrap{flex:1;height:12px;background:var(--border);border-radius:6px;overflow:hidden}.bio-chart-bar-fill{height:100%;background:linear-gradient(90deg,rgba(76,175,125,0.7),#5dd4a0);border-radius:6px;transition:width 0.5s ease}.bio-chart-score{font-size:0.7rem;font-family:'JetBrains Mono',monospace;color:var(--muted);width:28px;text-align:right}.bio-empty{padding:40px;text-align:center;color:var(--muted)}.bio-empty-icon{font-size:2.5rem;margin-bottom:10px}.bio-section-label{font-size:0.62rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:4px 0 8px}.bio-ref-list{display:flex;flex-direction:column;gap:8px;margin-top:6px}.bio-ref-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px}.bio-ref-name{font-size:0.85rem;font-weight:700;color:var(--g2);font-family:'JetBrains Mono',monospace;margin-bottom:3px}.bio-ref-full{font-size:0.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:6px}.bio-ref-tissue{font-size:0.72rem;color:var(--gold);margin-bottom:4px}.bio-ref-keynote{font-size:0.75rem;color:var(--text);line-height:1.65;padding:6px 8px;background:rgba(255,255,255,0.02);border-radius:6px;border-left:2px solid rgba(76,175,125,0.35)}.bio-score-num{font-size:0.75rem;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--g2)}html.light .bio-remedy-card{background:var(--bg3)}html.light .bio-rubric-summary{background:var(--bg3)}html.light .bio-detail-block{background:rgba(0,0,0,0.02)}html.light .bio-remedy-desc{background:rgba(0,0,0,0.02)}html.light .bio-ref-item{background:var(--bg3)}html.light .bio-compare-table tr:nth-child(even) td{background:rgba(0,0,0,0.02)}.bio-disease-search-wrap{position:relative;margin-bottom:10px}.bio-disease-search{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:var(--text);padding:9px 14px 9px 36px;font-size:0.84rem;font-family:inherit;outline:none;transition:border-color 0.2s}.bio-disease-search:focus{border-color:#5dd4a0}.bio-disease-search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:0.9rem;color:var(--muted)}.bio-disease-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}.bio-disease-tag{font-size:0.68rem;padding:4px 12px;border-radius:12px;cursor:pointer;background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--muted);font-family:'JetBrains Mono',monospace;transition:all 0.15s}.bio-disease-tag:hover,.bio-disease-tag.active{background:rgba(76,175,125,0.15);color:#5dd4a0;border-color:var(--g2)}.bio-disease-result{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px}.bio-disease-title{font-size:0.88rem;font-weight:700;color:var(--gold2);margin-bottom:6px;display:flex;align-items:center;gap:6px}.bio-disease-stage{font-size:0.62rem;font-family:'JetBrains Mono',monospace;padding:2px 8px;border-radius:8px;background:rgba(200,150,12,0.12);color:var(--gold);border:1px solid rgba(200,150,12,0.25)}.bio-disease-protocol{display:flex;flex-direction:column;gap:5px;margin-top:8px}.bio-protocol-row{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;background:rgba(255,255,255,0.025);border-radius:8px;border:1px solid var(--border)}.bio-protocol-order{width:20px;height:20px;border-radius:50%;background:rgba(76,175,125,0.2);border:1px solid rgba(76,175,125,0.4);color:#5dd4a0;font-size:0.65rem;font-family:'JetBrains Mono',monospace;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}.bio-protocol-main{flex:1}.bio-protocol-name{font-size:0.78rem;font-weight:700;color:var(--g2);font-family:'JetBrains Mono',monospace}.bio-protocol-why{font-size:0.7rem;color:var(--muted);margin-top:2px;line-height:1.5}.bio-protocol-note{font-size:0.65rem;color:var(--gold);margin-top:3px;font-family:'JetBrains Mono',monospace}.bio-combo-card{background:linear-gradient(135deg,rgba(76,175,125,0.08),rgba(45,130,90,0.03));border:1px solid rgba(76,175,125,0.3);border-radius:12px;padding:12px 14px;margin-bottom:8px}.bio-combo-title{font-size:0.8rem;font-weight:700;color:#5dd4a0;margin-bottom:6px;display:flex;align-items:center;gap:6px}.bio-combo-meds{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}.bio-combo-med{font-size:0.72rem;font-family:'JetBrains Mono',monospace;font-weight:700;padding:3px 10px;border-radius:8px;background:rgba(76,175,125,0.12);color:#5dd4a0;border:1px solid rgba(76,175,125,0.3)}.bio-combo-plus{font-size:0.8rem;color:var(--muted);display:flex;align-items:center}.bio-combo-desc{font-size:0.73rem;color:var(--text);line-height:1.55}.bio-combo-indication{font-size:0.65rem;color:var(--gold);margin-top:4px;font-family:'JetBrains Mono',monospace}.bio-action-bar{display:flex;gap:6px;padding:8px 0 4px;flex-wrap:wrap}.bio-action-btn{font-size:0.7rem;padding:5px 12px;border-radius:8px;cursor:pointer;font-family:'JetBrains Mono',monospace;border:1px solid var(--border2);background:rgba(255,255,255,0.04);color:var(--muted);transition:all 0.15s;display:flex;align-items:center;gap:4px}.bio-action-btn:hover{border-color:var(--gold);color:var(--gold)}.bio-action-btn.green:hover{border-color:#5dd4a0;color:#5dd4a0}.bio-donut-wrap{display:flex;align-items:center;justify-content:center;gap:20px;padding:12px 0 8px;flex-wrap:wrap}.bio-donut-svg{flex-shrink:0}.bio-donut-legend{display:flex;flex-direction:column;gap:5px}.bio-donut-legend-item{display:flex;align-items:center;gap:6px;font-size:0.68rem;font-family:'JetBrains Mono',monospace;color:var(--text)}.bio-donut-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}.bio-ref-item{cursor:pointer;transition:border-color 0.15s}.bio-ref-item:hover{border-color:rgba(76,175,125,0.4)}.bio-ref-item.open{border-color:rgba(76,175,125,0.5)}.bio-ref-head{display:flex;justify-content:space-between;align-items:flex-start}.bio-ref-toggle{font-size:0.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace;background:none;border:none;cursor:pointer;transition:color 0.15s;padding:2px 4px}.bio-ref-toggle:hover{color:#5dd4a0}.bio-ref-body{display:none;margin-top:10px;border-top:1px solid var(--border);padding-top:10px}.bio-ref-item.open .bio-ref-body{display:block}.bio-ref-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}.bio-ref-detail-block{background:rgba(255,255,255,0.025);border-radius:8px;padding:8px 10px;border:1px solid var(--border)}.bio-ref-detail-label{font-size:0.6rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:5px}.bio-ref-symptom-list{margin:0;padding-left:14px}.bio-ref-symptom-list li{font-size:0.71rem;color:var(--text);line-height:1.75}.bio-ref-modality{font-size:0.69rem;color:var(--text);line-height:1.6;margin-bottom:3px;padding:3px 7px;border-radius:5px}.bio-ref-modality.better{background:rgba(76,175,125,0.08);border-left:2px solid var(--g2);color:var(--g2)}.bio-ref-modality.worse{background:rgba(224,85,85,0.07);border-left:2px solid var(--danger);color:var(--danger)}.bio-ref-dose-row{font-size:0.72rem;color:var(--gold);font-family:'JetBrains Mono',monospace;padding:6px 10px;background:rgba(200,150,12,0.07);border:1px solid rgba(200,150,12,0.2);border-radius:7px;margin-bottom:6px}.bio-ref-comp-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}html.light .bio-disease-search{background:var(--bg3)}html.light .bio-disease-result{background:var(--bg3)}html.light .bio-protocol-row{background:rgba(0,0,0,0.02)}html.light .bio-ref-detail-block{background:rgba(0,0,0,0.02)}html.light .bio-combo-card{background:rgba(0,80,50,0.04)}html.light .prog-log{background:var(--bg3)}.login-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:5000;align-items:center;justify-content:center;padding:20px}.login-overlay.open{display:flex}.login-box{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;padding:36px 32px 28px;width:100%;max-width:360px;box-shadow:0 16px 60px rgba(0,0,0,0.8);text-align:center}.login-icon{font-size:2.4rem;margin-bottom:10px}.login-box h2{font-size:1.15rem;color:var(--gold2);margin-bottom:6px;font-weight:700}.login-box p{font-size:0.78rem;color:var(--muted);margin-bottom:22px;font-family:'JetBrains Mono',monospace}.login-field{margin-bottom:14px;text-align:left}.login-field label{font-size:0.72rem;color:var(--muted);display:block;margin-bottom:5px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.06em}.login-field input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:10px 14px;font-size:0.9rem;font-family:'JetBrains Mono',monospace;outline:none;letter-spacing:.08em;transition:border-color 0.2s}.login-field input:focus{border-color:var(--gold)}.login-field input.error{border-color:var(--danger)}.login-err{font-size:0.75rem;color:var(--danger);font-family:'JetBrains Mono',monospace;margin:-8px 0 12px;text-align:left;display:none}.login-err.show{display:block}.login-submit{width:100%;background:var(--gold);color:#000;border:none;padding:11px;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.92rem;font-family:inherit;transition:all 0.2s;margin-top:4px}.login-submit:hover{background:var(--gold2);transform:translateY(-1px)}.login-cancel{width:100%;background:transparent;color:var(--muted);border:1px solid var(--border2);padding:8px;border-radius:8px;cursor:pointer;font-size:0.8rem;font-family:inherit;transition:all 0.2s;margin-top:8px}.login-cancel:hover{color:var(--danger);border-color:var(--danger)}html.light .login-field input{background:var(--bg3)}html.light .login-box{background:var(--bg2)}.theme-toggle{background:rgba(255,255,255,0.08);border:1px solid var(--border2);color:var(--text);font-size:0.82rem;padding:6px 12px;border-radius:20px;cursor:pointer;font-family:inherit;transition:all 0.2s;white-space:nowrap;display:flex;align-items:center;gap:5px}.theme-toggle:hover{border-color:var(--gold);color:var(--gold2)}html.light .theme-toggle{background:rgba(0,0,0,0.06)}*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Times New Roman',Times,serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:18px}header{background:linear-gradient(135deg,#08111c 0%,#0f1e30 60%,#08111c 100%);border-bottom:1px solid var(--gold);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 30px rgba(0,0,0,0.7)}.logo-area{display:flex;align-items:center;gap:12px;min-width:0}.logo-icon{font-size:1.8rem;flex-shrink:0}.logo-text{min-width:0}.logo-text h1{font-size:1.2rem;color:var(--gold2);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.logo-text p{font-size:0.7rem;color:var(--muted);font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-right{display:flex;gap:8px;align-items:center;flex-shrink:0}.db-status{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);padding:4px 10px;border:1px solid var(--border);border-radius:12px;white-space:nowrap}.db-status.ready{color:var(--success);border-color:var(--success)}.hamburger-btn{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;width:38px;height:34px;background:rgba(255,255,255,0.06);border:1px solid var(--border2);border-radius:10px;cursor:pointer;padding:0;transition:var(--transition)}.hamburger-btn span{display:block;width:18px;height:2px;background:var(--text);border-radius:2px;transition:transform 0.25s,opacity 0.2s}.hamburger-btn:hover{border-color:var(--gold);background:rgba(200,150,12,0.1)}.hamburger-btn.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}.hamburger-btn.open span:nth-child(2){opacity:0}.hamburger-btn.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}html.light .hamburger-btn{background:rgba(0,0,0,0.05)}.nav-drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:199;opacity:0;pointer-events:none;transition:opacity 0.25s;backdrop-filter:blur(2px)}.nav-drawer-overlay.open{opacity:1;pointer-events:auto}.nav-drawer{position:fixed;top:0;right:0;bottom:0;width:270px;max-width:82vw;background:var(--bg2);border-left:1px solid var(--border2);box-shadow:-8px 0 32px rgba(0,0,0,0.5);z-index:200;transform:translateX(100%);transition:transform 0.28s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;overflow-y:auto}.nav-drawer.open{transform:translateX(0)}.nav-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;color:var(--gold2);flex-shrink:0}.nav-drawer-close{background:rgba(255,255,255,0.06);border:1px solid var(--border2);color:var(--text);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:0.9rem;transition:var(--transition)}.nav-drawer-close:hover{border-color:var(--gold);color:var(--gold2)}.header-nav{display:flex;flex-direction:column;gap:6px;padding:14px}.nav-btn{background:rgba(255,255,255,0.05);border:1px solid var(--border2);color:var(--text);padding:12px 16px;border-radius:12px;cursor:pointer;font-size:0.88rem;font-family:inherit;text-align:left;width:100%;transition:all 0.2s}.nav-btn:hover,.nav-btn.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:600}.view{display:none}.view.active{display:block}#view-upload{max-width:700px;margin:60px auto;padding:20px;text-align:center}.upload-card{background:var(--bg2);border:2px dashed var(--border2);border-radius:16px;padding:50px 40px;transition:all 0.3s}.upload-card.dragover{border-color:var(--gold);background:rgba(200,150,12,0.05)}.upload-icon{font-size:3rem;margin-bottom:16px}.upload-card h2{font-size:1.5rem;color:var(--gold2);margin-bottom:8px}.upload-card p{color:var(--muted);font-size:0.9rem;margin-bottom:24px;line-height:1.7}.upload-btn{display:inline-block;background:var(--gold);color:#000;font-weight:700;font-size:0.95rem;padding:12px 28px;border-radius:8px;cursor:pointer;border:none;font-family:inherit;transition:all 0.2s}.upload-btn:hover{background:var(--gold2)}#file-input{display:none}.upload-progress{margin-top:24px;display:none}.prog-bar-wrap{background:var(--bg3);border-radius:8px;height:8px;overflow:hidden;margin:8px 0}.prog-bar{background:var(--gold);height:100%;width:0%;transition:width 0.3s;border-radius:8px}.prog-text{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--muted)}.prog-log{margin-top:12px;text-align:left;max-height:200px;overflow-y:auto}.prog-log div{font-family:'JetBrains Mono',monospace;font-size:0.75rem;padding:3px 0;border-bottom:1px solid var(--border)}.prog-log .ok{color:var(--success)}.prog-log .err{color:var(--danger)}.prog-log .info{color:var(--gold)}#view-rep{padding:0}.rep-layout{display:grid;grid-template-columns:300px 1fr 340px;height:calc(100vh - var(--header-h,57px));gap:0}@media(max-width:1100px) and (min-width:901px){.rep-layout{grid-template-columns:260px 1fr 280px}}.panel{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}.panel:last-child{border-right:none;border-left:1px solid var(--border)}.panel-head{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.panel-head h2{font-size:0.88rem;color:var(--gold2);font-weight:700;display:flex;align-items:center;gap:6px}.panel-body{flex:1;overflow-y:auto;padding:10px}.panel-body::-webkit-scrollbar{width:4px}.panel-body::-webkit-scrollbar-track{background:var(--bg)}.panel-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}.search-wrap{position:relative;margin-bottom:10px}.search-wrap input{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:8px 12px 8px 34px;font-size:0.82rem;font-family:inherit;outline:none}.search-wrap input:focus{border-color:var(--gold)}.search-wrap .si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:0.9rem}.chapter-list{}.chapter-btn{width:100%;text-align:left;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text);padding:9px 10px;cursor:pointer;font-family:inherit;font-size:0.85rem;display:flex;justify-content:space-between;align-items:center;transition:background 0.15s}.chapter-btn:hover{background:rgba(255,255,255,0.04)}.chapter-btn.active{background:rgba(200,150,12,0.12);color:var(--gold2);border-left:3px solid var(--gold)}.chapter-btn .badge{background:var(--bg3);color:var(--muted);font-size:0.7rem;padding:1px 7px;border-radius:10px;font-family:'JetBrains Mono',monospace}.chapter-btn.active .badge{background:rgba(200,150,12,0.2);color:var(--gold)}.rubric-item{padding:8px 10px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}.rubric-item:hover{background:rgba(255,255,255,0.04)}.rubric-item.selected{background:rgba(200,150,12,0.1);border-left:3px solid var(--gold)}.rubric-name{flex:1}.rubric-name strong{font-size:0.82rem;display:block;line-height:1.3}.rubric-name small{font-size:0.7rem;color:var(--muted);font-family:'JetBrains Mono',monospace}.add-btn{background:rgba(255,255,255,0.06);border:1px solid var(--border2);color:var(--muted);font-size:0.7rem;padding:3px 8px;border-radius:6px;cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0;transition:all 0.15s}.add-btn:hover{background:var(--gold);color:#000;border-color:var(--gold)}.add-btn.added{background:var(--success);color:#000;border-color:var(--success)}.detail-area{padding:16px}.detail-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;color:var(--muted);gap:10px}.detail-empty .ei{font-size:3rem}.detail-title{font-size:1.1rem;font-weight:700;color:var(--gold2);margin-bottom:4px}.detail-path{font-size:0.75rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:14px}.grade-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.grade-badge{font-size:0.72rem;padding:3px 10px;border-radius:10px;font-family:'JetBrains Mono',monospace}.grade-badge.g3{background:rgba(240,192,64,0.15);color:var(--g3);border:1px solid rgba(240,192,64,0.3)}.grade-badge.g2{background:rgba(76,175,125,0.15);color:var(--g2);border:1px solid rgba(76,175,125,0.3)}.grade-badge.g1{background:rgba(122,154,184,0.15);color:var(--g1);border:1px solid rgba(122,154,184,0.3)}.remedy-grid{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}.remedy-pill{font-size:0.75rem;padding:3px 9px;border-radius:6px;cursor:default;font-family:'JetBrains Mono',monospace}.remedy-pill.g3{background:rgba(240,192,64,0.15);color:var(--g3);border:1px solid rgba(240,192,64,0.25)}.remedy-pill.g2{background:rgba(76,175,125,0.15);color:var(--g2);border:1px solid rgba(76,175,125,0.25)}.remedy-pill.g1{background:rgba(122,154,184,0.1);color:var(--g1);border:1px solid rgba(122,154,184,0.2)}.sub-section{margin-top:12px;border-top:1px solid var(--border);padding-top:12px}.sub-label{font-size:0.72rem;color:var(--gold);font-family:'JetBrains Mono',monospace;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em}.sub-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:6px;cursor:pointer}.sub-item:hover{border-color:var(--border2)}.sub-item.sel{border-color:var(--gold);background:rgba(200,150,12,0.07)}.sub-item-name{font-size:0.82rem;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}.sub-add-btn{background:rgba(255,255,255,0.06);border:1px solid var(--border2);color:var(--muted);font-size:0.68rem;padding:2px 7px;border-radius:5px;cursor:pointer;font-family:inherit;transition:all 0.15s;flex-shrink:0}.sub-add-btn:hover{background:var(--gold);color:#000}.sub-add-btn.added{background:var(--success);color:#000}.panel-body.right-panel{display:flex;flex-direction:column;padding:0;overflow:hidden}.right-actions{padding:10px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:6px;flex-shrink:0}.action-row{display:grid;grid-template-columns:1fr 1fr;gap:6px}.action-btn{width:100%;border:none;padding:9px 10px;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.82rem;font-family:inherit;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:5px}.action-btn.primary{background:var(--gold);color:#000}.action-btn.primary:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 4px 12px rgba(200,150,12,0.3)}.action-btn.secondary{background:var(--bg3);color:var(--gold);border:1px solid var(--border2);font-weight:600}.action-btn.secondary:hover{border-color:var(--gold);color:var(--gold2)}.action-btn.secondary.green{color:#7ec8a0;border-color:rgba(126,200,160,0.35)}.action-btn.secondary.green:hover{border-color:#7ec8a0}.action-btn.secondary.blue{color:#7ab8e8;border-color:rgba(45,106,159,0.4)}.action-btn.secondary.blue:hover{border-color:#7ab8e8}.action-btn.danger{background:transparent;color:var(--muted);border:1px solid var(--border2);font-weight:600}.action-btn.danger:hover{color:var(--danger);border-color:var(--danger);background:rgba(224,85,85,0.06)}.right-body{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-height:0}.right-body::-webkit-scrollbar{width:4px}.right-body::-webkit-scrollbar-track{background:var(--bg)}.right-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}.sel-section{flex-shrink:0;border-bottom:2px solid var(--border)}.sel-section-head{width:100%;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.015);border:none;cursor:pointer;font-family:inherit;text-align:left}.sel-section-head span{font-size:0.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:6px}.sel-count-chip{background:var(--gold);color:#000;font-size:0.62rem;font-weight:700;border-radius:9px;padding:1px 7px;font-family:'JetBrains Mono',monospace;text-transform:none;letter-spacing:0}.sel-section-arrow{color:var(--muted);font-size:0.7rem;transition:transform 0.2s;flex-shrink:0}.sel-section.collapsed .sel-section-arrow{transform:rotate(-90deg)}.sel-section.collapsed .sel-section-body{display:none}.sel-section-body{max-height:180px;overflow-y:auto}.sel-section-body::-webkit-scrollbar{width:3px}.sel-section-body::-webkit-scrollbar-thumb{background:var(--border2)}.result-section{flex:1;overflow-y:auto}.result-section::-webkit-scrollbar{width:4px}.result-section::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}.sel-item{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 10px;border-bottom:1px solid var(--border);gap:6px;transition:background 0.1s}.sel-item:hover{background:rgba(255,255,255,0.02)}.sel-item-name{font-size:0.78rem;flex:1;line-height:1.3}.sel-item-name[style*="cursor:pointer"]:hover{color:var(--gold2)}.sel-item-name small{color:var(--muted);font-size:0.65rem;font-family:'JetBrains Mono',monospace;display:block}.rm-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.8rem;flex-shrink:0;padding:2px 5px;border-radius:4px;transition:all 0.15s}.rm-btn:hover{color:var(--danger);background:rgba(224,85,85,0.1)}.result-header{display:flex;justify-content:space-between;align-items:center;padding:11px 14px 10px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:2;gap:8px}.result-header-left{display:flex;align-items:center;gap:8px}.result-header-icon{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,rgba(224,176,48,0.22),rgba(200,150,12,0.08));border:1px solid rgba(224,176,48,0.3);display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0}.result-header-title{font-size:0.78rem;font-weight:800;color:var(--text);letter-spacing:-0.01em}.result-header-sub{font-size:0.6rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:1px}.result-header-stat{display:flex;align-items:center;gap:6px;flex-shrink:0}.result-stat-pill{font-size:0.6rem;font-family:'JetBrains Mono',monospace;padding:3px 7px;border-radius:20px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--muted)}.res-top3{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:6px;padding:12px 10px 14px;background:var(--bg2);border-bottom:1px solid var(--border);align-items:end}.res-hero{border-radius:12px;padding:12px 8px 10px;text-align:center;cursor:pointer;transition:transform .15s,filter .15s;position:relative;overflow:hidden}.res-hero:hover{transform:translateY(-3px);filter:brightness(1.1)}.res-hero::before{content:'';position:absolute;inset:0;border-radius:inherit;opacity:0;transition:opacity .15s}.res-hero:hover::before{opacity:1}.res-hero.rh1{background:linear-gradient(160deg,rgba(240,192,64,0.2) 0%,rgba(200,150,12,0.06) 100%);border:1px solid rgba(240,192,64,0.38);box-shadow:0 0 20px rgba(200,150,12,0.12),inset 0 1px 0 rgba(255,255,255,0.06)}.res-hero.rh2{background:linear-gradient(160deg,rgba(99,174,230,0.14) 0%,rgba(60,130,180,0.04) 100%);border:1px solid rgba(99,174,230,0.28);margin-top:12px}.res-hero.rh3{background:linear-gradient(160deg,rgba(148,120,220,0.12) 0%,rgba(100,80,160,0.04) 100%);border:1px solid rgba(148,120,220,0.24);margin-top:20px}.rh-medal{font-size:1.3rem;margin-bottom:4px;line-height:1}.rh-name{font-size:0.72rem;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text);line-height:1.25;overflow-wrap:break-word;word-break:break-word;margin-bottom:4px}.rh-score-wrap{display:flex;align-items:baseline;justify-content:center;gap:3px;margin-bottom:2px}.rh-score{font-size:1.4rem;font-weight:900;font-family:'JetBrains Mono',monospace;line-height:1}.rh-score-label{font-size:0.52rem;color:var(--muted);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.06em}.res-hero.rh1 .rh-score{color:var(--g3)}.res-hero.rh2 .rh-score{color:#63aee6}.res-hero.rh3 .rh-score{color:#9478dc}.rh-cov{font-size:0.56rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:5px}.rh-bar{height:4px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;margin-top:4px}.rh-bar-fill{height:100%;border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1)}.res-hero.rh1 .rh-bar-fill{background:linear-gradient(90deg,var(--g3),rgba(240,192,64,0.5))}.res-hero.rh2 .rh-bar-fill{background:linear-gradient(90deg,#63aee6,rgba(99,174,230,0.4))}.res-hero.rh3 .rh-bar-fill{background:linear-gradient(90deg,#9478dc,rgba(148,120,220,0.4))}.rh-miasm{display:flex;justify-content:center;flex-wrap:wrap;gap:3px;margin-top:5px;min-height:14px}.result-filter-row{display:flex;gap:4px;padding:8px 10px;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}.result-filter-row::-webkit-scrollbar{display:none}.result-filter-btn{flex-shrink:0;background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:0.63rem;padding:4px 10px;border-radius:20px;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all .15s;white-space:nowrap}.result-filter-btn:hover{border-color:rgba(224,176,48,0.4);color:var(--gold)}.result-filter-btn.active{background:rgba(224,176,48,0.14);color:var(--gold2);border-color:rgba(224,176,48,0.5);font-weight:700}.result-list{padding:6px 6px 16px;display:flex;flex-direction:column;gap:5px}.res-card{border-radius:10px;background:rgba(255,255,255,0.025);border:1px solid var(--border);overflow:hidden;transition:border-color .15s}.res-card:hover{border-color:rgba(224,176,48,0.25)}.res-card-body{display:flex;align-items:stretch;gap:0;cursor:pointer}.res-card-rank{width:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--muted);background:rgba(255,255,255,0.02);border-right:1px solid var(--border)}.res-card-main{flex:1;min-width:0;padding:8px 10px 7px}.res-card-top{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:4px}.res-card-name{font-size:0.82rem;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.res-card-right{display:flex;align-items:center;gap:5px;flex-shrink:0}.res-score-badge{font-size:0.72rem;font-family:'JetBrains Mono',monospace;font-weight:800;padding:2px 7px;border-radius:6px}.res-score-badge.high{background:rgba(224,176,48,0.15);color:var(--g3);border:1px solid rgba(224,176,48,0.3)}.res-score-badge.mid{background:rgba(99,174,230,0.1);color:#63aee6;border:1px solid rgba(99,174,230,0.25)}.res-score-badge.low{background:rgba(255,255,255,0.04);color:var(--muted);border:1px solid var(--border2)}.res-cov-badge{font-size:0.57rem;font-family:'JetBrains Mono',monospace;padding:2px 6px;border-radius:8px}.res-cov-badge.full{background:rgba(76,175,125,0.13);color:#5dcfa0;border:1px solid rgba(76,175,125,0.28)}.res-cov-badge.part{background:rgba(224,176,48,0.1);color:var(--gold);border:1px solid rgba(224,176,48,0.22)}.res-cov-badge.low{background:rgba(255,255,255,0.03);color:var(--muted);border:1px solid var(--border)}.res-card-bar-track{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-bottom:5px}.res-card-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,rgba(224,176,48,0.7),rgba(224,176,48,0.3));transition:width .5s cubic-bezier(.4,0,.2,1)}.res-card-footer{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}.res-card-meta{font-size:0.6rem;color:var(--muted);font-family:'JetBrains Mono',monospace}.res-card-actions{display:flex;align-items:center;gap:5px}.rb-toggle{font-size:0.6rem;color:var(--muted);padding:2px 7px;border-radius:5px;border:1px solid var(--border);background:none;cursor:pointer;transition:all .12s;flex-shrink:0;font-family:'JetBrains Mono',monospace}.rb-toggle:hover{color:var(--gold);border-color:rgba(224,176,48,0.4)}.rb-toggle.open{color:var(--gold);border-color:rgba(224,176,48,0.4);background:rgba(224,176,48,0.07)}.rb-panel{display:none;padding:8px 10px 10px 12px;background:rgba(0,0,0,0.2);border-top:1px solid var(--border)}.rb-panel.open{display:block}html.light .rb-panel{background:rgba(0,0,0,0.03)}.rb-grid{display:flex;flex-direction:column;gap:2px}.rb-row{display:flex;align-items:center;gap:7px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.04)}.rb-row:last-child{border-bottom:none}.rb-grade{font-size:0.62rem;font-family:'JetBrains Mono',monospace;width:22px;text-align:center;border-radius:4px;padding:2px 3px;flex-shrink:0;font-weight:800}.rb-grade.g3{background:rgba(224,176,48,0.2);color:var(--g3)}.rb-grade.g2{background:rgba(99,174,230,0.15);color:#63aee6}.rb-grade.g1{background:rgba(255,255,255,0.06);color:var(--muted)}.rb-grade.miss{background:transparent;color:rgba(255,255,255,0.18);font-size:0.7rem}.rb-name{font-size:0.7rem;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:.85}html.light .rb-row{border-bottom-color:rgba(0,0,0,0.05)}html.light .rb-grade.miss{color:rgba(0,0,0,0.2)}html.light .res-card{background:rgba(0,0,0,0.018)}html.light .res-card:hover{border-color:rgba(200,150,12,0.3)}html.light .res-card-rank{background:rgba(0,0,0,0.025)}html.light .res-hero.rh1{box-shadow:0 0 20px rgba(200,150,12,0.08)}.result-name-row{display:flex}.result-badges{display:flex;gap:4px;align-items:center}.result-rubric-count{font-size:0.6rem;color:var(--muted);font-family:'JetBrains Mono',monospace}.result-coverage-chip{font-size:0.58rem;font-family:'JetBrains Mono',monospace;padding:1px 5px;border-radius:8px}.result-coverage-chip.full{background:rgba(76,175,125,0.14);color:#5dcfa0;border:1px solid rgba(76,175,125,0.28)}.result-coverage-chip.part{background:rgba(224,176,48,0.11);color:var(--gold);border:1px solid rgba(224,176,48,0.24)}.result-coverage-chip.low{background:rgba(106,138,170,0.09);color:var(--muted);border:1px solid rgba(106,138,170,0.2)}#pin-overlay{display:flex;position:fixed;inset:0;z-index:9999;background:#0d1117;align-items:center;justify-content:center;flex-direction:column;gap:0}#pin-overlay.hidden{display:none}.pin-box{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:32px 28px 28px;width:min(320px,92vw);text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.7)}.pin-logo{font-size:2rem;margin-bottom:6px}.pin-app-name{font-size:1rem;font-weight:800;color:var(--gold2);margin-bottom:4px;font-family:'JetBrains Mono',monospace}.pin-subtitle{font-size:0.68rem;color:var(--muted);margin-bottom:22px}.pin-dots{display:flex;justify-content:center;gap:10px;margin-bottom:22px}.pin-dot{width:13px;height:13px;border-radius:50%;border:2px solid var(--border2);background:transparent;transition:all 0.15s}.pin-dot.filled{background:var(--gold2);border-color:var(--gold2)}.pin-dot.error{background:var(--danger);border-color:var(--danger)}.pin-input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}.pin-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}.pin-key{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 0;font-size:1.2rem;font-family:'JetBrains Mono',monospace;color:var(--text);cursor:pointer;user-select:none;transition:all 0.1s;font-weight:600}.pin-key:active{background:rgba(200,150,12,0.18);border-color:var(--gold);transform:scale(0.94)}.pin-key.del{font-size:1rem;color:var(--muted)}.pin-key.zero{grid-column:2}.pin-msg{font-size:0.72rem;color:var(--danger);min-height:18px;margin-top:2px}html.light #pin-overlay{background:#f0f0f0}.mm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:3000;align-items:center;justify-content:center;padding:10px}.mm-overlay.open{display:flex}.mm-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;width:100%;max-width:700px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 70px rgba(0,0,0,0.8)}.mm-head{padding:14px 18px 12px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(200,150,12,0.18),rgba(160,112,8,0.06));display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.mm-head-left{display:flex;flex-direction:column;gap:2px}.mm-remedy-title{font-size:1.1rem;font-weight:800;color:var(--gold2);font-family:'JetBrains Mono',monospace}.mm-remedy-full{font-size:0.7rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:2px}.mm-source-badge{font-size:0.6rem;background:rgba(200,150,12,0.15);color:var(--gold);border:1px solid rgba(200,150,12,0.3);border-radius:8px;padding:2px 8px;font-family:'JetBrains Mono',monospace;margin-top:3px;display:inline-block}.mm-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.2rem;padding:4px 8px;border-radius:6px;transition:all 0.15s}.mm-close:hover{color:var(--danger);background:rgba(224,85,85,0.1)}.mm-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg2);overflow-x:auto;-webkit-overflow-scrolling:touch}.mm-tab{padding:9px 16px;font-size:0.75rem;font-family:'JetBrains Mono',monospace;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0;flex:1;text-align:center}.mm-tab:hover{color:var(--text);background:rgba(255,255,255,0.03)}.mm-tab.active{color:var(--gold2);border-bottom-color:var(--gold);background:rgba(200,150,12,0.06)}.mm-body{overflow-y:auto;padding:16px 18px 24px;flex:1}.mm-body::-webkit-scrollbar{width:4px}.mm-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}.mm-section{margin-bottom:14px}.mm-section-title{font-size:0.65rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);border-bottom:1px solid var(--border);padding-bottom:5px;margin-bottom:8px}.mm-keynote{font-size:0.88rem;color:var(--text);line-height:1.75;padding:10px 14px;background:rgba(200,150,12,0.06);border-left:3px solid var(--gold);border-radius:0 8px 8px 0}.mm-symptom-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:560px){.mm-symptom-grid{grid-template-columns:1fr}}.mm-sym-block{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 12px}.mm-sym-block-title{font-size:0.62rem;font-family:'JetBrains Mono',monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}.mm-sym-list{margin:0;padding-left:15px}.mm-sym-list li{font-size:0.78rem;color:var(--text);line-height:1.8}.mm-mod-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}.mm-mod-block{flex:1;min-width:120px;background:var(--bg3);border-radius:8px;padding:8px 10px;border:1px solid var(--border)}.mm-mod-better{border-left:3px solid var(--g2)}.mm-mod-worse{border-left:3px solid var(--danger)}.mm-mod-title{font-size:0.6rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}.mm-mod-better .mm-mod-title{color:var(--g2)}.mm-mod-worse .mm-mod-title{color:var(--danger)}.mm-mod-list{margin:0;padding-left:14px}.mm-mod-list li{font-size:0.76rem;color:var(--text);line-height:1.75}.mm-dose-box{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(200,150,12,0.07);border:1px solid rgba(200,150,12,0.2);border-radius:10px;margin-top:4px}.mm-dose-icon{font-size:1.1rem}.mm-dose-text{font-size:0.8rem;color:var(--gold);font-family:'JetBrains Mono',monospace}.mm-rel-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}.mm-rel-tag{font-size:0.65rem;padding:2px 9px;border-radius:8px;background:rgba(45,106,159,0.12);color:#7ab8e8;border:1px solid rgba(45,106,159,0.28);font-family:'JetBrains Mono',monospace;cursor:pointer;transition:all 0.15s}.mm-rel-tag:hover{background:rgba(45,106,159,0.25)}.mm-not-found{padding:40px 20px;text-align:center;color:var(--muted)}.mm-not-found .mm-nf-icon{font-size:2.5rem;margin-bottom:10px}.mm-not-found p{font-size:0.85rem;line-height:1.7}html.light .mm-sym-block{background:var(--bg3)}html.light .mm-mod-block{background:var(--bg3)}.mm-allen-list{margin:0;padding-left:0;list-style:none}.mm-allen-list li{font-size:0.85rem;color:var(--text);line-height:1.75;padding:8px 12px 8px 30px;position:relative;border-bottom:1px solid var(--border)}.mm-allen-list li:last-child{border-bottom:none}.mm-allen-list li::before{content:'🔑';position:absolute;left:4px;top:8px;font-size:0.75rem}.mm-allen-section{margin-bottom:14px}.mm-allen-source-note{font-size:0.68rem;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center;padding:10px;margin-top:8px;border-top:1px dashed var(--border)}.result-item.mm-clickable{cursor:pointer}.result-item.mm-clickable:hover{background:rgba(200,150,12,0.06)}.podium-card.mm-clickable{cursor:pointer}.podium-card.mm-clickable:hover{filter:brightness(1.1)}.sub-search-wrap{display:flex;align-items:center;gap:6px;margin-bottom:6px}.sub-search-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:6px 10px;font-size:0.76rem;font-family:inherit;outline:none;transition:border-color .15s}.sub-search-input:focus{border-color:var(--gold)}.sub-clear-btn{background:none;border:none;color:var(--muted);font-size:0.9rem;cursor:pointer;padding:4px 6px;border-radius:6px;flex-shrink:0}.sub-clear-btn:hover{color:var(--gold)}.sub-alpha-bar{display:flex;flex-wrap:wrap;gap:2px;margin-bottom:8px}.sub-alpha-btn{flex:0 0 auto;min-width:21px;height:21px;padding:0 2px;background:var(--bg3);border:1px solid var(--border2);border-radius:5px;color:var(--muted);font-size:0.65rem;font-weight:700;font-family:'JetBrains Mono',monospace;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s,border-color .15s}.sub-alpha-btn:hover{background:rgba(224,176,48,0.18);color:var(--gold);border-color:var(--gold)}.sub-alpha-btn.active{background:var(--gold);color:#000;border-color:var(--gold)}.sub-alpha-btn.dim{opacity:0.22;cursor:default;pointer-events:none}.sub-no-match{font-size:0.75rem;color:var(--muted);padding:10px 4px;text-align:center}.analyze-btn{width:100%;background:var(--gold);color:#000;border:none;padding:10px;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.88rem;font-family:inherit;margin-bottom:0;transition:all 0.2s}.analyze-btn:hover{background:var(--gold2)}.clear-btn{width:100%;background:transparent;color:var(--muted);border:1px solid var(--border2);padding:7px;border-radius:8px;cursor:pointer;font-size:0.8rem;font-family:inherit;transition:all 0.2s}.clear-btn:hover{color:var(--danger);border-color:var(--danger)}.empty-state{padding:30px;text-align:center;color:var(--muted);font-size:0.85rem}#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:10px 20px;border-radius:8px;font-size:0.85rem;z-index:9999;transition:transform 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.5);max-width:400px;text-align:center}#toast.show{transform:translateX(-50%) translateY(0)}.badge{background:var(--bg3);color:var(--muted);font-size:0.7rem;padding:1px 7px;border-radius:10px;font-family:'JetBrains Mono',monospace}.miasm-wrap{display:flex;gap:3px;flex-wrap:wrap;margin-top:3px}.miasm-tag{font-size:0.55rem;font-family:'JetBrains Mono',monospace;font-weight:700;padding:1px 5px;border-radius:6px;letter-spacing:.03em;white-space:nowrap}.miasm-tag.psora{background:rgba(255,200,60,0.15);color:#e0b030;border:1px solid rgba(224,176,48,0.35)}.miasm-tag.sycosis{background:rgba(80,200,140,0.15);color:#38b078;border:1px solid rgba(56,176,120,0.35)}.miasm-tag.syphilis{background:rgba(220,80,80,0.14);color:#d05050;border:1px solid rgba(208,80,80,0.32)}.miasm-tag.tubercular{background:rgba(130,160,220,0.14);color:#7090d8;border:1px solid rgba(112,144,216,0.32)}html.light .miasm-tag.psora{background:rgba(200,140,0,0.1);color:#8a6000}html.light .miasm-tag.sycosis{background:rgba(0,130,80,0.1);color:#006040}html.light .miasm-tag.syphilis{background:rgba(180,0,0,0.08);color:#900000}html.light .miasm-tag.tubercular{background:rgba(60,80,180,0.1);color:#3040a0}#view-miasm{max-width:860px;margin:0 auto;padding:16px}.miasm-page-head{margin-bottom:14px}.miasm-page-head h2{font-size:1rem;font-weight:700;color:#e0b030}.miasm-page-head p{font-size:0.72rem;color:var(--muted);margin-top:2px}.miasm-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:0;background:var(--bg2);border-radius:10px 10px 0 0;overflow-x:auto}.miasm-tab{padding:9px 16px;font-size:0.74rem;font-family:'JetBrains Mono',monospace;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap}.miasm-tab:hover{color:#e0b030}.miasm-tab.active{color:#e0b030;border-bottom-color:#e0b030;background:rgba(224,176,48,0.06)}.miasm-body-wrap{background:var(--bg2);border:1px solid var(--border2);border-top:none;border-radius:0 0 12px 12px;padding:16px;min-height:400px}.miasm-info-card{border-radius:12px;padding:14px 16px;margin-bottom:12px;border:1px solid var(--border)}.miasm-info-card.psora{border-color:rgba(224,176,48,0.4);background:linear-gradient(135deg,rgba(255,200,60,0.08),rgba(200,150,0,0.03))}.miasm-info-card.sycosis{border-color:rgba(56,176,120,0.4);background:linear-gradient(135deg,rgba(80,200,140,0.08),rgba(0,150,80,0.03))}.miasm-info-card.syphilis{border-color:rgba(208,80,80,0.4);background:linear-gradient(135deg,rgba(220,80,80,0.08),rgba(180,0,0,0.03))}.miasm-info-card.tubercular{border-color:rgba(112,144,216,0.4);background:linear-gradient(135deg,rgba(130,160,220,0.08),rgba(80,100,180,0.03))}.miasm-card-title{font-size:0.92rem;font-weight:800;margin-bottom:6px;font-family:'JetBrains Mono',monospace}.miasm-info-card.psora .miasm-card-title{color:#e0b030}.miasm-info-card.sycosis .miasm-card-title{color:#38b078}.miasm-info-card.syphilis .miasm-card-title{color:#d05050}.miasm-info-card.tubercular .miasm-card-title{color:#7090d8}.miasm-info-text{font-size:0.78rem;color:var(--text);line-height:1.75}.miasm-prop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.miasm-prop-block{background:rgba(255,255,255,0.025);border-radius:8px;padding:9px 11px;border:1px solid var(--border)}.miasm-prop-label{font-size:0.6rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:5px}.miasm-prop-list{font-size:0.74rem;color:var(--text);line-height:1.75;padding-left:14px;margin:0}html.light .miasm-prop-block{background:rgba(0,0,0,0.025)}.miasm-search-wrap{position:relative;margin-bottom:10px}.miasm-search{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:var(--text);padding:9px 14px 9px 36px;font-size:0.84rem;font-family:inherit;outline:none}.miasm-search:focus{border-color:#e0b030}.miasm-search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:0.9rem;color:var(--muted)}.miasm-table-wrap{overflow-x:auto}.miasm-table{width:100%;border-collapse:collapse;font-size:0.76rem}.miasm-table th{background:rgba(224,176,48,0.1);color:#e0b030;font-family:'JetBrains Mono',monospace;font-size:0.64rem;padding:7px 10px;border:1px solid var(--border2);text-align:left;white-space:nowrap}.miasm-table td{padding:7px 10px;border:1px solid var(--border);color:var(--text);vertical-align:middle}.miasm-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}.miasm-table tr:hover td{background:rgba(224,176,48,0.04)}.miasm-remedy-name{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold2);cursor:pointer}.miasm-remedy-name:hover{color:#e0b030;text-decoration:underline}html.light .miasm-table tr:nth-child(even) td{background:rgba(0,0,0,0.025)}html.light .miasm-table th{background:rgba(160,112,8,0.08)}.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.ch-search{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:7px 10px;font-size:0.8rem;font-family:inherit;outline:none;margin-bottom:8px}.ch-search:focus{border-color:var(--gold)}.alpha-bar{display:flex;flex-wrap:wrap;gap:3px;padding:6px 0 4px;margin-bottom:6px}.alpha-btn{flex:0 0 auto;min-width:22px;height:22px;padding:0 3px;background:var(--bg3);border:1px solid var(--border2);border-radius:5px;color:var(--muted);font-size:0.68rem;font-weight:700;font-family:'JetBrains Mono',monospace;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s,border-color .15s}.alpha-btn:hover{background:rgba(224,176,48,0.18);color:var(--gold);border-color:var(--gold)}.alpha-btn.active{background:var(--gold);color:#000;border-color:var(--gold)}.alpha-btn.disabled{opacity:0.25;cursor:default;pointer-events:none}.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;align-items:center;justify-content:center}.modal-overlay.open{display:flex}.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:24px;width:90%;max-width:460px;max-height:80vh;overflow-y:auto}.modal h3{color:var(--gold2);font-size:1rem;margin-bottom:16px}.modal input,.modal textarea,.modal select{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:8px 12px;font-size:0.85rem;font-family:inherit;outline:none;margin-bottom:10px}.modal input:focus,.modal textarea:focus{border-color:var(--gold)}.modal label{font-size:0.78rem;color:var(--muted);display:block;margin-bottom:4px}.modal-btns{display:flex;gap:8px;margin-top:8px}.modal-btns button{flex:1}#view-saved{max-width:900px;margin:0 auto;padding:20px}#view-saved h2{color:var(--gold2);margin-bottom:16px;font-size:1.1rem}.saved-set{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:flex-start;gap:12px}.saved-set-info{flex:1}.saved-set-name{font-weight:700;color:var(--gold2);font-size:0.95rem}.saved-set-meta{font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:3px}.saved-set-rubrics{font-size:0.78rem;color:var(--text);margin-top:6px;line-height:1.6}.saved-set-actions{display:flex;flex-direction:column;gap:6px}.saved-set-actions button{background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.75rem;font-family:inherit;white-space:nowrap;transition:all 0.15s}.saved-set-actions button:hover{border-color:var(--gold);color:var(--gold)}.saved-set-actions .del-btn:hover{border-color:var(--danger);color:var(--danger)}#view-rx{max-width:960px;margin:0 auto;padding:20px}.rx-layout{display:grid;grid-template-columns:1fr 380px;gap:20px}@media(max-width:800px){.rx-layout{grid-template-columns:1fr}}.rx-form-section{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}.rx-form-section h3{color:var(--gold);font-size:0.82rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}.rx-row{display:flex;gap:10px;margin-bottom:10px}.rx-row > *{flex:1}.rx-field label{font-size:0.75rem;color:var(--muted);display:block;margin-bottom:4px}.rx-field input,.rx-field select,.rx-field textarea{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:7px 10px;font-size:0.83rem;font-family:inherit;outline:none}.rx-field input:focus,.rx-field select:focus,.rx-field textarea:focus{border-color:var(--gold)}.rx-field select option{background:var(--bg2)}.rx-field textarea{resize:vertical;min-height:60px}.med-row{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;position:relative}.med-row-grid{display:grid;grid-template-columns:2fr 1fr 1.2fr auto;gap:8px;align-items:end}.med-seq{font-size:0.7rem;color:var(--gold);font-family:'JetBrains Mono',monospace;margin-bottom:4px}.med-del-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:0 4px;align-self:flex-end;margin-bottom:2px}.med-del-btn:hover{color:var(--danger)}.food-grid{display:flex;flex-wrap:wrap;gap:8px}.food-check{display:flex;align-items:center;gap:5px;font-size:0.8rem;cursor:pointer}.food-check input{accent-color:var(--gold);width:14px;height:14px}.rx-preview{background:#fff;color:#000;border-radius:12px;padding:0;font-family:'Noto Sans Bengali','SolaimanLipi',Arial,sans-serif;font-size:13px;position:sticky;top:80px;box-shadow:0 4px 24px rgba(0,0,0,0.4);overflow:hidden;border:1px solid #e0e0e0}.rx-preview-head{background:#fff;color:#000;padding:18px 22px 14px;text-align:center;border-bottom:2px solid #1a3a6b}.rx-chamber-name{font-size:1.25rem;font-weight:800;color:#1a3a6b;letter-spacing:0.04em;text-transform:uppercase;border-bottom:1px solid #c8d8f0;padding-bottom:8px;margin-bottom:8px}.rx-doc-name{font-size:0.95rem;font-weight:700;color:#111}.rx-doc-degree{font-size:0.78rem;color:#444;margin-top:2px}.rx-doc-address{font-size:0.73rem;color:#555;margin-top:4px}.rx-doc-timing{font-size:0.7rem;color:#666;margin-top:3px}.rx-preview-body{padding:12px 18px}.rx-patient-row{display:flex;gap:12px;flex-wrap:wrap;border-bottom:1px solid #ddd;padding-bottom:8px;margin-bottom:10px;font-size:0.8rem}.rx-patient-row span{flex:1;min-width:80px}.rx-patient-row strong{color:#222}.rx-symbol{font-size:2.2rem;color:#1a3a6b;font-weight:900;margin:2px 0 6px;font-style:italic}.rx-med-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-bottom:10px}.rx-med-table th{background:#f0f4fa;color:#1a3a6b;text-align:left;padding:5px 7px;border:1px solid #d0d8e8;font-size:0.72rem;font-weight:700}.rx-med-table td{padding:5px 7px;border:1px solid #e0e0e0;vertical-align:top}.rx-med-table tr:nth-child(even) td{background:#f8faff}.rx-rubric-box{background:#f8f9fa;border-left:3px solid #1a3a6b;padding:7px 10px;margin-bottom:10px;font-size:0.7rem;color:#555}.rx-rubric-box .rb-title{font-weight:700;color:#1a3a6b;font-size:0.73rem;margin-bottom:4px}.rx-food-box{border:1px solid #e8d0d0;border-left:3px solid #c0392b;padding:7px 10px;margin-bottom:10px;font-size:0.73rem;background:#fff8f8}.rx-food-box strong{color:#c0392b;display:block;margin-bottom:3px}.rx-footer{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid #ddd;padding-top:10px;margin-top:8px}.rx-sig{font-size:0.73rem;color:#555}.rx-sig-line{border-top:1px solid #333;width:110px;margin-top:28px;font-size:0.68rem;color:#333;text-align:center;padding-top:3px}.rx-next-visit{font-size:0.73rem;text-align:right;color:#333}.rx-actions{display:flex;gap:8px;padding:12px 20px;background:var(--bg3)}.rx-actions button{flex:1;background:var(--gold);color:#000;border:none;padding:9px;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.82rem;font-family:inherit;transition:all 0.2s}.rx-actions button:hover{background:var(--gold2)}.rx-actions .rx-save-btn{background:#2d6a9f;color:#fff}.rx-actions .rx-save-btn:hover{background:#3a80be}.rx-history-item{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s}.rx-history-item:hover{border-color:var(--gold)}.rx-history-item .rh-name{font-weight:700;color:var(--gold2);font-size:0.9rem}.rx-history-item .rh-meta{font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:3px}:root{--shadow-sm:0 1px 4px rgba(0,0,0,0.25);--shadow-md:0 4px 16px rgba(0,0,0,0.35);--shadow-lg:0 12px 40px rgba(0,0,0,0.55);--shadow-gold:0 4px 20px rgba(200,150,12,0.18);--radius-sm:8px;--radius-md:12px;--radius-lg:18px;--transition:all 0.18s cubic-bezier(0.4,0,0.2,1);--gold-glow:0 0 0 3px rgba(200,150,12,0.15);--header-h:57px}body{font-family:'Inter','Noto Serif Bengali','Times New Roman',serif;font-size:15px;line-height:1.6;letter-spacing:-0.01em;-webkit-font-smoothing:antialiased}header{background:linear-gradient(135deg,#070e17 0%,#0d1c2e 50%,#070e17 100%);border-bottom:1px solid transparent;background-clip:padding-box;box-shadow:0 1px 0 rgba(200,150,12,0.35),0 4px 32px rgba(0,0,0,0.7);padding:10px 18px;gap:12px}html.light header{background:linear-gradient(135deg,#d4e4f7 0%,#eaf3fd 50%,#d4e4f7 100%);box-shadow:0 1px 0 rgba(160,112,8,0.25),0 2px 16px rgba(0,0,0,0.1)}.logo-icon{font-size:1.65rem;filter:drop-shadow(0 2px 6px rgba(200,150,12,0.3))}.logo-text h1{font-size:1.05rem;font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-0.02em;background:linear-gradient(135deg,#f0c040 30%,#ffdd80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}html.light .logo-text h1{background:linear-gradient(135deg,#8a6000,#c89000);-webkit-background-clip:text;background-clip:text}.logo-text p{font-size:0.63rem;letter-spacing:0.02em}.nav-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 16px;font-size:0.88rem;font-family:'Inter',sans-serif;font-weight:500;letter-spacing:-0.01em;transition:var(--transition);position:relative;overflow:hidden;text-align:left;width:100%}.nav-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.06),transparent);opacity:0;transition:opacity 0.15s}.nav-btn:hover::after{opacity:1}.nav-btn:hover,.nav-btn.active{background:linear-gradient(135deg,#c8960c,#e0a820);border-color:#c8960c;color:#0a0a0a;font-weight:700;box-shadow:var(--shadow-gold);transform:translateY(-1px)}html.light .nav-btn{background:rgba(0,0,0,0.05);border-color:rgba(0,0,0,0.1)}html.light .nav-btn:hover,html.light .nav-btn.active{background:linear-gradient(135deg,#a07008,#c89000);color:#fff;border-color:#a07008}.db-status{font-size:0.65rem;padding:3px 9px;border-radius:20px;letter-spacing:0.01em;font-weight:500}.theme-toggle{font-size:0.85rem;padding:6px 10px;border-radius:10px;font-family:'Inter',sans-serif;font-weight:500;backdrop-filter:blur(4px);transition:var(--transition)}.theme-toggle:hover{border-color:var(--gold2);color:var(--gold2);transform:translateY(-1px);box-shadow:var(--shadow-gold)}.nav-drawer{background:var(--bg2)}.nav-drawer-head{color:var(--gold2)}.nav-drawer-close:hover{border-color:var(--gold2);color:var(--gold2)}.rep-layout{display:grid;grid-template-columns:220px 1fr 280px;height:calc(100vh - var(--header-h,57px));gap:0;overflow:hidden}@media(max-width:900px){.rep-layout{grid-template-columns:1fr;height:calc(100vh - var(--header-h,57px) - 44px)}.mobile-ptabs{display:flex}.rep-layout .panel{display:none;height:100%}.rep-layout .panel[data-mpanel].mpanel-active{display:flex;flex-direction:column}}@media(min-width:901px){.mobile-ptabs{display:none}}.mobile-ptabs{display:none;position:sticky;top:var(--header-h,57px);z-index:90;background:var(--bg2);border-bottom:1px solid var(--border2);box-shadow:0 2px 8px rgba(0,0,0,0.25)}.mptab{flex:1;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);padding:11px 6px;font-size:0.78rem;font-family:inherit;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:var(--transition);white-space:nowrap}.mptab.active{color:var(--gold2);border-bottom-color:var(--gold)}.mptab-badge{background:var(--gold);color:#000;font-size:0.62rem;font-weight:700;border-radius:10px;padding:1px 6px;font-family:'JetBrains Mono',monospace}.mback-btn{display:none;background:rgba(255,255,255,0.06);border:1px solid var(--border2);color:var(--gold2);font-size:0.78rem;font-weight:600;font-family:inherit;padding:6px 10px;border-radius:8px;cursor:pointer;flex-shrink:0;margin-right:8px;transition:var(--transition)}.mback-btn:hover,.mback-btn:active{background:var(--gold);color:#000;border-color:var(--gold)}@media(max-width:900px){.mback-btn{display:inline-block}.panel-head{flex-wrap:nowrap}.panel-head h2{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}.mobile-fab{display:none;position:fixed;right:16px;bottom:16px;z-index:95;background:linear-gradient(135deg,#c8960c,#e0a820);color:#0a0a0a;border:none;border-radius:24px;padding:12px 18px;font-size:0.85rem;font-weight:700;font-family:'Inter',sans-serif;box-shadow:0 4px 18px rgba(200,150,12,0.45);cursor:pointer;align-items:center;gap:7px}.mobile-fab-badge{background:#0a0a0a;color:var(--gold2);font-size:0.7rem;font-weight:800;border-radius:10px;padding:1px 7px;font-family:'JetBrains Mono',monospace}@media(max-width:900px){.mobile-fab.show{display:flex}}.panel-head{background:linear-gradient(135deg,var(--bg3) 0%,var(--bg2) 100%);border-bottom:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.panel-head h2{font-size:0.82rem;font-family:'Inter',sans-serif;font-weight:700;letter-spacing:-0.01em;color:var(--text)}.badge{font-size:0.6rem;font-family:'JetBrains Mono',monospace;padding:2px 7px;border-radius:10px;background:rgba(200,150,12,0.15);color:var(--gold);border:1px solid rgba(200,150,12,0.25);font-weight:700;min-width:22px;text-align:center}.panel{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;background:var(--bg);transition:background 0.2s}.search-wrap{padding:10px;border-bottom:1px solid var(--border);position:relative;background:var(--bg2)}.search-wrap input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);padding:8px 12px 8px 32px;font-size:0.82rem;font-family:'Inter',sans-serif;outline:none;transition:var(--transition)}.search-wrap input:focus{border-color:var(--gold);box-shadow:var(--gold-glow);background:var(--bg2)}.search-wrap .si{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-size:0.85rem;opacity:0.5;pointer-events:none}.ch-search{border-radius:var(--radius-sm);font-family:'Inter',sans-serif;font-size:0.8rem;padding:7px 10px;transition:var(--transition)}.ch-search:focus{border-color:var(--gold);box-shadow:var(--gold-glow)}.chapter-list{padding:4px 6px}.chapter-btn{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;padding:8px 10px;font-size:0.8rem;font-family:'Inter',sans-serif;font-weight:500;border:none;border-bottom:1px solid rgba(255,255,255,0.05);background:transparent;cursor:pointer;border-radius:0;margin:0;transition:background 0.15s,color 0.15s,padding-left 0.15s;line-height:1.4;color:var(--text)}.chapter-btn:first-child{border-top:1px solid rgba(255,255,255,0.05)}.chapter-btn:hover{background:rgba(200,150,12,0.09);color:var(--gold2);padding-left:14px}.chapter-btn.active{background:linear-gradient(135deg,rgba(200,150,12,0.18),rgba(200,150,12,0.08));color:var(--gold2);font-weight:700;border-left:3px solid var(--gold);border-bottom-color:rgba(200,150,12,0.18);padding-left:9px;box-shadow:inset 0 0 0 1px rgba(200,150,12,0.1)}.chapter-btn .ch-arrow{font-size:0.65rem;opacity:0.4;transition:opacity 0.15s,transform 0.15s}.chapter-btn:hover .ch-arrow{opacity:0.8;transform:translateX(2px)}.chapter-btn.active .ch-arrow{opacity:1;color:var(--gold)}html.light .chapter-btn{border-bottom-color:rgba(0,0,0,0.07)}html.light .chapter-btn:first-child{border-top-color:rgba(0,0,0,0.07)}html.light .chapter-btn:hover{background:rgba(160,112,8,0.07);color:var(--gold2)}html.light .chapter-btn.active{background:rgba(160,112,8,0.1);border-left-color:var(--gold)}.rubric-item{padding:8px 12px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.03);transition:var(--transition);display:flex;justify-content:space-between;align-items:flex-start;gap:8px}.rubric-item:hover{background:rgba(200,150,12,0.05);border-left:2px solid rgba(200,150,12,0.3);padding-left:10px}.rubric-item.selected{background:linear-gradient(135deg,rgba(200,150,12,0.1),rgba(200,150,12,0.05));border-left:2px solid var(--gold);padding-left:10px}.rubric-name{font-size:0.81rem;font-family:'Inter',sans-serif;line-height:1.45;flex:1}html.light .rubric-item:hover{background:rgba(160,112,8,0.05)}html.light .rubric-item.selected{background:rgba(160,112,8,0.08)}.right-actions{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px;gap:7px}.action-btn{border-radius:var(--radius-sm);font-size:0.8rem;font-family:'Inter',sans-serif;font-weight:600;letter-spacing:-0.01em;padding:9px 10px;transition:var(--transition)}.action-btn.primary{background:linear-gradient(135deg,#c8960c,#e0a820);box-shadow:0 2px 8px rgba(200,150,12,0.25)}.action-btn.primary:hover{background:linear-gradient(135deg,#e0a820,#f0c040);box-shadow:var(--shadow-gold);transform:translateY(-1px)}.action-btn.secondary{border-radius:var(--radius-sm)}.action-btn.secondary:hover{transform:translateY(-1px)}.action-btn.danger:hover{transform:translateY(-1px)}.add-btn{font-size:0.7rem;font-family:'Inter',sans-serif;padding:4px 10px;border-radius:var(--radius-sm);font-weight:600;transition:var(--transition)}.add-btn:hover{background:linear-gradient(135deg,#c8960c,#e0a820);transform:translateY(-1px);box-shadow:0 2px 8px rgba(200,150,12,0.25)}.add-btn.added{background:linear-gradient(135deg,#3d9e6a,#4caf7d);box-shadow:0 2px 8px rgba(76,175,125,0.2)}.pager{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;border-top:1px solid rgba(255,255,255,0.06);font-family:'JetBrains Mono',monospace;flex-shrink:0}.pager-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);border-radius:var(--radius-sm);padding:5px 11px;font-size:0.75rem;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:var(--transition)}.pager-btn:hover:not(:disabled){background:var(--gold);color:#000;border-color:var(--gold)}.pager-btn:disabled{opacity:0.35;cursor:default}.pager-info{font-size:0.72rem;color:var(--muted);padding:0 6px;white-space:nowrap}html.light .pager-btn{background:rgba(0,0,0,0.04)}.detail-title{font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;letter-spacing:-0.02em}.detail-path{font-size:0.68rem;letter-spacing:0.01em}.grade-badge{font-size:0.68rem;font-family:'Inter',sans-serif;font-weight:700;padding:3px 9px;border-radius:20px}.remedy-pill{font-size:0.72rem;font-family:'JetBrains Mono',monospace;padding:2px 8px;border-radius:6px;transition:var(--transition)}.remedy-pill:hover{opacity:0.85;cursor:pointer}.sel-item{padding:7px 10px;border-bottom:1px solid var(--border);transition:var(--transition)}.sel-item:hover{background:rgba(200,150,12,0.04)}.sel-item-name{font-size:0.76rem;font-family:'Inter',sans-serif;line-height:1.35}.rm-btn{border-radius:6px;transition:var(--transition);opacity:0.5}.rm-btn:hover{opacity:1;background:rgba(224,85,85,0.12);transform:scale(1.1)}.modal-overlay,.bio-modal-overlay,.mm-overlay,.login-overlay{backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}.modal,.bio-modal,.mm-modal,.login-box{box-shadow:var(--shadow-lg);transition:var(--transition)}.bio-modal-head h3,.mm-remedy-title{font-family:'Inter',sans-serif;letter-spacing:-0.01em}.bio-tab,.miasm-tab{font-family:'Inter',sans-serif;font-size:0.73rem;font-weight:500;padding:8px 14px;transition:var(--transition)}.bio-tab.active,.miasm-tab.active{font-weight:700}.bio-tab:hover,.miasm-tab:hover{opacity:0.85}.pin-box{box-shadow:0 24px 80px rgba(0,0,0,0.8)}.pin-app-name{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-0.02em;font-size:1.05rem}.pin-key{border-radius:var(--radius-md);font-family:'JetBrains Mono',monospace;transition:var(--transition);font-size:1.1rem}.pin-key:hover{background:rgba(200,150,12,0.1);border-color:rgba(200,150,12,0.3);transform:scale(1.03)}.pin-key:active{background:rgba(200,150,12,0.22);border-color:var(--gold);transform:scale(0.96)}.pin-dot{width:12px;height:12px;transition:var(--transition)}.pin-dot.filled{background:var(--gold2);border-color:var(--gold2);box-shadow:0 0 8px rgba(240,192,64,0.4);transform:scale(1.1)}#toast{font-family:'Inter',sans-serif;font-size:0.8rem;font-weight:500;border-radius:var(--radius-md);box-shadow:var(--shadow-lg);backdrop-filter:blur(8px);letter-spacing:-0.01em}.upload-card{border-radius:var(--radius-lg);box-shadow:var(--shadow-md)}.upload-card h2{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-0.02em}.upload-btn{border-radius:var(--radius-sm);font-family:'Inter',sans-serif;font-weight:700;transition:var(--transition);box-shadow:0 2px 8px rgba(200,150,12,0.25)}.upload-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-gold)}.saved-set{border-radius:var(--radius-md);transition:var(--transition)}.saved-set:hover{border-color:var(--border2);box-shadow:var(--shadow-sm);transform:translateY(-1px)}.saved-set-name{font-family:'Inter',sans-serif;font-weight:700;letter-spacing:-0.01em}.rx-form-section{border-radius:var(--radius-md);box-shadow:var(--shadow-sm)}.rx-form-section h3{font-family:'Inter',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.04em}.rx-field input,.rx-field select,.rx-field textarea{border-radius:var(--radius-sm);font-family:'Inter',sans-serif;font-size:0.82rem;transition:var(--transition)}.rx-field input:focus,.rx-field select:focus,.rx-field textarea:focus{box-shadow:var(--gold-glow)}.bio-remedy-card{border-radius:var(--radius-md);transition:var(--transition);box-shadow:var(--shadow-sm)}.bio-remedy-card:hover{box-shadow:0 4px 20px rgba(76,175,125,0.12);transform:translateY(-1px)}.bio-remedy-card.top{box-shadow:0 4px 24px rgba(76,175,125,0.15)}.bio-remedy-name{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-0.01em}.bio-score-chip{border-radius:var(--radius-sm);font-weight:800;transition:var(--transition)}.bio-pod-card{border-radius:var(--radius-md);transition:var(--transition)}.bio-pod-card:hover{transform:translateY(-2px);filter:brightness(1.06)}.miasm-info-card{border-radius:var(--radius-md);box-shadow:var(--shadow-sm);transition:var(--transition)}.miasm-info-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}.miasm-card-title{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-0.02em}.miasm-search{border-radius:var(--radius-sm);font-family:'Inter',sans-serif;transition:var(--transition)}.miasm-search:focus{box-shadow:0 0 0 3px rgba(224,176,48,0.15)}.miasm-table th,.miasm-table td{font-size:0.74rem}.miasm-remedy-name{font-family:'Inter',sans-serif;font-weight:700}.login-box{border-radius:var(--radius-lg)}.login-box h2{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-0.02em}.login-field input{border-radius:var(--radius-sm);font-family:'Inter',sans-serif;transition:var(--transition)}.login-field input:focus{box-shadow:var(--gold-glow)}.login-submit{border-radius:var(--radius-sm);font-family:'Inter',sans-serif;background:linear-gradient(135deg,#c8960c,#e0a820);box-shadow:0 2px 8px rgba(200,150,12,0.25);transition:var(--transition)}.login-submit:hover{background:linear-gradient(135deg,#e0a820,#f0c040);box-shadow:var(--shadow-gold);transform:translateY(-1px)}.sub-item{border-radius:var(--radius-sm);transition:var(--transition)}.sub-item:hover{border-color:var(--border2);transform:translateX(2px)}.sub-item.sel{border-color:var(--gold);background:rgba(200,150,12,0.06);box-shadow:0 0 0 1px rgba(200,150,12,0.12)}.sub-item-name{font-family:'Inter',sans-serif;font-size:0.8rem}.sub-add-btn{border-radius:6px;font-family:'Inter',sans-serif;font-size:0.66rem;font-weight:600;transition:var(--transition)}.sub-add-btn:hover{transform:scale(1.04)}.spinner{border-width:2px;border-top-color:var(--gold);width:14px;height:14px}::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:var(--gold)}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}.empty-state{font-family:'Inter',sans-serif;font-size:0.8rem;color:var(--muted);padding:28px;text-align:center}.miasm-tag{font-size:0.6rem;font-family:'Inter',sans-serif;font-weight:700;letter-spacing:0.03em;padding:2px 7px;border-radius:20px;transition:var(--transition)}.prog-bar{border-radius:8px}.prog-bar-wrap{border-radius:8px}.prog-log div{font-size:0.72rem}.bio-protocol-order{border-radius:50%;font-weight:800}.bio-combo-card{border-radius:var(--radius-md);transition:var(--transition)}.bio-combo-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-sm)}.bio-combo-med{font-weight:800;border-radius:var(--radius-sm);letter-spacing:-0.01em}.mm-modal{border-radius:var(--radius-lg)}.mm-head{border-radius:var(--radius-lg) var(--radius-lg) 0 0}.mm-keynote{border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter',sans-serif;font-size:0.85rem;line-height:1.75}.mm-sym-block{border-radius:var(--radius-sm)}.mm-mod-block{border-radius:var(--radius-sm)}.mm-dose-box{border-radius:var(--radius-sm)}.mm-rel-tag{border-radius:20px;font-family:'Inter',sans-serif;font-size:0.63rem;font-weight:600;transition:var(--transition)}.mm-rel-tag:hover{transform:translateY(-1px)}.bio-filter-btn{border-radius:20px;font-family:'Inter',sans-serif;font-size:0.62rem;font-weight:500;transition:var(--transition)}.bio-filter-btn:hover,.bio-filter-btn.active{transform:translateY(-1px)}@media(max-width:900px){input,select,textarea{font-size:16px !important}.ch-search,.search-wrap input,#rubric-search{font-size:16px !important}.add-btn{min-width:38px;min-height:38px}.chapter-btn{min-height:44px;padding-top:11px;padding-bottom:11px}.rubric-item{min-height:48px}.hamburger-btn{width:42px;height:38px}.res-top3{padding:10px 8px 12px;gap:5px}.rh-name{font-size:0.68rem;word-break:normal;overflow-wrap:break-word}.rh-score{font-size:1.2rem}.res-card-name{font-size:0.8rem;white-space:normal;overflow-wrap:break-word;text-overflow:clip}.res-card-rank{width:28px;font-size:0.58rem}.res-card-main{padding:8px 8px 7px}.rb-name{font-size:0.72rem !important;white-space:normal !important}.rb-panel{padding-left:10px}.result-list{padding:5px 5px 16px;gap:4px}}@media(max-width:600px){header{padding:8px 12px;gap:8px}.logo-text h1{font-size:0.92rem}.logo-text p{display:none}.nav-drawer{width:240px}.nav-btn{padding:11px 14px;font-size:0.83rem}.theme-toggle{padding:5px 9px;font-size:0.78rem}.db-status{font-size:0.6rem;padding:3px 7px;max-width:110px;overflow:hidden;text-overflow:ellipsis}body{font-size:14px}.bio-modal,.mm-modal{border-radius:var(--radius-md)}.alpha-btn{min-width:20px;height:20px;font-size:0.62rem}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none !important;animation:none !important}}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:2px}::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:6px}::-webkit-scrollbar-thumb:hover{background:var(--gold)}html.light::-webkit-scrollbar-thumb{background:#b0c8e0}html.light::-webkit-scrollbar-thumb:hover{background:var(--gold)}.empty-state{padding:36px 20px;text-align:center;color:var(--muted);font-size:0.84rem;line-height:1.7}.empty-state-icon{font-size:2rem;margin-bottom:8px;display:block;opacity:0.5}#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:24px;padding:10px 22px;font-size:0.84rem;font-family:'Inter',sans-serif;box-shadow:0 8px 32px rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:opacity 0.2s,transform 0.2s;z-index:9999;white-space:nowrap;max-width:90vw;text-overflow:ellipsis;overflow:hidden}#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.panel-head{gap:8px}.panel-head h2{display:flex;align-items:center;gap:6px}.search-wrap input,.ch-search{transition:border-color 0.15s,box-shadow 0.15s,background 0.15s}.search-wrap input::placeholder,.ch-search::placeholder{opacity:0.5}.action-btn{transition:background 0.15s,color 0.15s,border-color 0.15s,transform 0.12s,box-shadow 0.15s}.action-btn:active{transform:translateY(0) scale(0.97) !important}.rubric-item{transition:background 0.12s}.rubric-item:active{background:rgba(200,150,12,0.08) !important}.rubric-item.selected{background:rgba(200,150,12,0.07);border-left:2px solid rgba(200,150,12,0.5)}.add-btn{transition:background 0.12s,color 0.12s,transform 0.1s}.add-btn:active{transform:scale(0.9)}.add-btn.added{background:var(--success) !important;color:#fff !important}.sel-item{transition:background 0.12s;border-radius:4px}.sel-item:hover{background:rgba(255,255,255,0.02)}.rm-btn{border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.12s,color 0.12s}.result-item.mm-clickable{cursor:pointer;transition:background 0.12s}.result-item.mm-clickable:hover{background:rgba(200,150,12,0.05)}.result-item.mm-clickable:active{background:rgba(200,150,12,0.1)}.nav-btn.active{box-shadow:0 0 0 1px rgba(200,150,12,0.4),var(--shadow-gold)}#chapter-list{overflow-y:auto}.search-shortcut-hint{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:0.6rem;font-family:'JetBrains Mono',monospace;color:var(--muted);background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:1px 5px;opacity:0.6;pointer-events:none;transition:opacity 0.15s}.search-wrap input:focus ~ .search-shortcut-hint{opacity:0}.spinner{border-top-color:var(--gold) !important}.save-modal-overlay.open,.bio-modal-overlay.open,#login-overlay.open{backdrop-filter:blur(4px)}.podium-card{transition:transform 0.15s,box-shadow 0.15s;cursor:pointer}.podium-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,0.3)}.bio-tab,.miasm-tab{transition:color 0.15s,border-color 0.15s,background 0.15s}.rx-field input,.rx-field select,.rx-field textarea{transition:border-color 0.15s,box-shadow 0.15s}.rx-field input:focus,.rx-field select:focus,.rx-field textarea:focus{border-color:var(--gold) !important;box-shadow:var(--gold-glow) !important;outline:none}.ch-search{padding:8px 12px}</style>
 
+
+<style>
+.mmb-tab-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--muted);font-size:0.73rem;padding:5px 12px;border-radius:20px;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all .15s;white-space:nowrap}
+.mmb-tab-btn:hover{border-color:var(--gold2);color:var(--gold2)}
+.mmb-tab-btn.active{background:rgba(240,192,64,0.15);color:var(--gold2);border-color:rgba(240,192,64,0.5);font-weight:700}
+.mmb-alpha-btn{flex:0 0 auto;min-width:22px;height:22px;padding:0 3px;background:var(--bg3);border:1px solid var(--border2);border-radius:5px;color:var(--muted);font-size:0.66rem;font-weight:700;font-family:'JetBrains Mono',monospace;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;margin:1px}
+.mmb-alpha-btn:hover{background:rgba(240,192,64,0.18);color:var(--gold2);border-color:var(--gold)}
+.mmb-alpha-btn.active{background:var(--gold);color:#000;border-color:var(--gold)}
+.mmb-stat-chip{font-size:0.68rem;padding:4px 10px;border-radius:20px;font-family:'JetBrains Mono',monospace}
+.mmb-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;transition:all .18s;display:flex;flex-direction:column;gap:5px}
+.mmb-card:hover{border-color:rgba(240,192,64,0.45);background:rgba(240,192,64,0.03);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.25)}
+.mmb-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.mmb-card-abbr{font-size:1rem;font-weight:800;color:var(--gold2);font-family:'JetBrains Mono',monospace;line-height:1.1}
+.mmb-card-full{font-size:0.62rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:1px;line-height:1.3}
+.mmb-card-badges{display:flex;gap:3px;flex-shrink:0}
+.mmb-badge{font-size:0.7rem;padding:1px 5px;border-radius:6px}
+.mmb-badge.blue{background:rgba(45,106,159,0.15);border:1px solid rgba(45,106,159,0.3)}
+.mmb-badge.gold{background:rgba(200,150,12,0.12);border:1px solid rgba(200,150,12,0.28)}
+.mmb-card-keynote{font-size:0.76rem;color:var(--text);line-height:1.55;padding:5px 8px;background:rgba(240,192,64,0.05);border-left:2px solid rgba(240,192,64,0.4);border-radius:0 6px 6px 0}
+.mmb-card-allen-snip{font-size:0.7rem;color:var(--muted);line-height:1.5;padding:3px 8px;border-left:2px solid rgba(200,150,12,0.28);font-style:italic}
+.mmb-card-footer{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:2px;flex-wrap:wrap}
+.mmb-dose{font-size:0.62rem;font-family:'JetBrains Mono',monospace;color:var(--gold);background:rgba(200,150,12,0.07);border:1px solid rgba(200,150,12,0.2);border-radius:6px;padding:1px 7px}
+.mmb-rel-hint{font-size:0.6rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+html.light .mmb-card{background:var(--bg2)}
+html.light .mmb-card:hover{background:rgba(160,112,8,0.03)}
+#view-mm-browser{min-height:calc(100vh - 57px);overflow-y:auto}
+</style>
 </head>
 <body>
 
@@ -38,6 +65,7 @@
   </div>
   <div class="header-nav" id="header-nav">
     <button class="nav-btn active" data-view="rep" onclick="switchView('rep',this);closeNavDrawer()">📋 রেপার্টরি</button>
+    <button class="nav-btn" data-view="mm-browser" onclick="switchView('mm-browser',this);closeNavDrawer();initMMBrowser()" style="color:#f0c040;border-color:rgba(240,192,64,0.4)">📖 মেটেরিয়া মেডিকা</button>
     <button class="nav-btn" data-view="bio" onclick="switchView('bio',this);closeNavDrawer()" style="color:#5dd4a0;border-color:rgba(76,175,125,0.4)">🧪 বায়োকেমিক</button>
     <button class="nav-btn" data-view="saved" onclick="switchView('saved',this);closeNavDrawer()">💾 সেভড রুব্রিক</button>
     <button class="nav-btn" data-view="rx" onclick="switchView('rx',this);closeNavDrawer()">📝 প্রেসক্রিপশন</button>
@@ -119,6 +147,48 @@
     <div class="login-err" id="login-err">❌ ভুল UID বা PIN। আবার চেষ্টা করুন।</div>
     <button class="login-submit" onclick="doLogin()">🔓 প্রবেশ করুন</button>
     <button class="login-cancel" onclick="closeLogin()">বাতিল করুন</button>
+  </div>
+</div>
+
+<!-- MATERIA MEDICA BROWSER VIEW -->
+<div id="view-mm-browser" class="view">
+  <div style="max-width:960px;margin:0 auto;padding:16px">
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-size:1rem;font-weight:800;color:var(--gold2);font-family:'Inter',sans-serif">📖 মেটেরিয়া মেডিকা</div>
+        <div style="font-size:0.62rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:2px">Boericke's MM · Allen's Keynotes · <span id="mmb-count" style="color:var(--gold)">199</span>টি ঔষধ</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <button class="mmb-tab-btn active" id="mmb-tab-all" onclick="mmbSetTab('all',this)">সব</button>
+        <button class="mmb-tab-btn" id="mmb-tab-boericke" onclick="mmbSetTab('boericke',this)">📘 Boericke's</button>
+        <button class="mmb-tab-btn" id="mmb-tab-allen" onclick="mmbSetTab('allen',this)">🔑 Allen's</button>
+      </div>
+    </div>
+
+    <!-- Search + Alpha bar -->
+    <div style="position:relative;margin-bottom:8px">
+      <span style="position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:0.9rem;opacity:0.5;pointer-events:none">🔍</span>
+      <input type="text" id="mmb-search" placeholder="ঔষধ খুঁজুন... (Acon, Puls, বেলাডোনা...)"
+        oninput="mmbFilter()"
+        style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:var(--text);padding:9px 12px 9px 34px;font-size:0.84rem;font-family:inherit;outline:none;transition:border-color .2s"
+        onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border2)'">
+    </div>
+    <div id="mmb-alpha" style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:10px;padding:4px 0"></div>
+
+    <!-- Stats row -->
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap" id="mmb-stats">
+      <div class="mmb-stat-chip" style="background:rgba(240,192,64,0.1);border:1px solid rgba(240,192,64,0.3);color:var(--gold2)">📘 Boericke's: <strong>199</strong></div>
+      <div class="mmb-stat-chip" style="background:rgba(99,174,230,0.08);border:1px solid rgba(99,174,230,0.25);color:#7ab8e8">🔑 Allen's: <strong>199</strong></div>
+      <div class="mmb-stat-chip" style="background:rgba(76,175,125,0.08);border:1px solid rgba(76,175,125,0.25);color:#5dd4a0">✅ উভয়তে: <strong id="mmb-both-count">199</strong></div>
+    </div>
+
+    <!-- Remedy grid -->
+    <div id="mmb-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px"></div>
+    <div id="mmb-empty" style="display:none;padding:40px;text-align:center;color:var(--muted)">
+      <div style="font-size:2rem;margin-bottom:8px">🔍</div>
+      কোনো ঔষধ পাওয়া যায়নি
+    </div>
   </div>
 </div>
 
@@ -906,9 +976,20 @@ function filterByAlpha(letter) {
     html += renderPager('rubric-list', filtered.length, _rubricPage, PAGE_SIZE_RUB, 'goToAlphaPage');
     el.innerHTML = html;
   } else {
-    const si = document.getElementById('rubric-search');
-    if (si) { si.value = letter; si.dataset.alphaSet = '1'; }
-    debouncedSearch(letter);
+    // Cache not yet loaded — show spinner and wait for background load
+    const el = document.getElementById('rubric-list');
+    el.innerHTML = '<div class="empty-state"><div class="spinner"></div><br>ক্যাশ লোড হচ্ছে...</div>';
+    const chKey = _chapterLazyName || activeChapter;
+    if (chKey) {
+      const _waitForCache = setInterval(() => {
+        const c = _chapterRubricCache[chKey];
+        if (c && c.length) {
+          clearInterval(_waitForCache);
+          if (_alphaFilter === letter) filterByAlpha(letter); // re-run with cache ready
+        }
+      }, 250);
+      setTimeout(() => { clearInterval(_waitForCache); }, 8000); // give up after 8s
+    }
   }
 }
 function goToAlphaPage(p) {
@@ -1351,8 +1432,17 @@ async function showDetail(id) {
   if ((r.subRubrics||[]).length >= 5) _buildSubAlphaBar(r.subRubrics||[]);
 }
 const _subRemedyStore = {};
+const _SUB_STORE_MAX = 2000; // max entries — ~200 parent rubric detail views
+function _capSubStore() {
+  const keys = Object.keys(_subRemedyStore);
+  if (keys.length > _SUB_STORE_MAX) {
+    // Remove oldest entries (first 500 keys)
+    keys.slice(0, 500).forEach(k => delete _subRemedyStore[k]);
+  }
+}
 function buildSubHTML(subs, parentId, depth=0, parentPath='') {
   if (!subs || !subs.length) return '';
+  if (depth === 0) _capSubStore(); // cap only at top-level call to avoid O(n²) overhead
   const label = depth === 0 ? 'Sub-Rubrics' : '';
   return `
     <div class="sub-section" style="${depth>0?'margin-left:12px;border-left:2px solid var(--border);padding-left:10px;border-top:none;padding-top:4px;':''}">
@@ -3601,7 +3691,9 @@ function toggleRB(id, btn) {
   const _PIN_HASH = btoa('1811192'); // simple obfuscation
   let _entered = '';
   let _locked = false;
-  let _lockTimer = null;
+  let _failCount = 0;
+  const _MAX_FAILS = 5;
+  const _LOCK_MS = 30000; // 30 seconds lockout
   if (sessionStorage.getItem('pin_ok') === _PIN_HASH) {
     document.getElementById('pin-overlay').classList.add('hidden');
     return;
@@ -3617,16 +3709,43 @@ function toggleRB(id, btn) {
     for (let i = 0; i < 7; i++) document.getElementById('pd' + i).classList.add('error');
     setTimeout(() => { for (let i=0;i<7;i++) document.getElementById('pd'+i).classList.remove('error'); }, 600);
   }
+  function _startLock() {
+    _locked = true;
+    const msgEl = document.getElementById('pin-msg');
+    let remaining = Math.ceil(_LOCK_MS / 1000);
+    msgEl.textContent = `🔒 ${remaining}s অপেক্ষা করুন`;
+    const _countdown = setInterval(() => {
+      remaining--;
+      if (remaining > 0) {
+        msgEl.textContent = `🔒 ${remaining}s অপেক্ষা করুন`;
+      } else {
+        clearInterval(_countdown);
+        _locked = false;
+        _failCount = 0;
+        _entered = '';
+        _updateDots();
+        msgEl.textContent = '';
+      }
+    }, 1000);
+  }
   function _check() {
     if (_entered === atob(_PIN_HASH)) {
       sessionStorage.setItem('pin_ok', _PIN_HASH);
       document.getElementById('pin-overlay').classList.add('hidden');
     } else {
+      _failCount++;
       _shake();
-      document.getElementById('pin-msg').textContent = '❌ ভুল PIN, আবার চেষ্টা করুন';
-      setTimeout(() => { document.getElementById('pin-msg').textContent = ''; }, 1500);
-      _entered = '';
-      _updateDots();
+      if (_failCount >= _MAX_FAILS) {
+        _entered = '';
+        _updateDots();
+        _startLock();
+      } else {
+        const left = _MAX_FAILS - _failCount;
+        document.getElementById('pin-msg').textContent = `❌ ভুল PIN · আর ${left} টি সুযোগ বাকি`;
+        setTimeout(() => { if (!_locked) document.getElementById('pin-msg').textContent = ''; }, 1800);
+        _entered = '';
+        _updateDots();
+      }
     }
   }
   window.pinKey = function(k) {
@@ -5785,6 +5904,616 @@ const MM_DATA = {
     worse: ["ঠান্ডায়", "বাম দিকে"],
     dose: "6C–30C",
     relations: ["Cimic", "Mag-p"]
+  },
+  "Berb": {
+    full: "Berberis Vulgaris",
+    keynote: "কিডনি ও মূত্রথলির সেরা ঔষধ। ব্যথা কোমর থেকে চারদিকে ছড়ায়। পিত্তথলির পাথর। পুঁজের মতো প্রস্রাব।",
+    systems: {
+      "কিডনি": ["কোমরে তীব্র ব্যথা নানা দিকে ছড়ায়", "প্রস্রাবে পলি ও পুঁজ", "কিডনি পাথর"],
+      "পিত্তথলি": ["পিত্তথলির পাথর", "জন্ডিস", "পিত্তনালিতে ব্যথা"],
+      "মূত্র": ["প্রস্রাব হলুদ ও পুরু", "ঘন ঘন প্রস্রাবের বেগ"],
+    },
+    better: ["বিশ্রামে"],
+    worse: ["নড়াচড়ায়", "দাঁড়ালে"],
+    dose: "Q–30C",
+    relations: ["Canth", "Lyc", "Sars"]
+  },
+  "Equis": {
+    full: "Equisetum Hyemale",
+    keynote: "মূত্রথলির দুর্বলতা। প্রস্রাব ধরে রাখতে পারে না। প্রস্রাবে ব্যথা শেষে।",
+    systems: {
+      "মূত্র": ["মূত্রাশয়ে পূর্ণতার অনুভূতি", "প্রস্রাব করা সত্ত্বেও আরাম নেই", "শিশুর প্রস্রাব অনিচ্ছাকৃত"],
+    },
+    better: ["শুয়ে থাকলে"],
+    worse: ["নড়াচড়ায়", "চাপে"],
+    dose: "Q–30C",
+    relations: ["Canth", "Caust", "Puls"]
+  },
+  "Sabal": {
+    full: "Sabal Serrulata",
+    keynote: "প্রস্টেটের বৃদ্ধি। প্রস্রাবে কষ্ট। যৌন দুর্বলতা। স্তন ও অণ্ডকোষ পুষ্ট করে।",
+    systems: {
+      "প্রস্টেট": ["প্রস্টেট বড় হওয়া", "প্রস্রাব শুরু হতে দেরি", "রাতে বারবার প্রস্রাব"],
+      "যৌন": ["যৌন দুর্বলতা পুরুষে", "স্পার্মাটোরিয়া"],
+      "স্তন": ["স্তন ছোট থাকলে পুষ্ট করে"],
+    },
+    better: ["উষ্ণতায়"],
+    worse: ["ঠান্ডায়", "রাতে"],
+    dose: "Q–30C",
+    relations: ["Con", "Dig", "Thuj"]
+  },
+  "Aloe": {
+    full: "Aloe Socotrina",
+    keynote: "মলদ্বারে পোড়ানো। সকালে ডায়রিয়া বিছানা ছাড়তে বাধ্য করে। পেটে গ্যাস। অর্শ আঙুরের থোকার মতো।",
+    systems: {
+      "মলদ্বার": ["মল আটকাতে পারে না", "অর্শ ফোলা ও জ্বালা", "ফিস্টুলা"],
+      "পরিপাক": ["সকালে হঠাৎ ডায়রিয়া", "পেটে গ্যাস অনেক", "যকৃত বড়"],
+    },
+    better: ["ঠান্ডা পানিতে", "খোলা বাতাসে"],
+    worse: ["সকালে", "গরমে", "খাওয়ার পর"],
+    dose: "6C–30C",
+    relations: ["Podo", "Sul", "Gamb"]
+  },
+  "Rheum": {
+    full: "Rheum Palmatum",
+    keynote: "শিশুর টক গন্ধের ডায়রিয়া। সারা শরীর থেকে টক গন্ধ। দাঁত ওঠার সময় ডায়রিয়া।",
+    systems: {
+      "শিশু": ["সারা শরীর টক গন্ধ", "দাঁতের সময় ডায়রিয়া", "শিশু কাঁদে মল হলেও"],
+      "পরিপাক": ["মল টক গন্ধ সবুজ", "পেটে ব্যথা মলের আগে"],
+    },
+    better: ["উষ্ণতায়", "মল হলে"],
+    worse: ["ঠান্ডায়", "দাঁতের সময়", "খাওয়ার পর"],
+    dose: "3C–30C",
+    relations: ["Calc-p", "Cham", "Mag-c"]
+  },
+  "Rob": {
+    full: "Robinia Pseudacacia",
+    keynote: "অম্লতা তীব্র রাতে। টক ঢেঁকুর ও বমি। শিশুর টক বমি। মাথাব্যথা অম্লতায়।",
+    systems: {
+      "পরিপাক": ["প্রচণ্ড টক ঢেঁকুর", "বুকজ্বালা রাতে বৃদ্ধি", "শিশুর দুধ বমি টক"],
+      "মাথা": ["অম্লতা থেকে মাথাব্যথা"],
+    },
+    better: ["নড়াচড়ায়"],
+    worse: ["রাতে", "শুলে", "দুধে"],
+    dose: "Q–30C",
+    relations: ["Iris", "Nat-p", "Sul"]
+  },
+  "Tarax": {
+    full: "Taraxacum Officinale",
+    keynote: "যকৃতে ব্যথা ও বড় হওয়া। জিহ্বায় মানচিত্রের মতো দাগ। তেতো স্বাদ। গ্যাস্ট্রিক অবসাদ।",
+    systems: {
+      "যকৃত": ["যকৃতে টেনে ধরা ব্যথা", "ডান পেটে পূর্ণতা"],
+      "মুখ": ["জিহ্বায় সাদা দাগ মানচিত্রের মতো", "তেতো স্বাদ সবসময়"],
+    },
+    better: ["নড়াচড়ায়"],
+    worse: ["বিশ্রামে", "খাওয়ার পর"],
+    dose: "Q–30C",
+    relations: ["Chel", "Lyc", "Nat-s"]
+  },
+  "Rumx": {
+    full: "Rumex Crispus",
+    keynote: "ঠান্ডা বাতাসে কাশি। শ্বাস নেওয়ার সময় কাশি বাড়ে। গলায় সুড়সুড়ি। পাঁচড়ার মতো চুলকানি।",
+    systems: {
+      "শ্বাস": ["ঠান্ডা বাতাসে শুকনো কাশি", "রাতে শুলে কাশি বাড়ে", "গলায় সুড়সুড়ি"],
+      "ত্বক": ["ত্বকে তীব্র চুলকানি ঢাকলে বৃদ্ধি"],
+    },
+    better: ["মুখ ঢাকলে", "উষ্ণতায়"],
+    worse: ["ঠান্ডা বাতাসে", "রাতে", "শুলে"],
+    dose: "6C–30C",
+    relations: ["Dros", "Hyos", "Phos"]
+  },
+  "Lob": {
+    full: "Lobelia Inflata",
+    keynote: "হাঁপানি তীব্র। বুকে চাপ ও শ্বাসবন্ধ। বমি বমি ভাব হাঁপানিতে। এপিগ্যাস্ট্রিয়ামে দুর্বলতা।",
+    systems: {
+      "শ্বাস": ["হাঁপানি বুকে চাপ দিয়ে", "শ্বাস নিতে পারছে না", "ব্রংকাইটিস"],
+      "পরিপাক": ["পাকস্থলিতে তীব্র দুর্বলতা", "বমি বমি ভাব সবসময়"],
+    },
+    better: ["ধীরে হাঁটলে", "উষ্ণতায়"],
+    worse: ["ঠান্ডায়", "তামাকে", "বিকেলে"],
+    dose: "Q–6C",
+    relations: ["Ant-t", "Ip", "Puls"]
+  },
+  "Seneg": {
+    full: "Senega Officinalis",
+    keynote: "বুকে শক্ত সাদা কফ। বৃদ্ধদের কাশি। চোখে পর্দা। কফ উঠতে কষ্ট।",
+    systems: {
+      "শ্বাস": ["বুকে শক্ত শ্লেষ্মা", "কাশিতে বুকে ব্যথা", "বৃদ্ধদের দীর্ঘস্থায়ী কাশি"],
+      "চোখ": ["চোখে ঝাপসা পর্দা", "কর্নিয়ায় ধোঁয়া"],
+    },
+    better: ["হাঁটলে", "খোলা বাতাসে"],
+    worse: ["শুলে", "ঠান্ডায়", "সকালে"],
+    dose: "Q–30C",
+    relations: ["Amm-c", "Kali-bi", "Phos"]
+  },
+  "Samb": {
+    full: "Sambucus Nigra",
+    keynote: "ক্রুপ হঠাৎ। শিশুর নাক বন্ধ। শ্বাসবন্ধে ঘুম থেকে জেগে ওঠে। শরীর থেকে সুতীব্র ঘাম।",
+    systems: {
+      "শিশু": ["নাক বন্ধ দুধ খেতে পারে না", "হঠাৎ শ্বাসকষ্টে জেগে ওঠে", "ক্রুপ"],
+      "ঘাম": ["শরীর থেকে তীব্র ঘাম ঘুমে", "জেগে থাকলে ঘাম নেই"],
+    },
+    better: ["বসলে", "জেগে থাকলে"],
+    worse: ["ঘুমে", "ঠান্ডায়", "রাত ১২টায়"],
+    dose: "3C–30C",
+    relations: ["Acon", "Ip", "Spong"]
+  },
+  "Sabin": {
+    full: "Sabina Officinalis",
+    keynote: "উজ্জ্বল লাল রক্তপাত। গর্ভপাত প্রবণতা তৃতীয় মাসে। মাসিকে অতিরিক্ত রক্ত। নড়াচড়ায় বৃদ্ধি।",
+    systems: {
+      "মহিলা": ["গর্ভপাত প্রবণতা ৩য় মাসে", "মাসিকে উজ্জ্বল রক্ত জমাট সহ", "প্রসব পরবর্তী রক্তপাত"],
+      "বাত": ["গাউটে আঙুলে ব্যথা", "ফোলা উজ্জ্বল লাল"],
+    },
+    better: ["ঠান্ডা বাতাসে"],
+    worse: ["নড়াচড়ায়", "উষ্ণতায়", "সংগীতে"],
+    dose: "6C–30C",
+    relations: ["Croc", "Mil", "Sec"]
+  },
+  "Caul": {
+    full: "Caulophyllum Thalictroides",
+    keynote: "প্রসব বেদনা দুর্বল ও অকার্যকর। জরায়ু সংকোচন অনিয়মিত। আঙুলের ছোট জয়েন্টে ব্যথা। মহিলাদের দুর্বলতা।",
+    systems: {
+      "মহিলা": ["প্রসব বেদনা অকার্যকর", "মাসিক অনিয়মিত ও কম", "জরায়ু দুর্বল"],
+      "বাত": ["আঙুলের ছোট সন্ধিতে ব্যথা", "কব্জিতে ব্যথা"],
+    },
+    better: ["উষ্ণতায়"],
+    worse: ["ঠান্ডায়", "খোলা বাতাসে", "রাতে"],
+    dose: "6C–200C",
+    relations: ["Cimic", "Puls", "Sep"]
+  },
+  "Helon": {
+    full: "Helonias Dioica",
+    keynote: "জরায়ু প্রল্যাপস। ব্যস্ত থাকলে ভালো লাগে। মহিলাদের দুর্বলতা ও রক্তহীনতা। কোমরে ভার ও ব্যথা।",
+    systems: {
+      "মহিলা": ["জরায়ু নেমে আসার অনুভূতি", "লিউকোরিয়া দুর্গন্ধযুক্ত", "মাসিকে অতিরিক্ত রক্ত"],
+      "পিঠ": ["কোমর ও স্যাক্রামে ব্যথা ও ভার"],
+      "মন": ["ব্যস্ত থাকলে সব ভুলে যায় ভালো লাগে"],
+    },
+    better: ["ব্যস্ত থাকলে", "মন সরালে"],
+    worse: ["বিশ্রামে", "ক্লান্তিতে", "গর্ভাবস্থায়"],
+    dose: "Q–30C",
+    relations: ["Aletris", "Murx", "Sep"]
+  },
+  "Hyper": {
+    full: "Hypericum Perforatum",
+    keynote: "স্নায়ু আঘাতের প্রধান ঔষধ। আঁচড়, কাটা, ছুরির ব্যথা স্নায়ু পথে। মেরুদণ্ডে আঘাত। দাঁত তোলার পর ব্যথা।",
+    systems: {
+      "স্নায়ু": ["আঘাতের পর তীব্র স্নায়ুব্যথা", "নখের গোড়ায় আঘাত", "মেরুদণ্ড আঘাত"],
+      "মুখ": ["দাঁত তোলার পর তীব্র ব্যথা"],
+      "মাথা": ["মাথায় আঘাত পরে মাথাব্যথা"],
+    },
+    better: ["মাথা পেছনে হেলালে"],
+    worse: ["স্পর্শে", "ঠান্ডায়", "কুয়াশায়"],
+    dose: "6C–200C",
+    relations: ["Arn", "Calen", "Led"]
+  },
+  "Bufo": {
+    full: "Bufo Rana",
+    keynote: "মৃগীরোগ রাতে ঘুমে। কামবৃত্তির অতিরিক্ততা। একাকীত্ব চায়। বোধের স্থূলতা।",
+    systems: {
+      "স্নায়ু": ["এপিলেপসি ঘুমে বা সহবাসের সময়", "মাথায় উষ্ণতা"],
+      "মন": ["নিম্নবুদ্ধি", "শিশুর মতো আচরণ", "একা থাকতে চায়"],
+      "যৌন": ["অত্যধিক কামবৃত্তি", "অকাল বীর্যপাত"],
+    },
+    better: ["পা গরম রাখলে", "একা থাকলে"],
+    worse: ["উষ্ণতায়", "ঘুমে", "সংগীতে"],
+    dose: "6C–200C",
+    relations: ["Agar", "Bar-c", "Zinc"]
+  },
+  "Phys": {
+    full: "Physostigma Venenosum",
+    keynote: "চোখের পেশি দুর্বল। দৃষ্টি ঝাপসা। মেরুদণ্ডে দুর্বলতা। চোখে ব্যথা পড়ার পরে।",
+    systems: {
+      "চোখ": ["পড়ার পরে চোখে ব্যথা", "মায়োপিয়া বাড়ছে", "গ্লুকোমায় পুতুল ছোট"],
+      "স্নায়ু": ["মেরুদণ্ডে উত্তেজনা ও দুর্বলতা", "পেশি কাঁপুনি"],
+    },
+    better: ["বিশ্রামে", "উষ্ণতায়"],
+    worse: ["আলোতে", "পড়ার পরে", "ঠান্ডায়"],
+    dose: "6C–30C",
+    relations: ["Gels", "Jab", "Prun"]
+  },
+  "Urt-u": {
+    full: "Urtica Urens",
+    keynote: "আর্টিকেরিয়া (পোকার কামড়ের মতো ফোলা ও চুলকানি)। পোড়া ও দংশনে। মাসিক বন্ধ হলে আর্টিকেরিয়া। ইউরিক অ্যাসিড।",
+    systems: {
+      "ত্বক": ["আর্টিকেরিয়া জ্বালাপোড়া ও চুলকানি", "পোড়ায় তাৎক্ষণিক আরাম"],
+      "বাত": ["গাউট ইউরিক অ্যাসিড", "কাঁধে ব্যথা"],
+      "মহিলা": ["মাসিক বন্ধে আর্টিকেরিয়া"],
+    },
+    better: ["ঘষলে"],
+    worse: ["পানি স্পর্শে", "শীতে", "ঘুমে"],
+    dose: "Q–30C",
+    relations: ["Apis", "Dulc", "Led"]
+  },
+  "Ran-b": {
+    full: "Ranunculus Bulbosus",
+    keynote: "বুকে হার্পিস। পাঁজরের মাঝে তীব্র ব্যথা। স্পর্শে ও নড়াচড়ায় বৃদ্ধি। মদ্যপানের ফলে রোগ।",
+    systems: {
+      "বুক": ["পাঁজরের মাঝে ছুরির মতো ব্যথা", "হার্পিস জোস্টার বুকে"],
+      "ত্বক": ["ফোসকা ও চুলকানি", "মদের প্রভাবে ত্বকরোগ"],
+    },
+    better: ["বসলে"],
+    worse: ["স্পর্শে", "নড়াচড়ায়", "ভেজায়", "মদে"],
+    dose: "6C–30C",
+    relations: ["Bry", "Mez", "Rhus-t"]
+  },
+  "Paeon": {
+    full: "Paeonia Officinalis",
+    keynote: "মলদ্বারের ফিসার ও ফিস্টুলা। মলদ্বারে তীব্র জ্বালাপোড়া মলের পরে। ঘুমে দুঃস্বপ্ন।",
+    systems: {
+      "মলদ্বার": ["ফিসার মলদ্বারে", "ফিস্টুলা পুঁজযুক্ত", "মলের পরে ঘণ্টার পর জ্বালা"],
+    },
+    better: ["খোলা বাতাসে"],
+    worse: ["মলের পরে", "রাতে"],
+    dose: "6C–30C",
+    relations: ["Graph", "Rat", "Sil"]
+  },
+  "Crat": {
+    full: "Crataegus Oxyacantha",
+    keynote: "হৃদয়ের দুর্বলতা ও হার্ট ফেইলিউর। রক্তচাপ উচ্চ বা নিম্ন উভয়ে। ধমনী শক্ত হওয়া। বুকে চাপ।",
+    systems: {
+      "হৃদয়": ["হার্টের পেশি দুর্বল", "ধমনী শক্ত ও সরু", "অ্যানজাইনা ও বুকে চাপ"],
+      "রক্তচাপ": ["উচ্চ রক্তচাপ কমায়", "নিম্ন রক্তচাপে টনিক"],
+    },
+    better: ["বিশ্রামে", "তাজা বাতাসে"],
+    worse: ["পরিশ্রমে", "উত্তেজনায়", "ঠান্ডায়"],
+    dose: "Q–6C",
+    relations: ["Dig", "Kali-c", "Spig"]
+  },
+  "Naja": {
+    full: "Naja Tripudians",
+    keynote: "হৃদয়ের জৈব রোগ। ভালভ রোগ ও হার্ট ফেইলিউর। বাম দিকে। রাতে উদ্বেগ মৃত্যুর ভয়ে।",
+    systems: {
+      "হৃদয়": ["মাইট্রাল ভালভ রোগ", "ধড়ফড়ানি ও শ্বাসকষ্ট শুলে", "হার্ট দুর্বল"],
+      "মাথা": ["বাম দিকের মাথাব্যথা", "মাথায় চাপ"],
+      "মন": ["গভীর বিষণ্নতা", "সবকিছু ভুলে যায়"],
+    },
+    better: ["হাঁটলে", "খোলা বাতাসে"],
+    worse: ["শুলে বাম দিকে", "ঠান্ডায়", "রাতে"],
+    dose: "6C–200C",
+    relations: ["Lach", "Spig", "Crot-h"]
+  },
+  "Hydr": {
+    full: "Hydrastis Canadensis",
+    keynote: "শ্লেষ্মা ঝিল্লির প্রধান ঔষধ। স্রাব ঘন হলুদ ও সুতার মতো। গলা ও নাকে শ্লেষ্মা। ক্যান্সার প্রবণতা।",
+    systems: {
+      "নাক": ["নাক থেকে ঘন হলুদ সুতার মতো স্রাব", "সাইনুসাইটিস"],
+      "পাকস্থলী": ["পাকস্থলির আলসার", "কোষ্ঠকাঠিন্য"],
+      "ত্বক": ["ক্যান্সার প্রবণ অবস্থা", "ক্ষত শুকায় না"],
+    },
+    better: ["উষ্ণতায়"],
+    worse: ["খোলা বাতাসে", "ঠান্ডায়"],
+    dose: "Q–30C",
+    relations: ["Kali-bi", "Puls", "Spig"]
+  },
+  "Brom": {
+    full: "Bromium",
+    keynote: "স্বরযন্ত্র ও থাইরয়েডের ঔষধ। গলায় সংকোচন। ধুলোয় ও গরমে কাশি। নীলাভ চোখ ও সোনালি চুলের শিশু।",
+    systems: {
+      "শ্বাস": ["স্বরযন্ত্রে সংকোচন ও শ্বাসকষ্ট", "ক্রুপ থাইরয়েড বড়ে"],
+      "গ্রন্থি": ["থাইরয়েড বড়", "গ্রন্থি শক্ত কিন্তু নরম করে"],
+    },
+    better: ["সমুদ্রের কাছে", "ঠান্ডায়"],
+    worse: ["ধুলোয়", "গরমে", "ঘরের মধ্যে"],
+    dose: "6C–30C",
+    relations: ["Iod", "Spong", "Acon"]
+  },
+  "Merc-c": {
+    full: "Mercurius Corrosivus",
+    keynote: "আমাশয়ের সেরা ঔষধ। মল কখনো শেষ হয় না। রক্ত ও শ্লেষ্মা। তীব্র কোঁথানো। মূত্রনালিতে জ্বালা।",
+    systems: {
+      "মলদ্বার": ["আমাশয় তীব্র কোঁথানো", "মল কখনো পূর্ণ হয় না", "গরম রক্তাক্ত মল"],
+      "মূত্র": ["প্রস্রাবে তীব্র জ্বালা ফোঁটায় ফোঁটায়", "মূত্রনালির প্রদাহ"],
+      "চোখ": ["চোখের আলসার কর্নিয়ায়"],
+    },
+    better: ["বিশ্রামে"],
+    worse: ["রাতে", "স্পর্শে", "শীতে ও গরম উভয়ে"],
+    dose: "6C–30C",
+    relations: ["Ars", "Merc", "Nit-ac"]
+  },
+  "Kali-i": {
+    full: "Kali Iodatum",
+    keynote: "সিফিলিটিক মায়াজমে। হাড়ে রাতে ব্যথা। থাইরয়েড বড়। নাক থেকে তরল ও জ্বালাপোড়া স্রাব।",
+    systems: {
+      "হাড়": ["হাড়ের গভীরে রাতে ব্যথা", "কপালে ব্যথা"],
+      "নাক": ["নাক থেকে তরল পানির মতো জ্বালাপোড়া স্রাব"],
+      "গ্রন্থি": ["থাইরয়েড বড় ও শক্ত", "লিম্ফ গ্রন্থি বড়"],
+    },
+    better: ["নড়াচড়ায়", "খোলা বাতাসে"],
+    worse: ["রাতে", "উষ্ণতায়", "স্পর্শে"],
+    dose: "6C–30C",
+    relations: ["Aur", "Merc", "Nit-ac"]
+  },
+  "Kali-s": {
+    full: "Kali Sulphuricum",
+    keynote: "হলুদ ও সবুজ স্রাব। কফ হলুদ সহজে ওঠে। ত্বকে হলুদ আঁশ। Pulsatilla-র দীর্ঘমেয়াদী রূপ।",
+    systems: {
+      "শ্বাস": ["কাশিতে হলুদ কফ সহজে ওঠে", "হাঁপানি সন্ধ্যায়"],
+      "ত্বক": ["একজিমায় হলুদ আঁশ", "চামড়া শুষ্ক"],
+      "নাক": ["নাক থেকে হলুদ সবুজ স্রাব"],
+    },
+    better: ["খোলা বাতাসে", "ঠান্ডায়"],
+    worse: ["উষ্ণতায়", "সন্ধ্যায়", "ঘরের মধ্যে"],
+    dose: "6X–30C",
+    relations: ["Puls", "Sep", "Sul"]
+  },
+  "Kali-m": {
+    full: "Kali Muriaticum",
+    keynote: "মধ্যকর্ণে পুঁজ। গলায় সাদা ঝিল্লি। মল সাদা ও চর্বিযুক্ত। জন্ডিসে। বায়োকেমিক ২য় পর্যায়।",
+    systems: {
+      "কান": ["মধ্যকর্ণের প্রদাহ সাদা স্রাব", "ইউস্টেশিয়ান টিউব বন্ধ"],
+      "পরিপাক": ["মল সাদা ও চর্বিযুক্ত", "জন্ডিসে কাদামাটির মল"],
+      "গলা": ["সাদা ঝিল্লি টনসিলে"],
+    },
+    better: ["ঠান্ডায়", "ঘষলে"],
+    worse: ["চর্বিতে", "উষ্ণতায়"],
+    dose: "6X–30C",
+    relations: ["Calc", "Hep", "Merc"]
+  },
+  "Nat-p": {
+    full: "Natrum Phosphoricum",
+    keynote: "অম্লতা ও বুকজ্বালা। মলে টক গন্ধ। শিশুর দুধ বমি হলুদাভ। কৃমি। গেঁটেবাত ইউরিক অ্যাসিড।",
+    systems: {
+      "পরিপাক": ["অতিরিক্ত অম্লতা", "বুকজ্বালা সারাদিন", "কৃমি গোলকৃমি"],
+      "শিশু": ["দুধ বমি হলুদ জমাট", "টক গন্ধের ডায়রিয়া"],
+      "বাত": ["গেঁটেবাত ইউরিক অ্যাসিড বৃদ্ধিতে"],
+    },
+    better: ["ঠান্ডায়"],
+    worse: ["চিনিতে", "দুধে", "চর্বিতে"],
+    dose: "6X–30C",
+    relations: ["Calc", "Nat-m", "Rob"]
+  },
+  "Ars-i": {
+    full: "Arsenicum Iodatum",
+    keynote: "নাক থেকে জ্বালাপোড়া পানির মতো স্রাব। হে ফিভার। যক্ষ্মা প্রবণতা। শুকিয়ে যাওয়া অথচ ক্ষুধা বেশি।",
+    systems: {
+      "নাক": ["নাক থেকে তরল জ্বালাপোড়া স্রাব", "হে ফিভার"],
+      "শ্বাস": ["যক্ষ্মার শুরু", "ফুসফুস দুর্বল"],
+      "গ্রন্থি": ["গ্রন্থি শুকায়", "থাইরয়েড বড়"],
+    },
+    better: ["খোলা বাতাসে"],
+    worse: ["উষ্ণতায়", "ঘরে"],
+    dose: "6C–30C",
+    relations: ["Ars", "Iod", "Tub"]
+  },
+  "Guai": {
+    full: "Guaiacum Officinale",
+    keynote: "গেঁটেবাত ও বাত। গন্ধ অসহ্য। গলা ব্যথা টনসিলে পুঁজ। সংকোচন ও টান। ঠান্ডায় আরাম।",
+    systems: {
+      "বাত": ["সংকুচিত হওয়ার মতো ব্যথা", "গেঁটেবাত হাত পায়ে", "ফোলা ও উষ্ণতা"],
+      "গলা": ["টনসিলে পুঁজ", "গলায় পোড়ানো"],
+      "মন": ["ভুলোমনা ও উদাসীন"],
+    },
+    better: ["ঠান্ডায়"],
+    worse: ["উষ্ণতায়", "নড়াচড়ায়"],
+    dose: "6C–30C",
+    relations: ["Merc", "Nit-ac", "Sul"]
+  },
+  "Rat": {
+    full: "Ratanhia Peruviana",
+    keynote: "মলদ্বারের ফিসার তীব্র জ্বালা। মলের পরে ঘণ্টার পর ব্যথা। দাঁতে ব্যথা ঠান্ডায়। মলদ্বার শুকনো।",
+    systems: {
+      "মলদ্বার": ["ফিসার — মল শেষে তীব্র জ্বালা", "মলদ্বার শুষ্ক ও ফাটা", "অর্শ ব্যথাযুক্ত"],
+      "দাঁত": ["দাঁতে ব্যথা ঠান্ডায়", "মাড়ি সংবেদনশীল"],
+    },
+    better: ["উষ্ণতায়"],
+    worse: ["মলের পরে", "ঠান্ডায়"],
+    dose: "6C–30C",
+    relations: ["Graph", "Nit-ac", "Paeon"]
+  },
+  "Myris": {
+    full: "Myristica Sebifera",
+    keynote: "পুঁজ গঠন ত্বরান্বিত করে। ফোড়া তাড়াতাড়ি পাকায়। অস্ত্রোপচার এড়াতে। প্যারোনিশিয়া।",
+    systems: {
+      "ত্বক": ["ফোড়া দ্রুত পাকে ও ফোটে", "নখের গোড়ায় পুঁজ", "ফিস্টুলা"],
+    },
+    better: ["গরম সেকে"],
+    worse: ["ঠান্ডায়", "রাতে"],
+    dose: "6C–30C",
+    relations: ["Hep", "Sil", "Sul"]
+  },
+  "Cycl": {
+    full: "Cyclamen Europaeum",
+    keynote: "ঝিকিমিকি দেখে মাথাব্যথা। মাসিক অনিয়মিত। ক্ষুধা নেই কিন্তু অদ্ভুত খাদ্যাভিলাস। সন্ধ্যায় বৃদ্ধি।",
+    systems: {
+      "মাথা": ["দৃষ্টিতে আলোর ঝিকিমিকি পরে মাথাব্যথা", "মাইগ্রেন"],
+      "মহিলা": ["মাসিক কম ও বিলম্বিত", "প্রসব পরবর্তী বিষণ্নতা"],
+      "মন": ["অপরাধ বোধ ও কান্না", "একা থাকতে চায়"],
+    },
+    better: ["খোলা বাতাসে", "নড়াচড়ায়"],
+    worse: ["সন্ধ্যায়", "বসলে", "উষ্ণতায়"],
+    dose: "6C–30C",
+    relations: ["Puls", "Sep", "Stan"]
+  },
+  "Asaf": {
+    full: "Asafoetida",
+    keynote: "হিস্টিরিয়া ও হাড়ের রোগ। পেটে গ্যাস উপরে ওঠে। হাড়ে ক্ষত ও পুঁজ। সাইকোটিক প্রবণতা।",
+    systems: {
+      "স্নায়ু": ["হিস্টিরিয়া গলায় বলের অনুভূতি", "কান্না ও হাসি পর্যায়ক্রমে"],
+      "হাড়": ["পেরিওস্টিয়ামে ব্যথা ও ক্ষত", "হাড়ে পুঁজ"],
+      "পেট": ["বায়ু উপরে ওঠে", "পেট ফাঁপা"],
+    },
+    better: ["খোলা বাতাসে"],
+    worse: ["উষ্ণতায়", "স্পর্শে", "রাতে"],
+    dose: "6C–30C",
+    relations: ["Mosch", "Valer", "Zinc"]
+  },
+  "Amm-m": {
+    full: "Ammonium Muriaticum",
+    keynote: "মোটা শরীর পা সরু। হ্যামস্ট্রিং টান। কাশিতে শ্লেষ্মা উপরে ওঠে গিলে ফেলে। বিষণ্নতা।",
+    systems: {
+      "পেশি": ["হ্যামস্ট্রিং মাংসপেশিতে টান", "হাঁটুর পেছনে টান"],
+      "শ্বাস": ["নাক বন্ধ রাতে", "কাশিতে কফ উঠলে গেলে ফেলে"],
+      "মন": ["একা কাঁদে", "সান্ত্বনায় রাগ"],
+    },
+    better: ["ঘষলে", "শুলে পেটে"],
+    worse: ["রাতে", "তৃতীয় দিনে"],
+    dose: "6C–30C",
+    relations: ["Calc", "Caust", "Graph"]
+  },
+  "Bov": {
+    full: "Bovista Lycoperdon",
+    keynote: "রক্তপাত অতিরিক্ত। মাসিকের আগে ও পরে রক্ত। আঁচিল। জয়েন্ট আলগা মচকানো প্রবণ।",
+    systems: {
+      "মহিলা": ["মাসিকের আগে থেকে পরে পর্যন্ত রক্তপাত", "লিউকোরিয়া"],
+      "ত্বক": ["আঁচিল সংখ্যায় বেশি", "একজিমায় রস পড়ে"],
+      "সন্ধি": ["গোড়ালি সহজে মচকায়"],
+    },
+    better: ["খাওয়ার পর", "শুলে"],
+    worse: ["সকালে", "গরম খাবারে"],
+    dose: "6C–30C",
+    relations: ["Calc", "Rhus-t", "Sep"]
+  },
+  "Ox-ac": {
+    full: "Oxalicum Acidum",
+    keynote: "অক্সালেট কিডনি পাথর। বুকে ও পিঠে তীব্র ব্যথা। ভাবলেই বাড়ে। পেশিতে অসাড়তা।",
+    systems: {
+      "কিডনি": ["অক্সালেট পাথর", "কোমর থেকে মূত্রথলিতে ব্যথা"],
+      "বুক": ["বুকে ছুরির মতো ব্যথা", "শ্বাস নিতে পারে না"],
+      "স্নায়ু": ["পেশি অসাড় ও দুর্বল"],
+    },
+    better: ["নড়াচড়ায়"],
+    worse: ["চিন্তায়", "স্পর্শে", "বাম দিকে"],
+    dose: "6C–30C",
+    relations: ["Berb", "Canth", "Lyc"]
+  },
+  "Sal-ac": {
+    full: "Salicylicum Acidum",
+    keynote: "কানে বাজে (টিনিটাস)। রিউমেটিজম বড় জয়েন্টে। জ্বরে ঘাম ও অস্থিরতা। বমি ও ডায়রিয়া।",
+    systems: {
+      "কান": ["কানে ভোঁ ভোঁ শব্দ তীব্র", "বধিরতা"],
+      "বাত": ["বড় জয়েন্টে তীব্র ব্যথা", "জ্বর সহ বাত"],
+      "পরিপাক": ["গ্যাস্ট্রিক আলসার", "বমি ও ডায়রিয়া"],
+    },
+    better: ["উষ্ণতায়"],
+    worse: ["ঠান্ডায়", "রাতে", "স্পর্শে"],
+    dose: "6C–30C",
+    relations: ["Chin", "Ferr-p", "Nat-s"]
+  },
+  "Sanic": {
+    full: "Sanicula Aqua",
+    keynote: "পিছিয়ে পড়া শিশু। মাথার ঘাম বালিশ ভিজিয়ে দেয়। মল শক্ত বল। ঘাড় ধরে রাখতে পারে না।",
+    systems: {
+      "শিশু": ["মাথার ঘাম বালিশ ভিজে", "ঘাড় দুর্বল", "দুধ বমি করে"],
+      "পরিপাক": ["মল শক্ত বলের মতো", "কোষ্ঠকাঠিন্য"],
+      "ত্বক": ["ত্বক আলগা ঝুলে পড়া", "ঘাড়ে ময়লা ভাঁজ"],
+    },
+    better: ["ঠান্ডায়"],
+    worse: ["উষ্ণতায়", "নড়াচড়ায়"],
+    dose: "6C–200C",
+    relations: ["Calc", "Nat-m", "Sil"]
+  },
+  "Teucr": {
+    full: "Teucrium Marum Verum",
+    keynote: "পলিপ (নাক ও মলদ্বারে)। কৃমি মলদ্বারে চুলকায়। নাক বন্ধ পলিপে। হাঁচি অনবরত।",
+    systems: {
+      "নাক": ["নাকের পলিপ", "নাক বন্ধ", "হাঁচি থামে না"],
+      "মলদ্বার": ["পিনওয়ার্ম — মলদ্বারে চুলকানি রাতে", "পলিপ"],
+    },
+    better: ["খোলা বাতাসে"],
+    worse: ["রাতে", "উষ্ণতায়"],
+    dose: "6C–30C",
+    relations: ["Cina", "Calc", "Sang"]
+  },
+  "Vib": {
+    full: "Viburnum Opulus",
+    keynote: "ডিসমেনোরিয়া — মাসিকে তীব্র খিঁচুনি ব্যথা। ব্যথা উরু ও পেট পর্যন্ত। গর্ভপাত প্রবণতা।",
+    systems: {
+      "মহিলা": ["মাসিকে খিঁচুনি ব্যথা উরুতে নামে", "মাসিক দেরিতে ও কম", "গর্ভপাতের ভয়"],
+      "স্নায়ু": ["স্প্যাজম ও খিঁচুনি"],
+    },
+    better: ["উষ্ণতায়"],
+    worse: ["ঠান্ডায়", "মাসিকে"],
+    dose: "Q–30C",
+    relations: ["Caul", "Cimic", "Mag-p"]
+  },
+  "Asar": {
+    full: "Asarum Europaeum",
+    keynote: "শব্দ ও স্পর্শে অতিসংবেদনশীল। কাপড়ের স্পর্শ অসহ্য। নার্ভাস দুর্বলতা। ঠান্ডা পানিতে আরাম।",
+    systems: {
+      "স্নায়ু": ["সামান্য শব্দে ও স্পর্শে কাঁপুনি", "ত্বকে সুতার স্পর্শ অসহ্য"],
+      "পরিপাক": ["বমি বমি ভাব সারাদিন", "ঠান্ডা পানিতে ভালো লাগে"],
+    },
+    better: ["ঠান্ডা পানিতে", "খাওয়ার পর"],
+    worse: ["শব্দে", "স্পর্শে", "উষ্ণতায়"],
+    dose: "6C–30C",
+    relations: ["Cocc", "Nux-v", "Valer"]
+  },
+  "Grat": {
+    full: "Gratiola Officinalis",
+    keynote: "গর্বিত ও অহংকারী স্বভাব থেকে রোগ। ডায়রিয়া হঠাৎ। যকৃতে ব্যথা। ধর্মীয় হতাশা।",
+    systems: {
+      "পরিপাক": ["হঠাৎ পানির মতো ডায়রিয়া", "যকৃতে ব্যথা", "বমি বমি ভাব"],
+      "মন": ["অহংকার ও গর্ব থেকে রোগ", "ধর্মীয় হতাশা"],
+    },
+    better: ["গরম পানীয়ে"],
+    worse: ["ঠান্ডায়", "চর্বিতে"],
+    dose: "6C–30C",
+    relations: ["Digit", "Nux-v", "Sep"]
+  },
+  "Form": {
+    full: "Formica Rufa",
+    keynote: "গাউট ও বাত হঠাৎ। ডান দিক। কনুই ও কব্জিতে ব্যথা। শুকনো আবহাওয়ায় আরাম।",
+    systems: {
+      "বাত": ["গাউট হঠাৎ", "কনুই ও কব্জির জয়েন্টে ব্যথা", "ডান দিক বেশি"],
+      "মাথা": ["মাথাব্যথা ডান দিকে"],
+    },
+    better: ["শুষ্ক আবহাওয়ায়", "উষ্ণতায়"],
+    worse: ["ভেজায়", "ঠান্ডায়", "নড়াচড়ায়"],
+    dose: "6C–30C",
+    relations: ["Colch", "Led", "Rhod"]
+  },
+  "Kali-n": {
+    full: "Kali Nitricum",
+    keynote: "হাঁপানি ভোরে। হৃদয়ে ব্যথা বাম দিকে। কফে রক্ত। ডায়াবেটিসে।",
+    systems: {
+      "শ্বাস": ["হাঁপানি ভোরে তীব্র", "শ্বাস নিতে কষ্ট শুলে"],
+      "হৃদয়": ["বাম দিকে ছুরির মতো ব্যথা", "হার্ট পালপিটেশন"],
+      "মূত্র": ["প্রস্রাব সাদা ও বেশি", "ডায়াবেটিসে"],
+    },
+    better: ["সামনে হেলে বসলে"],
+    worse: ["শুলে", "ভোরে", "ঠান্ডায়"],
+    dose: "6C–30C",
+    relations: ["Ars", "Cupr", "Kali-c"]
+  },
+  "Arg-met": {
+    full: "Argentum Metallicum",
+    keynote: "গলা ও স্বরযন্ত্রের ওষুধ। বক্তা ও গায়কের রোগ। জয়েন্ট আলগা। সিলভারের মতো উজ্জ্বল সাদা কফ।",
+    systems: {
+      "গলা": ["স্বরযন্ত্র ক্লান্ত বেশি কথায়", "কফ সাদা উজ্জ্বল", "গলায় আলসার"],
+      "সন্ধি": ["জয়েন্ট আলগা হাঁটুতে", "কার্টিলেজ ক্ষয়"],
+      "মন": ["সময় দ্রুত যায় মনে হয়"],
+    },
+    better: ["নড়াচড়ায়"],
+    worse: ["কথা বললে", "স্পর্শে", "দুপুরে"],
+    dose: "6C–200C",
+    relations: ["Alum", "Stann", "Sul"]
+  },
+  "Bism": {
+    full: "Bismuthum Subnitricum",
+    keynote: "পাকস্থলিতে ব্যথা ঠান্ডা পানিতে আরাম। বমি খাওয়ার পর। একাকীত্ব সহ্য হয় না। ক্যান্সার প্রবণতা।",
+    systems: {
+      "পরিপাক": ["পাকস্থলিতে তীব্র ব্যথা", "বমি খাওয়ার পর", "ডায়রিয়া পচা গন্ধ"],
+      "মন": ["একা থাকতে পারে না", "মা ডাকতে থাকে"],
+    },
+    better: ["ঠান্ডা পানিতে"],
+    worse: ["খাওয়ার পর", "রাতে"],
+    dose: "6C–30C",
+    relations: ["Ars", "Kreos", "Phos"]
+  },
+  "Ferr-i": {
+    full: "Ferrum Iodatum",
+    keynote: "থাইরয়েড বড় (goitre)। গ্রন্থি শুকানো ও বড় হওয়া। রক্তহীনতায়। ফুসফুস দুর্বল।",
+    systems: {
+      "গ্রন্থি": ["থাইরয়েড বড় হওয়া", "লিম্ফ গ্রন্থি বড় ও শক্ত"],
+      "শ্বাস": ["ফুসফুসের দুর্বলতা", "কাশিতে রক্ত"],
+      "রক্ত": ["রক্তহীনতা ক্লোরোসিস"],
+    },
+    better: ["খোলা বাতাসে", "নড়াচড়ায়"],
+    worse: ["উষ্ণতায়", "ঘরে", "রাতে"],
+    dose: "6C–30C",
+    relations: ["Iod", "Ferr", "Spon"]
   }
 };
 const ALLEN_KEYNOTES = {
@@ -7436,6 +8165,545 @@ const ALLEN_KEYNOTES = {
       "অপমানের পর রাগ বা অসুস্থতা — ক্রোধ চেপে রাখার ফল"
     ],
     compare: ["Nat-m", "Caust", "Coloc"]
+  },
+  "Berb": {
+    keynotes: [
+      "কিডনির সেরা ঔষধ — ব্যথা কোমর থেকে চারদিকে ছড়ায়, তীরের মতো",
+      "প্রস্রাব পুঁজের মতো, পলি সহ — কিডনি পাথর",
+      "পিত্তথলির পাথর — ডান কাঁধে ব্যথা ছড়ায়",
+      "দাঁড়ালে বা নড়লে ব্যথা বাড়ে",
+      "প্রস্রাব করার পরেও পেটে জ্বালা থাকে",
+      "হলুদ জন্ডিস ও পিত্তনালির সমস্যা"
+    ],
+    compare: ["Canth", "Lyc", "Sars"]
+  },
+  "Equis": {
+    keynotes: [
+      "মূত্রাশয়ে পূর্ণতার অনুভূতি — প্রস্রাবের পরেও কমে না",
+      "শিশুর রাতে প্রস্রাব অনিচ্ছাকৃত (enuresis)",
+      "প্রস্রাবে ব্যথা ও জ্বালা — শেষে বেশি",
+      "মূত্রাশয় দুর্বল — ধরে রাখতে পারে না",
+      "কোমরে ভার ও ব্যথা",
+      "ডান দিকে বেশি প্রভাব"
+    ],
+    compare: ["Canth", "Caust", "Puls"]
+  },
+  "Sabal": {
+    keynotes: [
+      "প্রস্টেট বড় হওয়া — বয়স্ক পুরুষের প্রস্রাবে কষ্ট",
+      "রাতে বারবার প্রস্রাব — ঘুম ভাঙে",
+      "যৌন দুর্বলতা ও স্পার্মাটোরিয়া",
+      "প্রস্রাব শুরু হতে দেরি — ফোঁটায় ফোঁটায় আসে",
+      "স্তন পুষ্ট করে — স্তন ছোট থাকলে",
+      "ঠান্ডায় সব লক্ষণ বাড়ে"
+    ],
+    compare: ["Con", "Dig", "Thuj"]
+  },
+  "Aloe": {
+    keynotes: [
+      "সকালে তাড়াহুড়ো করে মলত্যাগ — বিছানা ছাড়তে বাধ্য হয়",
+      "মলদ্বারে আঙুরের থোকার মতো অর্শ — জ্বালাপোড়া",
+      "মল ধরে রাখতে পারে না — গ্যাস বের হলেও মল আসে",
+      "ঠান্ডা পানিতে মলদ্বারে আরাম",
+      "পেট ফাঁপা ও গড়গড় শব্দ",
+      "যকৃত বড় ও ডান পেটে ব্যথা"
+    ],
+    compare: ["Podo", "Sul", "Gamb"]
+  },
+  "Rheum": {
+    keynotes: [
+      "সারা শরীর থেকে টক গন্ধ — মা বলতে পারেন",
+      "দাঁত ওঠার সময় ডায়রিয়া — সবুজ ও টক",
+      "শিশু কাঁদতে থাকে — মল হওয়ার আগেও পরেও",
+      "মল টক গন্ধ — কাপড়ে টক দাগ",
+      "পেটে খিঁচুনি ব্যথা মলের আগে",
+      "দ্রুত মল হয় কিন্তু আংশিক"
+    ],
+    compare: ["Calc-p", "Cham", "Mag-c"]
+  },
+  "Rob": {
+    keynotes: [
+      "রাতে অতিরিক্ত টক ঢেঁকুর — শুলে বাড়ে",
+      "বুকজ্বালা রাতে এত তীব্র যে ঘুম হয় না",
+      "শিশুর দুধ বমি — টক জমাট",
+      "মাথাব্যথা অম্লতা থেকে",
+      "অম্লতার সেরা ঔষধ — Iris-এর পরিপূরক",
+      "পাকস্থলি সংবেদনশীল চাপে"
+    ],
+    compare: ["Iris", "Nat-p", "Sul"]
+  },
+  "Tarax": {
+    keynotes: [
+      "জিহ্বায় মানচিত্রের মতো সাদা দাগ — geographic tongue",
+      "তেতো স্বাদ মুখে সারাক্ষণ",
+      "যকৃতে টেনে ধরা ব্যথা — নড়াচড়ায় ভালো",
+      "পিত্তথলির ব্যথা হলুদ জন্ডিস সহ",
+      "গ্যাস্ট্রিক অবসাদ ও ক্ষুধামন্দা",
+      "বিশ্রামে সব বাড়ে"
+    ],
+    compare: ["Chel", "Lyc", "Nat-s"]
+  },
+  "Rumx": {
+    keynotes: [
+      "ঠান্ডা বাতাসে শুকনো কাশি — মুখ ঢাকলে কমে",
+      "গলায় সুড়সুড়ি কাশি শুরু করে — রাতে শুলে বাড়ে",
+      "ত্বকে তীব্র চুলকানি — কাপড় খুললে বাড়ে",
+      "শ্বাস নেওয়ার সময় কাশি আসে",
+      "সকালে ডায়রিয়া — অনিচ্ছাকৃত",
+      "বাম দিকে বেশি প্রভাব"
+    ],
+    compare: ["Dros", "Hyos", "Phos"]
+  },
+  "Lob": {
+    keynotes: [
+      "পাকস্থলিতে তীব্র দুর্বলতা — বমি বমি ভাব সবসময়",
+      "হাঁপানি — বুকে চাপ ও শ্বাসবন্ধ অনুভূতি",
+      "তামাক থেকে বমি ও মাথাব্যথা",
+      "এপিগ্যাস্ট্রিয়ামে তীব্র অস্বস্তি",
+      "শ্বাসযন্ত্রের পেশি অবসাদ",
+      "ধীরে হাঁটলে আরাম পায়"
+    ],
+    compare: ["Ant-t", "Ip", "Puls"]
+  },
+  "Seneg": {
+    keynotes: [
+      "বুকে শক্ত শ্লেষ্মা — কাশিতে কফ উঠতে কষ্ট",
+      "বৃদ্ধদের দীর্ঘস্থায়ী ব্রংকাইটিস",
+      "চোখে পর্দা — কর্নিয়ায় ধোঁয়া ও ঝাপসা দৃষ্টি",
+      "কাশিতে বুকে ব্যথা — বিশেষত নিচে",
+      "নিউমোনিয়ার পর দুর্বলতায়",
+      "হাঁটলে ও খোলা বাতাসে ভালো লাগে"
+    ],
+    compare: ["Amm-c", "Kali-bi", "Phos"]
+  },
+  "Samb": {
+    keynotes: [
+      "শিশুর নাক বন্ধ — দুধ খেতে পারে না শ্বাসের জন্য",
+      "হঠাৎ শ্বাসকষ্টে ঘুম থেকে জেগে ওঠে",
+      "ঘুমে সুতীব্র ঘাম — জেগে উঠলে ঘাম নেই",
+      "ক্রুপ হঠাৎ রাতে",
+      "শিশু শ্বাসকষ্টে নীলাভ",
+      "রাত ১২টার পরে সব লক্ষণ বাড়ে"
+    ],
+    compare: ["Acon", "Ip", "Spong"]
+  },
+  "Sabin": {
+    keynotes: [
+      "গর্ভপাত প্রবণতা — বিশেষত তৃতীয় মাসে",
+      "মাসিকে উজ্জ্বল লাল রক্ত — জমাট সহ",
+      "নড়াচড়ায় রক্তপাত বাড়ে — শুলে কমে",
+      "গাউটে আঙুলে জ্বালাপোড়া ও ফোলা",
+      "প্রসব পরবর্তী রক্তপাত",
+      "সংগীতে অসহ্য লাগে"
+    ],
+    compare: ["Croc", "Mill", "Sec"]
+  },
+  "Caul": {
+    keynotes: [
+      "প্রসব বেদনা দুর্বল — জরায়ু সংকোচন অকার্যকর",
+      "আঙুলের ছোট জয়েন্টে উড়ে উড়ে ব্যথা",
+      "মাসিক অনিয়মিত ও কম — দেরিতে আসে",
+      "কব্জিতে ব্যথা ও দুর্বলতা",
+      "জরায়ু দুর্বল — মহিলা অবসাদ",
+      "ঠান্ডায় ও খোলা বাতাসে সব বাড়ে"
+    ],
+    compare: ["Cimic", "Puls", "Sep"]
+  },
+  "Helon": {
+    keynotes: [
+      "ব্যস্ত থাকলে সব কষ্ট ভুলে যায় — বিশ্রামে বাড়ে",
+      "জরায়ু নেমে আসার অনুভূতি — প্রল্যাপস",
+      "কোমরে ভার ও ব্যথা — স্যাক্রামে",
+      "লিউকোরিয়া দুর্গন্ধযুক্ত",
+      "মহিলাদের রক্তহীনতা ও ক্লান্তি",
+      "গর্ভাবস্থায় সব লক্ষণ বাড়ে"
+    ],
+    compare: ["Aletris", "Murx", "Sep"]
+  },
+  "Hyper": {
+    keynotes: [
+      "স্নায়ু আঘাতের প্রথম ঔষধ — নখের গোড়া, আঁচড়, ছুরির কাটায়",
+      "মেরুদণ্ড আঘাতে — কক্সিক্সে ব্যথা",
+      "দাঁত তোলার পরে তীব্র স্নায়ুব্যথা",
+      "ব্যথা স্নায়ু পথ ধরে উপরে ওঠে",
+      "ক্ষত দীর্ঘস্থায়ী — সারছে না",
+      "মাথায় আঘাতের পরে মাথাব্যথা"
+    ],
+    compare: ["Arn", "Led", "Nat-s"]
+  },
+  "Bufo": {
+    keynotes: [
+      "মৃগীরোগ ঘুমে বা সহবাসের সময়",
+      "কামবৃত্তির অতিরিক্ততা — অকাল বীর্যপাত",
+      "নিম্নবুদ্ধি ও শিশুর মতো আচরণ",
+      "একা থাকতে চায় — সঙ্গে রাগ করে",
+      "মাথায় উষ্ণতার অনুভূতি",
+      "সংগীত সহ্য হয় না — রাগ বাড়ে"
+    ],
+    compare: ["Agar", "Bar-c", "Zinc"]
+  },
+  "Phys": {
+    keynotes: [
+      "পড়ার পরে চোখে ব্যথা ও ক্লান্তি",
+      "মায়োপিয়া দ্রুত বাড়ছে — চোখের পেশি দুর্বল",
+      "গ্লুকোমায় পুতুল সংকুচিত",
+      "মেরুদণ্ডে উত্তেজনা ও কাঁপুনি",
+      "পেশিতে দুর্বলতা ও অসাড়তা",
+      "আলোতে চোখে ব্যথা বাড়ে"
+    ],
+    compare: ["Gels", "Jab", "Prun"]
+  },
+  "Urt-u": {
+    keynotes: [
+      "আর্টিকেরিয়া — পোকার কামড়ের মতো ফোলা ও জ্বালা",
+      "পোড়া ও দংশনে তাৎক্ষণিক উপশম",
+      "মাসিক বন্ধে আর্টিকেরিয়া আসে",
+      "ইউরিক অ্যাসিড বেশি — গাউট প্রবণতা",
+      "কাঁধে ব্যথা ও দুর্বলতা",
+      "পানি স্পর্শে সব বাড়ে"
+    ],
+    compare: ["Apis", "Dulc", "Led"]
+  },
+  "Ran-b": {
+    keynotes: [
+      "বুকে হার্পিস জোস্টার — পাঁজরের মাঝে ছুরির মতো ব্যথা",
+      "স্পর্শে ও নড়াচড়ায় ব্যথা তীব্র",
+      "মদ্যপানের ফলে ত্বক ও পাকস্থলির রোগ",
+      "হাতের তালুতে ফোসকা",
+      "ভেজায় ও ঠান্ডায় সব বাড়ে",
+      "বসলে ব্যথা কমে"
+    ],
+    compare: ["Bry", "Mez", "Rhus-t"]
+  },
+  "Paeon": {
+    keynotes: [
+      "মলদ্বারের ফিসার — মলের পরে ঘণ্টার পর তীব্র জ্বালা",
+      "ফিস্টুলা পুঁজযুক্ত",
+      "মলদ্বারে গভীর ক্ষত ও চুলকানি",
+      "ঘুমে দুঃস্বপ্ন",
+      "মলদ্বার শুষ্ক ও সংবেদনশীল",
+      "রাতে ও মলের পরে বাড়ে"
+    ],
+    compare: ["Graph", "Rat", "Sil"]
+  },
+  "Crat": {
+    keynotes: [
+      "হৃদয়ের দুর্বলতা — হার্ট ফেইলিউর প্রবণতা",
+      "ধমনী শক্ত ও সরু — আর্টেরিওস্ক্লেরোসিস",
+      "অ্যানজাইনা — বুকে চাপ ও শ্বাসকষ্ট",
+      "উচ্চ ও নিম্ন উভয় রক্তচাপে উপকারী",
+      "হৃদয়ের টনিক — দীর্ঘমেয়াদী ব্যবহারে",
+      "পরিশ্রমে ও উত্তেজনায় সব বাড়ে"
+    ],
+    compare: ["Dig", "Kali-c", "Spig"]
+  },
+  "Naja": {
+    keynotes: [
+      "হৃদয়ের জৈব রোগ — মাইট্রাল ভালভ সমস্যা",
+      "শুলে বাম দিকে শ্বাসকষ্ট ও ধড়ফড়ানি",
+      "গভীর বিষণ্নতা — সবকিছু ভুলে যায়",
+      "মাথায় বাম দিকে চাপ ও ব্যথা",
+      "রাতে মৃত্যুর ভয় ও উদ্বেগ",
+      "হাঁটলে ও খোলা বাতাসে ভালো লাগে"
+    ],
+    compare: ["Lach", "Spig", "Crot-h"]
+  },
+  "Hydr": {
+    keynotes: [
+      "শ্লেষ্মা ঝিল্লির প্রধান ঔষধ — স্রাব ঘন হলুদ সুতার মতো",
+      "নাক ও সাইনাসে ঘন হলুদ স্রাব",
+      "পাকস্থলির আলসার — ক্যান্সার প্রবণতা",
+      "ক্ষত শুকায় না — দুর্বল নিরাময় শক্তি",
+      "কোষ্ঠকাঠিন্য — মল শুকনো ও কষ্টকর",
+      "ঠান্ডায় ও খোলা বাতাসে সব বাড়ে"
+    ],
+    compare: ["Kali-bi", "Puls", "Spig"]
+  },
+  "Brom": {
+    keynotes: [
+      "স্বরযন্ত্রে সংকোচন — শ্বাস নিতে পারছে না",
+      "থাইরয়েড বড় — শক্ত গলগণ্ড",
+      "ধুলোয় ও গরমে কাশি — সমুদ্রে ভালো",
+      "নীলাভ চোখ ও সোনালি চুলের শিশুতে বেশি",
+      "ক্রুপ — কণ্ঠস্বর বসে যায়",
+      "গ্রন্থি শক্ত কিন্তু ধীরে নরম হয়"
+    ],
+    compare: ["Iod", "Spong", "Acon"]
+  },
+  "Merc-c": {
+    keynotes: [
+      "আমাশয়ের সেরা ঔষধ — মল কখনো পূর্ণ হয় না",
+      "তীব্র কোঁথানো — রক্ত ও শ্লেষ্মা সহ",
+      "মূত্রনালিতে জ্বালা — ফোঁটায় ফোঁটায় প্রস্রাব",
+      "গরম রক্তাক্ত মল — রাতে বৃদ্ধি",
+      "কর্নিয়ায় আলসার — চোখে তীব্র ব্যথা",
+      "শীত ও গরম উভয়ে সমান কষ্ট"
+    ],
+    compare: ["Ars", "Merc", "Nit-ac"]
+  },
+  "Kali-i": {
+    keynotes: [
+      "হাড়ের গভীরে রাতে ব্যথা — সিফিলিটিক মায়াজম",
+      "নাক থেকে তরল পানির মতো জ্বালাপোড়া স্রাব",
+      "থাইরয়েড বড় ও শক্ত",
+      "কপালে চাপের ব্যথা",
+      "নড়াচড়ায় ও খোলা বাতাসে ভালো লাগে",
+      "রাতে ও উষ্ণতায় সব বাড়ে"
+    ],
+    compare: ["Aur", "Merc", "Nit-ac"]
+  },
+  "Kali-s": {
+    keynotes: [
+      "হলুদ ও সবুজ স্রাব সব জায়গায়",
+      "কাশিতে হলুদ কফ — সহজে ওঠে",
+      "হাঁপানি সন্ধ্যায় ও ঘরে বাড়ে",
+      "একজিমায় হলুদ আঁশ — Pulsatilla-র দীর্ঘমেয়াদী রূপ",
+      "খোলা বাতাসে সব ভালো লাগে",
+      "উষ্ণতায় ও ঘরে সব বাড়ে"
+    ],
+    compare: ["Puls", "Sep", "Sul"]
+  },
+  "Kali-m": {
+    keynotes: [
+      "মধ্যকর্ণের প্রদাহ — সাদা স্রাব ও কানে পূর্ণতা",
+      "টনসিলে সাদা ঝিল্লি — ডিপথেরিয়া দ্বিতীয় পর্যায়",
+      "মল সাদা ও চর্বিযুক্ত — জন্ডিসে",
+      "ইউস্টেশিয়ান টিউব বন্ধ — কানে শোঁ শোঁ",
+      "বায়োকেমিক দ্বিতীয় পর্যায়ের ঔষধ",
+      "চর্বিতে ও উষ্ণতায় সব বাড়ে"
+    ],
+    compare: ["Calc", "Hep", "Merc"]
+  },
+  "Nat-p": {
+    keynotes: [
+      "অম্লতার সেরা বায়োকেমিক — বুকজ্বালা সারাদিন",
+      "শিশুর দুধ বমি হলুদ জমাট — টক গন্ধ",
+      "কৃমি — গোলকৃমি ও পিনওয়ার্ম",
+      "গেঁটেবাত — ইউরিক অ্যাসিড বৃদ্ধিতে",
+      "চিনি ও দুধে সব বাড়ে",
+      "জিহ্বার গোড়ায় হলুদ আস্তর"
+    ],
+    compare: ["Calc", "Nat-m", "Rob"]
+  },
+  "Ars-i": {
+    keynotes: [
+      "হে ফিভার — নাক থেকে তরল জ্বালাপোড়া স্রাব",
+      "যক্ষ্মার শুরু — শুকিয়ে যাওয়া অথচ ক্ষুধা বেশি",
+      "থাইরয়েড বড় — গ্রন্থি শুকিয়ে যায়",
+      "সর্দিতে নাক ও চোখ জ্বালাপোড়া",
+      "খোলা বাতাসে ভালো লাগে",
+      "ঘরে ও উষ্ণতায় সব বাড়ে"
+    ],
+    compare: ["Ars", "Iod", "Tub"]
+  },
+  "Guai": {
+    keynotes: [
+      "গেঁটেবাত — সংকুচিত হওয়ার মতো ব্যথা",
+      "গলায় টনসিলে পুঁজ ও পোড়ানো",
+      "শরীর থেকে গন্ধ অসহ্য — নিজেই অনুভব করে",
+      "ফোলা উষ্ণ ও উজ্জ্বল লাল",
+      "ঠান্ডায় সব ভালো লাগে",
+      "উষ্ণতায় ও নড়াচড়ায় বাড়ে"
+    ],
+    compare: ["Merc", "Nit-ac", "Sul"]
+  },
+  "Rat": {
+    keynotes: [
+      "মলদ্বারের ফিসার — মলের পর ঘণ্টার পর তীব্র জ্বালা",
+      "মলদ্বার শুষ্ক ও ফাটা — ব্যথায় চিৎকার",
+      "দাঁতে ব্যথা ঠান্ডায় — মাড়ি সংবেদনশীল",
+      "অর্শ ব্যথাযুক্ত ও কষ্টকর",
+      "উষ্ণতায় আরাম — সেক দিলে ভালো",
+      "মলের পরে ব্যথা সবচেয়ে বেশি"
+    ],
+    compare: ["Graph", "Nit-ac", "Paeon"]
+  },
+  "Myris": {
+    keynotes: [
+      "ফোড়া দ্রুত পাকায় — অস্ত্রোপচার এড়াতে সাহায্য",
+      "নখের গোড়ায় পুঁজ — প্যারোনিশিয়া",
+      "ফিস্টুলা ও দীর্ঘস্থায়ী পুঁজ",
+      "Hepar-এর চেয়ে দ্রুত কাজ করে",
+      "গরম সেকে আরাম পায়",
+      "রাতে ও ঠান্ডায় বাড়ে"
+    ],
+    compare: ["Hep", "Sil", "Sul"]
+  },
+  "Cycl": {
+    keynotes: [
+      "দৃষ্টিতে ঝিকিমিকি আলো দেখে মাথাব্যথা শুরু",
+      "মাসিক কম ও বিলম্বিত — ঠান্ডায় বেশি কষ্ট",
+      "অদ্ভুত খাদ্যাভিলাস — অখাদ্য খেতে চায়",
+      "অপরাধবোধ ও কান্না — একা থাকতে চায়",
+      "প্রসব পরবর্তী বিষণ্নতা",
+      "সন্ধ্যায় ও বসলে সব বাড়ে"
+    ],
+    compare: ["Puls", "Sep", "Stan"]
+  },
+  "Asaf": {
+    keynotes: [
+      "হিস্টিরিয়া — গলায় বল উঠছে অনুভূতি (globus hystericus)",
+      "হাড়ে পেরিওস্টাইটিস — রাতে তীব্র ব্যথা",
+      "বায়ু উপরে ওঠে — ঢেঁকুর তীব্র",
+      "কান্না ও হাসি পর্যায়ক্রমে",
+      "স্পর্শে অতিসংবেদনশীল",
+      "উষ্ণতায় ও রাতে বাড়ে"
+    ],
+    compare: ["Mosch", "Valer", "Zinc"]
+  },
+  "Amm-m": {
+    keynotes: [
+      "মোটা শরীর কিন্তু পা সরু — অমিল গড়ন",
+      "হ্যামস্ট্রিং মাংসপেশিতে টান — হাঁটতে কষ্ট",
+      "কাশিতে কফ উঠলে গিলে ফেলে — বের করতে পারে না",
+      "একা কাঁদে — সান্ত্বনায় রাগ করে",
+      "রাতে নাক বন্ধ ও শ্বাস কষ্ট",
+      "তৃতীয় দিনে সব বাড়ে"
+    ],
+    compare: ["Calc", "Caust", "Graph"]
+  },
+  "Bov": {
+    keynotes: [
+      "মাসিকের আগে থেকে পরে পর্যন্ত রক্তপাত",
+      "আঁচিল অনেক — বিভিন্ন জায়গায়",
+      "গোড়ালি সহজে মচকায় — বারবার",
+      "একজিমায় রস পড়ে — ভেজা ও চুলকায়",
+      "খাওয়ার পরে ভালো লাগে",
+      "সকালে ও গরম খাবারে বাড়ে"
+    ],
+    compare: ["Calc", "Rhus-t", "Sep"]
+  },
+  "Ox-ac": {
+    keynotes: [
+      "অক্সালেট কিডনি পাথর — কোমর থেকে মূত্রথলিতে ব্যথা",
+      "বুকে ছুরির মতো ব্যথা — শ্বাস নিতে পারে না",
+      "চিন্তা করলেই সব বাড়ে",
+      "পেশি অসাড় ও দুর্বল",
+      "বাম দিকে বেশি প্রভাব",
+      "নড়াচড়ায় আরাম পায়"
+    ],
+    compare: ["Berb", "Canth", "Lyc"]
+  },
+  "Sal-ac": {
+    keynotes: [
+      "কানে তীব্র ভোঁ ভোঁ শব্দ (tinnitus) — বধিরতার আগে",
+      "রিউমেটিজম বড় জয়েন্টে — জ্বর সহ",
+      "গ্যাস্ট্রিক আলসার ও বমি",
+      "টাইফয়েডে মাথাব্যথা",
+      "রাতে ও ঠান্ডায় সব বাড়ে",
+      "উষ্ণতায় আরাম পায়"
+    ],
+    compare: ["Chin", "Ferr-p", "Nat-s"]
+  },
+  "Sanic": {
+    keynotes: [
+      "মাথার ঘাম রাতে — বালিশ ভিজিয়ে দেয়",
+      "ঘাড় দুর্বল — ধরে রাখতে পারে না শিশু",
+      "মল শক্ত বলের মতো — কষ্টে বের হয়",
+      "ত্বক আলগা ও ঝুলে পড়া — বৃদ্ধের মতো",
+      "দুধ বমি করে — গলায় ফিরে আসে",
+      "উষ্ণতায় সব বাড়ে"
+    ],
+    compare: ["Calc", "Nat-m", "Sil"]
+  },
+  "Teucr": {
+    keynotes: [
+      "নাকের পলিপ — নাক বন্ধ ও হাঁচি",
+      "মলদ্বারে পিনওয়ার্ম — রাতে তীব্র চুলকানি",
+      "হাঁচি অনবরত — নাক ও চোখ জ্বালা",
+      "পলিপ মলদ্বারেও — চুলকানি",
+      "রাতে ও উষ্ণতায় সব বাড়ে",
+      "খোলা বাতাসে ভালো লাগে"
+    ],
+    compare: ["Cina", "Calc", "Sang"]
+  },
+  "Vib": {
+    keynotes: [
+      "ডিসমেনোরিয়া — মাসিকে খিঁচুনি ব্যথা উরু পর্যন্ত",
+      "গর্ভপাতের ভয় — বারবার হওয়ার ইতিহাস",
+      "মাসিক দেরিতে ও পরিমাণে কম",
+      "পেটে ও পিঠে তীব্র স্প্যাজম",
+      "উষ্ণতায় আরাম — ঠান্ডায় বাড়ে",
+      "মাসিকের সময় সব লক্ষণ চরমে"
+    ],
+    compare: ["Caul", "Cimic", "Mag-p"]
+  },
+  "Asar": {
+    keynotes: [
+      "সামান্য শব্দে ও স্পর্শে কাঁপুনি ও অস্বস্তি",
+      "কাপড়ের সুতার স্পর্শও অসহ্য লাগে",
+      "বমি বমি ভাব সারাদিন — ঠান্ডা পানিতে আরাম",
+      "নার্ভাস দুর্বলতা ও ক্লান্তি",
+      "শব্দে ও উষ্ণতায় সব বাড়ে",
+      "ঠান্ডা পানি ও খাওয়ার পরে ভালো"
+    ],
+    compare: ["Cocc", "Nux-v", "Valer"]
+  },
+  "Grat": {
+    keynotes: [
+      "অহংকার ও গর্ব থেকে রোগ — নিজেকে বড় মনে করে",
+      "হঠাৎ পানির মতো ডায়রিয়া",
+      "যকৃতে ব্যথা ও বড় হওয়া",
+      "ধর্মীয় হতাশা ও আত্মনিন্দা",
+      "গরম পানীয়ে আরাম পায়",
+      "ঠান্ডায় ও চর্বিতে বাড়ে"
+    ],
+    compare: ["Digit", "Nux-v", "Sep"]
+  },
+  "Form": {
+    keynotes: [
+      "গাউট হঠাৎ — ডান দিকে বেশি",
+      "কনুই ও কব্জির জয়েন্টে ব্যথা",
+      "শুষ্ক আবহাওয়ায় আরাম — ভেজায় বাড়ে",
+      "মাথাব্যথা ডান দিকে",
+      "পেশিতে টান ও শক্তভাব",
+      "ঠান্ডায় ও নড়াচড়ায় বাড়ে"
+    ],
+    compare: ["Colch", "Led", "Rhod"]
+  },
+  "Kali-n": {
+    keynotes: [
+      "হাঁপানি ভোরে তীব্র — শুলে শ্বাস নিতে পারে না",
+      "হৃদয়ের বাম দিকে ছুরির মতো ব্যথা",
+      "কফে রক্ত — যক্ষ্মা প্রবণতায়",
+      "ডায়াবেটিসে প্রস্রাব সাদা ও বেশি",
+      "সামনে হেলে বসলে আরাম পায়",
+      "শুলে ও ভোরে সব বাড়ে"
+    ],
+    compare: ["Ars", "Cupr", "Kali-c"]
+  },
+  "Arg-met": {
+    keynotes: [
+      "বক্তা ও গায়কের গলার ক্লান্তি — বেশি কথায়",
+      "কফ সাদা উজ্জ্বল সিলভারের মতো",
+      "হাঁটুর কার্টিলেজ ক্ষয় — জয়েন্ট আলগা",
+      "সময় দ্রুত যায় বলে মনে হয়",
+      "স্পর্শে ও দুপুরে সব বাড়ে",
+      "নড়াচড়ায় আরাম পায়"
+    ],
+    compare: ["Alum", "Stann", "Sul"]
+  },
+  "Bism": {
+    keynotes: [
+      "পাকস্থলিতে তীব্র ব্যথা — ঠান্ডা পানিতে সাময়িক আরাম",
+      "বমি খাওয়ার পর — খাবার জমে থাকে",
+      "একা থাকতে পারে না — মা ডাকতে থাকে",
+      "ডায়রিয়া পচা গন্ধ — হঠাৎ আসে",
+      "ক্যান্সার প্রবণতায়",
+      "রাতে ও খাওয়ার পরে বাড়ে"
+    ],
+    compare: ["Ars", "Kreos", "Phos"]
+  },
+  "Ferr-i": {
+    keynotes: [
+      "থাইরয়েড বড় (goitre) — ধীরে ধীরে বাড়ছে",
+      "লিম্ফ গ্রন্থি বড় ও শক্ত",
+      "রক্তহীনতা ক্লোরোসিস — মেয়েদের",
+      "ফুসফুস দুর্বল — কাশিতে রক্ত",
+      "খোলা বাতাসে ও নড়াচড়ায় ভালো লাগে",
+      "উষ্ণতায় ও ঘরে সব বাড়ে"
+    ],
+    compare: ["Iod", "Ferr", "Spong"]
   }
 };
 // build lookups after data
@@ -7444,5 +8712,96 @@ const _ALLEN_LOOKUP = {};
 Object.keys(ALLEN_KEYNOTES).forEach(k=>{_ALLEN_LOOKUP[_mmNorm(k)]=k;});
 </script>
 
+
+<script>
+// ========== MATERIA MEDICA BROWSER ==========
+let _mmbTab = 'all';
+let _mmbAlpha = '';
+
+function initMMBrowser() {
+  const alphaEl = document.getElementById('mmb-alpha');
+  if (alphaEl && !alphaEl.dataset.built) {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    alphaEl.innerHTML = '<button class="mmb-alpha-btn active" onclick="mmbSetAlpha(\'\',this)">সব</button>' +
+      letters.map(l =>
+        '<button class="mmb-alpha-btn" onclick="mmbSetAlpha(\''+l+'\',this)">'+l+'</button>'
+      ).join('');
+    alphaEl.dataset.built = '1';
+  }
+  mmbRender();
+}
+
+function mmbSetTab(tab, btn) {
+  _mmbTab = tab;
+  document.querySelectorAll('.mmb-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  mmbRender();
+}
+
+function mmbSetAlpha(letter, btn) {
+  _mmbAlpha = letter;
+  document.querySelectorAll('.mmb-alpha-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  mmbRender();
+}
+
+function mmbFilter() {
+  _mmbAlpha = '';
+  document.querySelectorAll('.mmb-alpha-btn').forEach(b => b.classList.remove('active'));
+  const firstBtn = document.querySelector('.mmb-alpha-btn');
+  if (firstBtn) firstBtn.classList.add('active');
+  mmbRender();
+}
+
+function mmbRender() {
+  const q = (document.getElementById('mmb-search')?.value || '').toLowerCase().trim();
+  const allKeys = Object.keys(MM_DATA).sort();
+  const mmKeys = new Set(Object.keys(MM_DATA));
+  const akKeys = new Set(Object.keys(ALLEN_KEYNOTES));
+  const bothCount = [...mmKeys].filter(k => akKeys.has(k)).length;
+  const elBoth = document.getElementById('mmb-both-count');
+  if (elBoth) elBoth.textContent = bothCount;
+
+  let filtered = allKeys.filter(key => {
+    const d = MM_DATA[key];
+    if (_mmbAlpha && !key.toUpperCase().startsWith(_mmbAlpha)) return false;
+    if (q) {
+      const searchIn = (key + ' ' + (d.full || '') + ' ' + (d.keynote || '')).toLowerCase();
+      if (!searchIn.includes(q)) return false;
+    }
+    if (_mmbTab === 'allen' && !akKeys.has(key)) return false;
+    return true;
+  });
+
+  document.getElementById('mmb-count').textContent = allKeys.length;
+  const grid = document.getElementById('mmb-grid');
+  const empty = document.getElementById('mmb-empty');
+
+  if (!filtered.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  grid.innerHTML = filtered.map(key => {
+    const d = MM_DATA[key] || {};
+    const ak = ALLEN_KEYNOTES[key];
+    const keynoteSnip = (d.keynote || '').split('।')[0];
+    const allenSnip = ak ? (ak.keynotes || [])[0] || '' : '';
+    const safeKey = key.replace(/'/g, "\\'");
+    return '<div class="mmb-card" onclick="openMM(\'' + safeKey + '\')">' +
+      '<div class="mmb-card-top">' +
+        '<div><div class="mmb-card-abbr">' + key + '</div>' +
+        '<div class="mmb-card-full">' + (d.full || '') + '</div></div>' +
+        '<div class="mmb-card-badges">' +
+          '<span class="mmb-badge blue">📘</span>' +
+          (ak ? '<span class="mmb-badge gold">🔑</span>' : '') +
+        '</div></div>' +
+      (keynoteSnip ? '<div class="mmb-card-keynote">' + keynoteSnip + '</div>' : '') +
+      (allenSnip && _mmbTab !== 'boericke' ? '<div class="mmb-card-allen-snip">🔑 ' + allenSnip.substring(0,75) + (allenSnip.length>75?'…':'') + '</div>' : '') +
+      '<div class="mmb-card-footer">' +
+        (d.dose ? '<span class="mmb-dose">' + d.dose + '</span>' : '') +
+        (d.relations?.length ? '<span class="mmb-rel-hint">' + d.relations.slice(0,3).join(' · ') + '</span>' : '') +
+      '</div></div>';
+  }).join('');
+}
+</script>
 </body>
 </html>
