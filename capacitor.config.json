@@ -3,6 +3,7 @@
   "appName": "Kent's Repertory",
   "webDir": "www",
   "server": {
+    "url": "https://kentsrepertory.netlify.app",
     "androidScheme": "https",
     "cleartext": true
   }
