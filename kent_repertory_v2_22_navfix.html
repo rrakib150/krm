@@ -434,6 +434,9 @@ html.light .sg-card.sg-disabled{background:rgba(0,0,0,0.02)}
         <input type="password" id="auth-password" placeholder="পাসওয়ার্ড" autocomplete="current-password"
           onkeydown="if(event.key==='Enter')doSupabaseLogin()">
       </div>
+      <div style="text-align:right;margin:-4px 0 10px">
+        <button type="button" onclick="openForgotPassword()" style="background:none;border:none;color:var(--gold2);font-size:0.76rem;cursor:pointer;font-family:inherit;padding:0;text-decoration:underline">পাসওয়ার্ড ভুলে গেছেন?</button>
+      </div>
       <div class="auth-msg" id="auth-login-msg"></div>
       <button class="auth-submit" id="auth-login-btn" onclick="doSupabaseLogin()"><i class="ico ico-lock-open"></i> লগইন করুন</button>
       <div class="auth-divider">অথবা</div>
@@ -441,6 +444,19 @@ html.light .sg-card.sg-disabled{background:rgba(0,0,0,0.02)}
         <span class="auth-google-logo"></span>
         Sign in with Google
       </button>
+    </div>
+
+    <!-- FORGOT PASSWORD FORM -->
+    <div id="auth-forgot-panel" class="auth-panel" style="display:none">
+      <p style="color:var(--muted);font-size:0.8rem;margin:0 0 16px;line-height:1.6">আপনার ইমেইল দিন — পাসওয়ার্ড রিসেট করার লিংক পাঠানো হবে।</p>
+      <div class="auth-field">
+        <label>ইমেইল</label>
+        <input type="email" id="forgot-email" placeholder="আপনার ইমেইল" autocomplete="email"
+          inputmode="email" onkeydown="if(event.key==='Enter')doSendPasswordReset()">
+      </div>
+      <div class="auth-msg" id="auth-forgot-msg"></div>
+      <button class="auth-submit" id="auth-forgot-btn" onclick="doSendPasswordReset()"><i class="ico ico-send"></i> রিসেট লিংক পাঠান</button>
+      <button class="auth-google-btn" style="margin-top:8px" onclick="closeForgotPassword()"><i class="ico ico-arrow-l"></i> লগইনে ফিরে যান</button>
     </div>
 
     <!-- SIGNUP FORM -->
@@ -466,6 +482,11 @@ html.light .sg-card.sg-disabled{background:rgba(0,0,0,0.02)}
           onkeydown="if(event.key==='Enter')doSupabaseSignup()">
       </div>
       <div class="auth-field">
+        <label>মোবাইল নম্বর <span class="optional-tag">(ঐচ্ছিক)</span></label>
+        <input type="tel" id="signup-mobile" placeholder="যেমন: ০১৭xxxxxxxx" autocomplete="tel"
+          onkeydown="if(event.key==='Enter')doSupabaseSignup()">
+      </div>
+      <div class="auth-field">
         <label>রেজিস্ট্রেশন নম্বর <span class="optional-tag">(ঐচ্ছিক)</span></label>
         <input type="text" id="signup-reg-number" placeholder="যদি থাকে" autocomplete="off"
           onkeydown="if(event.key==='Enter')doSupabaseSignup()">
@@ -478,6 +499,27 @@ html.light .sg-card.sg-disabled{background:rgba(0,0,0,0.02)}
         Sign up with Google
       </button>
     </div>
+  </div>
+</div>
+
+<!-- SET NEW PASSWORD (shown after clicking the password-reset email link) -->
+<div id="set-pw-overlay" style="display:none;position:fixed;inset:0;z-index:6000;background:rgba(5,9,15,0.92);align-items:center;justify-content:center;padding:20px">
+  <div class="auth-box">
+    <div class="auth-logo"><div class="brand-logo" style="width:64px;height:64px;margin:0 auto"></div></div>
+    <div class="auth-app-name">নতুন পাসওয়ার্ড সেট করুন</div>
+    <div class="auth-subtitle">আপনার অ্যাকাউন্টের জন্য একটি নতুন পাসওয়ার্ড দিন</div>
+    <div class="auth-field">
+      <label>নতুন পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)</label>
+      <input type="password" id="set-pw-new" placeholder="নতুন পাসওয়ার্ড" autocomplete="new-password"
+        onkeydown="if(event.key==='Enter')doSetNewPassword()">
+    </div>
+    <div class="auth-field">
+      <label>পুনরায় লিখুন</label>
+      <input type="password" id="set-pw-confirm" placeholder="নতুন পাসওয়ার্ড আবার লিখুন" autocomplete="new-password"
+        onkeydown="if(event.key==='Enter')doSetNewPassword()">
+    </div>
+    <div class="auth-msg" id="set-pw-msg"></div>
+    <button class="auth-submit" id="set-pw-btn" onclick="doSetNewPassword()"><i class="ico ico-check status-ok"></i> পাসওয়ার্ড সেট করুন</button>
   </div>
 </div>
 
@@ -845,86 +887,116 @@ html.light .sg-card.sg-disabled{background:rgba(0,0,0,0.02)}
 
 <!-- DOCTOR PROFILE VIEW -->
 <div id="view-profile-hub" class="view">
-  <div style="max-width:520px;margin:48px auto;padding:20px">
+  <div style="max-width:720px;margin:36px auto;padding:20px">
 
-    <!-- User identity card -->
-    <div class="upload-card" style="padding:22px 24px;margin-bottom:14px">
-      <div style="display:flex;align-items:center;gap:14px">
-        <div style="width:44px;height:44px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0"><i class="ico ico-person"></i></div>
+    <!-- Profile header banner -->
+    <div style="background:linear-gradient(135deg,rgba(200,150,12,0.16),rgba(160,112,8,0.05));border:1px solid rgba(200,150,12,0.3);border-radius:var(--radius-lg,18px);padding:26px 24px;margin-bottom:18px;display:flex;align-items:center;gap:18px">
+      <div style="width:60px;height:60px;border-radius:50%;background:var(--bg3);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.7rem;flex-shrink:0;color:var(--gold2)"><i class="ico ico-person"></i></div>
+      <div style="min-width:0;flex:1">
+        <div style="font-size:1.1rem;font-weight:800;color:var(--gold2);margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="prof-hub-email">—</div>
+        <div style="font-size:0.75rem;color:var(--muted);font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:var(--success);display:inline-block;flex-shrink:0"></span> লগইন করা আছেন</div>
+      </div>
+    </div>
+
+    <!-- Section: Basic info -->
+    <div class="upload-card" style="padding:22px 24px;margin-bottom:14px;text-align:left">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+        <span style="font-size:1.05rem;color:var(--gold)"><i class="ico ico-info"></i></span>
+        <span style="font-size:0.95rem;font-weight:700;color:var(--text)">মৌলিক তথ্য</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
         <div>
-          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:3px">লগইন করা আছেন</div>
-          <div id="prof-hub-email" style="font-size:0.93rem;color:var(--fg);word-break:break-all">—</div>
+          <label style="display:block;font-size:0.72rem;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.04em">ডাক্তারের নাম</label>
+          <input id="prof-doc-name" type="text" placeholder="যেমন: ডা: মোহাম্মদ আলী" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--border2);color:var(--fg);border-radius:8px;padding:9px 13px;font-size:0.9rem;font-family:inherit;outline:none">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.72rem;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.04em">ডিগ্রি / যোগ্যতা</label>
+          <input id="prof-doc-degree" type="text" placeholder="যেমন: DHMS, BHMS" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--border2);color:var(--fg);border-radius:8px;padding:9px 13px;font-size:0.9rem;font-family:inherit;outline:none">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.72rem;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.04em">মোবাইল নম্বর</label>
+          <input id="prof-mobile" type="tel" placeholder="যেমন: ০১৭xxxxxxxx" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--border2);color:var(--fg);border-radius:8px;padding:9px 13px;font-size:0.9rem;font-family:inherit;outline:none">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.72rem;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.04em">রেজিস্ট্রেশন নম্বর</label>
+          <input id="prof-reg-number" type="text" placeholder="যদি থাকে" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--border2);color:var(--fg);border-radius:8px;padding:9px 13px;font-size:0.9rem;font-family:inherit;outline:none">
         </div>
       </div>
     </div>
 
-    <!-- Settings toggle card -->
-    <div class="upload-card" style="padding:0;overflow:hidden">
-      <!-- Toggle header -->
-      <button onclick="toggleProfileSettings()" style="width:100%;background:none;border:none;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;color:var(--fg);font-family:inherit;font-size:0.95rem">
-        <span style="display:flex;align-items:center;gap:10px">
-          <span style="font-size:1.1rem"><i class="ico ico-gear"></i></span>
-          <span style="color:var(--gold)">ডাক্তারের তথ্য সেটিংস</span>
-        </span>
-        <span id="prof-settings-chevron" style="color:var(--muted);font-size:0.85rem;transition:transform 0.2s">▼</span>
-      </button>
-
-      <!-- Collapsible form — hidden by default -->
-      <div id="prof-settings-panel" style="display:none;padding:0 22px 22px;border-top:1px solid var(--border2)">
-        <p style="color:var(--muted);font-size:0.8rem;margin:14px 0 16px">এই তথ্য শুধুমাত্র আপনার প্রেসক্রিপশনে ব্যবহার হবে — সম্পূর্ণ ব্যক্তিগত।</p>
-
-        <div style="display:flex;flex-direction:column;gap:12px">
+    <!-- Section: Chamber details -->
+    <div class="upload-card" style="padding:22px 24px;margin-bottom:14px;text-align:left">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+        <span style="font-size:1.05rem;color:var(--gold)"><i class="ico ico-hospital"></i></span>
+        <span style="font-size:0.95rem;font-weight:700;color:var(--text)">চেম্বারের তথ্য</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <label style="display:block;font-size:0.72rem;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.04em">চেম্বারের নাম</label>
+          <input id="prof-doc-chamber" type="text" placeholder="যেমন: আপনার হোমিও ক্লিনিক" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--border2);color:var(--fg);border-radius:8px;padding:9px 13px;font-size:0.9rem;font-family:inherit;outline:none">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.72rem;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.04em">ঠিকানা</label>
+          <input id="prof-doc-address" type="text" placeholder="চেম্বারের সম্পূর্ণ ঠিকানা" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--border2);color:var(--fg);border-radius:8px;padding:9px 13px;font-size:0.9rem;font-family:inherit;outline:none">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
           <div>
-            <label style="display:block;font-size:0.76rem;color:var(--gold2);margin-bottom:4px;font-family:'JetBrains Mono',monospace">ডাক্তারের নাম</label>
-            <input id="prof-doc-name" type="text" placeholder="যেমন: ডা: মোহাম্মদ আলী" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--border2);color:var(--fg);border-radius:8px;padding:9px 13px;font-size:0.9rem;font-family:inherit;outline:none">
-          </div>
-          <div>
-            <label style="display:block;font-size:0.76rem;color:var(--gold2);margin-bottom:4px;font-family:'JetBrains Mono',monospace">ডিগ্রি / যোগ্যতা</label>
-            <input id="prof-doc-degree" type="text" placeholder="যেমন: DHMS, BHMS" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--border2);color:var(--fg);border-radius:8px;padding:9px 13px;font-size:0.9rem;font-family:inherit;outline:none">
-          </div>
-          <div>
-            <label style="display:block;font-size:0.76rem;color:var(--gold2);margin-bottom:4px;font-family:'JetBrains Mono',monospace">চেম্বারের নাম</label>
-            <input id="prof-doc-chamber" type="text" placeholder="যেমন: আপনার হোমিও ক্লিনিক" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--border2);color:var(--fg);border-radius:8px;padding:9px 13px;font-size:0.9rem;font-family:inherit;outline:none">
-          </div>
-          <div>
-            <label style="display:block;font-size:0.76rem;color:var(--gold2);margin-bottom:4px;font-family:'JetBrains Mono',monospace">ঠিকানা</label>
-            <input id="prof-doc-address" type="text" placeholder="চেম্বারের সম্পূর্ণ ঠিকানা" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--border2);color:var(--fg);border-radius:8px;padding:9px 13px;font-size:0.9rem;font-family:inherit;outline:none">
-          </div>
-          <div>
-            <label style="display:block;font-size:0.76rem;color:var(--gold2);margin-bottom:4px;font-family:'JetBrains Mono',monospace">সময়সূচি</label>
+            <label style="display:block;font-size:0.72rem;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.04em">সময়সূচি</label>
             <input id="prof-doc-timing" type="text" placeholder="যেমন: শনি–বৃহ: সকাল ১০–বিকাল ৫" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--border2);color:var(--fg);border-radius:8px;padding:9px 13px;font-size:0.9rem;font-family:inherit;outline:none">
           </div>
           <div>
-            <label style="display:block;font-size:0.76rem;color:var(--gold2);margin-bottom:4px;font-family:'JetBrains Mono',monospace">ছুটির দিন</label>
+            <label style="display:block;font-size:0.72rem;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.04em">ছুটির দিন</label>
             <input id="prof-doc-holiday" type="text" placeholder="যেমন: শুক্রবার" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid var(--border2);color:var(--fg);border-radius:8px;padding:9px 13px;font-size:0.9rem;font-family:inherit;outline:none">
           </div>
-
-          <!-- Logo upload -->
-          <div>
-            <label style="display:block;font-size:0.76rem;color:var(--gold2);margin-bottom:8px;font-family:'JetBrains Mono',monospace">লোগো / সিল</label>
-            <div style="display:flex;align-items:center;gap:14px">
-              <div id="prof-logo-preview" onclick="document.getElementById('prof-logo-input').click()" title="ক্লিক করে লোগো পরিবর্তন করুন" style="width:68px;height:68px;border-radius:10px;background:var(--bg3);border:1.5px dashed var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;flex-shrink:0">
-                <span id="prof-logo-ph" style="font-size:1.5rem;color:var(--muted)"><i class="ico ico-hospital"></i></span>
-                <img id="prof-logo-img" src="" style="display:none;width:100%;height:100%;object-fit:contain" alt="লোগো">
-              </div>
-              <div style="flex:1">
-                <label class="upload-btn" style="padding:7px 14px;font-size:0.78rem;cursor:pointer;display:inline-block">
-                  <i class="ico ico-camera"></i> লোগো আপলোড
-                  <input type="file" id="prof-logo-input" accept="image/*" style="display:none" onchange="if(this.files[0]) profileLogoUpload(this.files[0])">
-                </label>
-                <button onclick="profileLogoRemove()" style="background:none;border:1px solid var(--border2);color:var(--muted);border-radius:8px;padding:7px 10px;cursor:pointer;font-size:0.76rem;margin-left:6px"><i class="ico ico-x status-bad"></i> সরান</button>
-                <p style="color:var(--muted);font-size:0.71rem;margin:5px 0 0">সর্বোচ্চ ৫০০KB · PNG/JPG/SVG</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Save button -->
-        <div style="margin-top:20px;display:flex;gap:10px;align-items:center">
-          <button id="prof-save-btn" onclick="saveDoctorProfile()" style="background:var(--gold);color:#0a0a14;border:none;border-radius:10px;padding:10px 26px;font-size:0.88rem;font-weight:700;cursor:pointer;font-family:inherit"><i class="ico ico-save"></i> সেভ করুন</button>
-          <span id="prof-save-msg" style="font-size:0.82rem;color:var(--muted)"></span>
         </div>
       </div>
+    </div>
+
+    <!-- Section: Logo / seal -->
+    <div class="upload-card" style="padding:22px 24px;margin-bottom:14px;text-align:left">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+        <span style="font-size:1.05rem;color:var(--gold)"><i class="ico ico-camera"></i></span>
+        <span style="font-size:0.95rem;font-weight:700;color:var(--text)">লোগো / সিল</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div id="prof-logo-preview" onclick="document.getElementById('prof-logo-input').click()" title="ক্লিক করে লোগো পরিবর্তন করুন" style="width:76px;height:76px;border-radius:12px;background:var(--bg3);border:1.5px dashed var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;flex-shrink:0">
+          <span id="prof-logo-ph" style="font-size:1.6rem;color:var(--muted)"><i class="ico ico-hospital"></i></span>
+          <img id="prof-logo-img" src="" style="display:none;width:100%;height:100%;object-fit:contain" alt="লোগো">
+        </div>
+        <div style="flex:1">
+          <label class="upload-btn" style="padding:8px 16px;font-size:0.8rem;cursor:pointer;display:inline-block">
+            <i class="ico ico-camera"></i> লোগো আপলোড
+            <input type="file" id="prof-logo-input" accept="image/*" style="display:none" onchange="if(this.files[0]) profileLogoUpload(this.files[0])">
+          </label>
+          <button onclick="profileLogoRemove()" style="background:none;border:1px solid var(--border2);color:var(--muted);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:0.78rem;margin-left:6px"><i class="ico ico-x status-bad"></i> সরান</button>
+          <p style="color:var(--muted);font-size:0.71rem;margin:7px 0 0">সর্বোচ্চ ৫০০KB · PNG/JPG/SVG</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Danger zone — delete my account -->
+    <div class="upload-card" style="padding:22px 24px;margin-bottom:14px;text-align:left;border-color:rgba(224,85,85,0.35)">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(224,85,85,0.25)">
+        <span style="font-size:1.05rem;color:var(--danger)"><i class="ico ico-x status-bad"></i></span>
+        <span style="font-size:0.95rem;font-weight:700;color:var(--danger)">অ্যাকাউন্ট মুছুন</span>
+      </div>
+      <p style="color:var(--muted);font-size:0.8rem;margin:0 0 14px;line-height:1.6">আপনার অ্যাকাউন্ট মুছে ফেললে আপনার প্রোফাইল, সেভড ডেটা, এবং প্রেসক্রিপশন হিস্টোরি স্থায়ীভাবে মুছে যাবে। এই কাজটি ফিরিয়ে আনা যাবে না।</p>
+      <div id="delete-acct-form" style="display:none;margin-bottom:12px">
+        <label style="display:block;font-size:0.72rem;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.04em">নিশ্চিত করতে আপনার পাসওয়ার্ড দিন</label>
+        <input id="delete-acct-password" type="password" placeholder="পাসওয়ার্ড" autocomplete="current-password" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1px solid rgba(224,85,85,0.4);color:var(--fg);border-radius:8px;padding:9px 13px;font-size:0.9rem;font-family:inherit;outline:none;margin-bottom:8px">
+        <div id="delete-acct-msg" style="font-size:0.8rem;color:var(--danger);margin-bottom:8px"></div>
+        <div style="display:flex;gap:10px">
+          <button id="delete-acct-confirm-btn" onclick="confirmDeleteMyAccount()" style="background:var(--danger);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:0.85rem;font-weight:700;cursor:pointer;font-family:inherit"><i class="ico ico-x status-bad"></i> স্থায়ীভাবে মুছুন</button>
+          <button onclick="cancelDeleteMyAccount()" style="background:none;border:1px solid var(--border2);color:var(--muted);border-radius:8px;padding:9px 18px;font-size:0.85rem;cursor:pointer;font-family:inherit">বাতিল</button>
+        </div>
+      </div>
+      <button id="delete-acct-start-btn" onclick="startDeleteMyAccount()" style="background:none;border:1px solid var(--danger);color:var(--danger);border-radius:8px;padding:9px 18px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:inherit"><i class="ico ico-x status-bad"></i> অ্যাকাউন্ট মুছে ফেলুন</button>
+    </div>
+
+    <!-- Save bar -->
+    <div style="position:sticky;bottom:16px;display:flex;justify-content:flex-end;gap:12px;align-items:center;background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:14px 18px;box-shadow:var(--shadow-md,0 4px 16px rgba(0,0,0,0.35))">
+      <span id="prof-save-msg" style="font-size:0.82rem;color:var(--muted);flex:1"></span>
+      <button id="prof-save-btn" onclick="saveDoctorProfile()" style="background:var(--gold);color:#0a0a14;border:none;border-radius:10px;padding:11px 30px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap"><i class="ico ico-save"></i> সেভ করুন</button>
     </div>
 
   </div>
@@ -4932,6 +5004,7 @@ let _loginAuthorized = false; // true when a valid Supabase JWT is stored
 let _isAdmin = false;         // true only when logged-in user has role='admin' in profiles
 let _isBanned = false;        // true when the logged-in user's profile has is_banned=true
 let _isApproved = false;      // true once an admin has approved this account (new signups start unapproved)
+let _subGateSeen = false;     // true once this ACCOUNT has been shown the subscription gate (from profiles.sub_gate_seen — server-side, so it holds across browsers/devices)
 let _currentUserId = '';      // Supabase auth.uid() — set on login, cleared on logout
 let _pendingUploadNav = null; // store btn reference for after login
 let _pendingAdminDashNav = null; // store btn reference for admin-dashboard after login
@@ -4945,7 +5018,125 @@ function switchAuthTab(tab) {
   document.getElementById('auth-tab-signup').classList.toggle('active', tab === 'signup');
   const indicator = document.getElementById('auth-tab-indicator');
   if (indicator) indicator.classList.toggle('signup', tab === 'signup');
+  closeForgotPassword();
 }
+
+// ── Forgot password ───────────────────────────────────────────────────
+// Uses Supabase's built-in recovery endpoint — sends a reset-password email
+// containing a link that returns the user to this app with a recovery
+// session, which Supabase Auth then lets them use to set a new password.
+function openForgotPassword() {
+  document.getElementById('auth-login-panel').style.display = 'none';
+  document.getElementById('auth-signup-panel').style.display = 'none';
+  document.getElementById('auth-forgot-panel').style.display = '';
+  const emailEl = document.getElementById('forgot-email');
+  const loginEmail = document.getElementById('auth-email').value || '';
+  if (emailEl && loginEmail) emailEl.value = loginEmail;
+}
+function closeForgotPassword() {
+  const panel = document.getElementById('auth-forgot-panel');
+  if (panel) panel.style.display = 'none';
+  const activeTab = document.getElementById('auth-tab-signup').classList.contains('active') ? 'signup' : 'login';
+  document.getElementById('auth-login-panel').style.display = activeTab === 'login' ? '' : 'none';
+  document.getElementById('auth-signup-panel').style.display = activeTab === 'signup' ? '' : 'none';
+  const msgEl = document.getElementById('auth-forgot-msg');
+  if (msgEl) { msgEl.className = 'auth-msg'; msgEl.textContent = ''; }
+}
+async function doSendPasswordReset() {
+  const email = (document.getElementById('forgot-email').value || '').trim();
+  const msgEl = document.getElementById('auth-forgot-msg');
+  const btn = document.getElementById('auth-forgot-btn');
+  msgEl.className = 'auth-msg';
+  msgEl.textContent = '';
+  if (!email) {
+    msgEl.className = 'auth-msg error';
+    msgEl.textContent = '❌ ইমেইল দিন।';
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = '⏳ পাঠানো হচ্ছে...';
+  try {
+    const resp = await fetch(SUPABASE_URL + '/auth/v1/recover', {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, options: { redirect_to: window.location.origin + window.location.pathname } })
+    });
+    // Supabase always returns 200 here regardless of whether the email
+    // exists — this is intentional (prevents leaking which emails are
+    // registered), so the same success message is shown either way.
+    if (!resp.ok) {
+      const data = await resp.json().catch(() => ({}));
+      throw new Error(data.error_description || data.msg || 'অজানা ত্রুটি');
+    }
+    msgEl.className = 'auth-msg success';
+    msgEl.textContent = '✅ যদি এই ইমেইলে অ্যাকাউন্ট থাকে, একটি রিসেট লিংক পাঠানো হয়েছে। ইনবক্স/স্প্যাম চেক করুন।';
+  } catch(e) {
+    msgEl.className = 'auth-msg error';
+    msgEl.textContent = '❌ পাঠাতে ব্যর্থ: ' + e.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '📩 রিসেট লিংক পাঠান';
+  }
+}
+
+let _recoveryAccessToken = null; // holds the one-time token from the reset-password email link
+function openSetNewPassword(accessToken) {
+  _recoveryAccessToken = accessToken;
+  document.getElementById('set-pw-overlay').style.display = 'flex';
+}
+function closeSetNewPassword() {
+  document.getElementById('set-pw-overlay').style.display = 'none';
+  _recoveryAccessToken = null;
+}
+async function doSetNewPassword() {
+  const pw1 = document.getElementById('set-pw-new').value || '';
+  const pw2 = document.getElementById('set-pw-confirm').value || '';
+  const msgEl = document.getElementById('set-pw-msg');
+  const btn = document.getElementById('set-pw-btn');
+  msgEl.className = 'auth-msg';
+  msgEl.textContent = '';
+  if (pw1.length < 6) {
+    msgEl.className = 'auth-msg error';
+    msgEl.textContent = '❌ পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।';
+    return;
+  }
+  if (pw1 !== pw2) {
+    msgEl.className = 'auth-msg error';
+    msgEl.textContent = '❌ দুটি পাসওয়ার্ড মিলছে না।';
+    return;
+  }
+  if (!_recoveryAccessToken) {
+    msgEl.className = 'auth-msg error';
+    msgEl.textContent = '❌ রিসেট লিংকটি অবৈধ বা মেয়াদোত্তীর্ণ। আবার রিকোয়েস্ট করুন।';
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = '⏳ সেভ হচ্ছে...';
+  try {
+    const resp = await fetch(SUPABASE_URL + '/auth/v1/user', {
+      method: 'PUT',
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + _recoveryAccessToken, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw1 })
+    });
+    if (!resp.ok) {
+      const data = await resp.json().catch(() => ({}));
+      throw new Error(data.error_description || data.msg || 'অজানা ত্রুটি');
+    }
+    msgEl.className = 'auth-msg success';
+    msgEl.textContent = '✅ পাসওয়ার্ড পরিবর্তন হয়েছে। এখন লগইন করুন।';
+    setTimeout(() => {
+      closeSetNewPassword();
+      showToast('✅ পাসওয়ার্ড পরিবর্তন হয়েছে — নতুন পাসওয়ার্ড দিয়ে লগইন করুন।', 'success');
+    }, 1200);
+  } catch(e) {
+    msgEl.className = 'auth-msg error';
+    msgEl.textContent = '❌ ব্যর্থ: ' + e.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '🔑 পাসওয়ার্ড সেট করুন';
+  }
+}
+
 function _showAuthGate() {
   document.getElementById('auth-gate').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
@@ -4983,14 +5174,35 @@ function sgConfirm() {
     ov.classList.remove('show');
     btn.disabled = false;
     localStorage.setItem(_subSeenKey(), '1');
+    _subGateSeen = true;
+    _saveSubGateSeenToServer();
     closeSubGate();
     init();
   }, 1400);
 }
+// Persists sub_gate_seen=true on this account's profiles row, so the gate stays
+// dismissed even when the user later logs in from a different browser/device.
+// Best-effort: if this fails (network hiccup), the gate may show once more on
+// another device, but nothing else breaks — it never blocks entering the app.
+async function _saveSubGateSeenToServer() {
+  if (!_currentUserId) return;
+  try {
+    await fetch(
+      SUPABASE_URL + '/rest/v1/profiles?id=eq.' + _currentUserId,
+      {
+        method: 'PATCH',
+        headers: { ...sbHeaders, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ sub_gate_seen: true })
+      }
+    );
+  } catch(e) { console.error('[SUB-GATE] server-side save failed:', e.message); }
+}
 // Called after a successful login/signup/Google sign-in instead of calling init() directly.
-// First time this ACCOUNT signs in on this device -> show the plan-selection screen; afterwards -> go straight in.
+// First time this ACCOUNT signs in (on ANY device/browser) -> show the plan-selection screen; afterwards -> go straight in.
+// _subGateSeen comes from profiles.sub_gate_seen (set by _fetchAndSetAdminRole), so this
+// decision is account-wide, not tied to one browser's localStorage.
 function _enterAppAfterAuth() {
-  if (localStorage.getItem(_subSeenKey())) {
+  if (_subGateSeen || localStorage.getItem(_subSeenKey())) {
     init();
   } else {
     openSubGate();
@@ -5094,6 +5306,7 @@ async function doSupabaseSignup() {
   const password = document.getElementById('signup-password').value || '';
   const dob = document.getElementById('signup-dob').value || '';
   const regNumber = (document.getElementById('signup-reg-number').value || '').trim();
+  const mobile = (document.getElementById('signup-mobile').value || '').trim();
   const msgEl = document.getElementById('auth-signup-msg');
   const btn = document.getElementById('auth-signup-btn');
   msgEl.className = 'auth-msg';
@@ -5148,6 +5361,7 @@ async function doSupabaseSignup() {
         const profilePatch = { full_name: fullName };
         if (dob) profilePatch.date_of_birth = dob;
         if (regNumber) profilePatch.registration_number = regNumber;
+        if (mobile) profilePatch.mobile_number = mobile;
         await fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + data.user.id, {
           method: 'PATCH',
           headers: { ...sbHeaders, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
@@ -5229,7 +5443,7 @@ function _updateLogoutBtnVisibility() {
 async function _fetchAndSetAdminRole(userId) {
   try {
     const r = await fetch(
-      SUPABASE_URL + '/rest/v1/profiles?id=eq.' + userId + '&select=role,is_banned,is_approved,theme_preference,language_preference&limit=1',
+      SUPABASE_URL + '/rest/v1/profiles?id=eq.' + userId + '&select=role,is_banned,is_approved,theme_preference,language_preference,sub_gate_seen,mobile_number,registration_number&limit=1',
       { headers: { ...sbHeaders } }
     );
     const bodyTxt = await r.text();
@@ -5239,6 +5453,10 @@ async function _fetchAndSetAdminRole(userId) {
       _isAdmin = !!(d && d.length > 0 && d[0].role === 'admin');
       _isBanned = !!(d && d.length > 0 && d[0].is_banned === true);
       _isApproved = !!(d && d.length > 0 && d[0].is_approved === true);
+      // Server-side "seen the subscription gate" flag — travels with the
+      // ACCOUNT (unlike the old localStorage-only flag, which only lived on
+      // one browser/device and made the gate reappear on every new browser).
+      _subGateSeen = !!(d && d.length > 0 && d[0].sub_gate_seen === true);
       // Apply THIS account's own saved theme/language — overrides whatever
       // was left over from a previous account on this same device/browser.
       if (d && d.length > 0) {
@@ -5258,12 +5476,14 @@ async function _fetchAndSetAdminRole(userId) {
       _isAdmin = false;
       _isBanned = false;
       _isApproved = false;
+      _subGateSeen = false;
       console.error('[ADMIN-CHECK] profiles lookup HTTP ' + r.status + ':', bodyTxt, '— এটা সাধারণত RLS policy বা টেবিল-নাম/কলাম ভুল থাকলে হয়।');
     }
   } catch(e) {
     _isAdmin = false; // network error → safe default
     _isBanned = false;
     _isApproved = false;
+    _subGateSeen = false;
     console.error('[ADMIN-CHECK] Network/exception error:', e.message);
   }
 }
@@ -5483,6 +5703,71 @@ function doGoogleSignIn() {
 
 // ── Auth check on page load ──────────────────────────────────────────
 (function _checkAuthOnLoad() {
+  // Handle password-recovery redirect: Supabase's reset-password email link
+  // lands here with type=recovery in the hash. Must be checked BEFORE the
+  // generic OAuth handling below, since a recovery link also carries an
+  // access_token — but here it should open "set a new password", not log
+  // the user straight into the app.
+  const _recoveryHash = window.location.hash;
+  if (_recoveryHash && _recoveryHash.includes('type=recovery')) {
+    try {
+      const _rp = new URLSearchParams(_recoveryHash.substring(1));
+      const _rat = _rp.get('access_token');
+      if (_rat) {
+        window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
+        openSetNewPassword(_rat);
+        return; // skip the rest of the normal auth-on-load flow
+      } else {
+        console.warn('[RECOVERY] hash-এ type=recovery আছে কিন্তু access_token নেই:', _recoveryHash);
+      }
+    } catch(e) { /* ignore hash parse errors, fall through to normal flow */ }
+  }
+  // Some Supabase project configs use the PKCE flow, where the recovery link
+  // arrives as ?code=... (query string) instead of #access_token=...&type=recovery
+  // (hash). Newer GoTrue versions instead use ?token_hash=...&type=recovery.
+  // If we land here with either and no recognized hash, exchange it for a
+  // session and treat it the same as a recovery hash so the "set new
+  // password" screen still opens instead of silently falling through to login.
+  const _qs = new URLSearchParams(window.location.search);
+  const _recoveryCode = _qs.get('code');
+  const _recoveryTokenHash = _qs.get('token_hash');
+  const _recoveryType = _qs.get('type');
+  if (_recoveryCode || (_recoveryTokenHash && _recoveryType === 'recovery')) {
+    console.warn('[RECOVERY] query-string ভিত্তিক রিকভারি ধরা পড়েছে (code বা token_hash) — এক্সচেঞ্জ করার চেষ্টা করা হচ্ছে।');
+    (async () => {
+      try {
+        // A PKCE `code` must be exchanged at /auth/v1/token?grant_type=pkce
+        // (NOT /auth/v1/verify — that endpoint only accepts token_hash).
+        // Using the wrong endpoint for `code` was why the reset link fell
+        // through silently back to the login screen.
+        const _exResp = _recoveryCode
+          ? await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=pkce', {
+              method: 'POST',
+              headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ auth_code: _recoveryCode })
+            }).catch(() => null)
+          : await fetch(SUPABASE_URL + '/auth/v1/verify', {
+              method: 'POST',
+              headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ token_hash: _recoveryTokenHash, type: 'recovery' })
+            }).catch(() => null);
+        if (_exResp && _exResp.ok) {
+          const _exData = await _exResp.json();
+          if (_exData && _exData.access_token) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+            openSetNewPassword(_exData.access_token);
+            return;
+          } else {
+            console.warn('[RECOVERY] verify সফল হলো কিন্তু access_token নেই:', _exData);
+          }
+        } else {
+          const _errTxt = _exResp ? await _exResp.text().catch(() => '') : 'network error';
+          console.warn('[RECOVERY] verify ব্যর্থ:', _exResp ? _exResp.status : '', _errTxt);
+        }
+        console.warn('[RECOVERY] code/token_hash exchange ব্যর্থ হয়েছে — নিচের ম্যানুয়াল ফিক্স দেখুন।');
+      } catch(e) { console.warn('[RECOVERY] exchange error:', e.message); }
+    })();
+  }
   // Handle OAuth provider redirect callback (tokens arrive in URL hash)
   const _oauthHash = window.location.hash;
   let _isFreshGoogleSignIn = false; // true only when we just landed back from Google's redirect
@@ -5521,6 +5806,7 @@ function doGoogleSignIn() {
           return;
         }
         if (!_isAdmin && !_isApproved) {
+          console.warn('[APPROVAL-BLOCK] userId=' + userData.id + ' _isAdmin=' + _isAdmin + ' _isApproved=' + _isApproved + ' — profiles টেবিলে এই id-এর role/is_approved কলাম চেক করুন।');
           await doSupabaseLogout(true);
           showToast('⏳ আপনার অ্যাকাউন্ট এখনো অ্যাডমিনের অনুমোদনের অপেক্ষায় আছে।', 'error');
           return;
@@ -5679,11 +5965,6 @@ function switchView(v, btn) {
   if (v === 'profile-hub') {
     const emailEl = document.getElementById('prof-hub-email');
     if (emailEl) emailEl.textContent = localStorage.getItem(SB_USER_KEY) || '—';
-    // Collapse settings panel each time the view is opened
-    const panel = document.getElementById('prof-settings-panel');
-    const chevron = document.getElementById('prof-settings-chevron');
-    if (panel) panel.style.display = 'none';
-    if (chevron) { chevron.style.transform = ''; }
     loadDoctorProfile();
   }
   if (v === 'rx' && !rxInited) { rxInited = true; initRxView(); }
@@ -6128,15 +6409,6 @@ const SB_SETTINGS_CHAPTER = '__settings__';
 //  DOCTOR PROFILE — per-user, stored in doctor_profiles table (RLS)
 // ══════════════════════════════════════════════════════════════════
 
-function toggleProfileSettings() {
-  const panel   = document.getElementById('prof-settings-panel');
-  const chevron = document.getElementById('prof-settings-chevron');
-  if (!panel) return;
-  const open = panel.style.display !== 'none';
-  panel.style.display  = open ? 'none' : 'block';
-  if (chevron) chevron.style.transform = open ? '' : 'rotate(180deg)';
-}
-
 async function loadDoctorProfile() {
   const msgEl = document.getElementById('prof-save-msg');
   if (msgEl) msgEl.textContent = '⏳ লোড হচ্ছে...';
@@ -6153,12 +6425,20 @@ async function loadDoctorProfile() {
       document.getElementById('prof-doc-timing').value  = p.doc_timing  || '';
       document.getElementById('prof-doc-holiday').value = p.doc_holiday || '';
       if (p.logo_url) profileLogoApply(p.logo_url);
-      if (msgEl) msgEl.textContent = '';
     } else {
       _cachedDoctorProfile = null;
       // New user — empty form, no error
-      if (msgEl) msgEl.textContent = '';
     }
+    // Mobile number and registration number live on the account's own
+    // profiles row (set at signup), not in doctor_profiles.
+    try {
+      const acct = await sbFetch('profiles?select=mobile_number,registration_number&limit=1');
+      if (acct && acct.length > 0) {
+        document.getElementById('prof-mobile').value      = acct[0].mobile_number      || '';
+        document.getElementById('prof-reg-number').value  = acct[0].registration_number || '';
+      }
+    } catch(ae) { console.warn('loading mobile/registration number failed:', ae); }
+    if (msgEl) msgEl.textContent = '';
   } catch(e) {
     if (msgEl) msgEl.textContent = '⚠️ লোড ব্যর্থ হয়েছে';
     console.warn('loadDoctorProfile failed:', e);
@@ -6195,6 +6475,21 @@ async function saveDoctorProfile() {
     });
     if (!resp.ok) {
       const err = await resp.text();
+      throw new Error(err);
+    }
+    // Mobile number / registration number belong to the account's profiles
+    // row, not doctor_profiles — save them there.
+    const acctPatch = {
+      mobile_number:       document.getElementById('prof-mobile').value.trim(),
+      registration_number: document.getElementById('prof-reg-number').value.trim(),
+    };
+    const acctResp = await fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + _currentUserId, {
+      method: 'PATCH',
+      headers: { ...sbHeaders, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify(acctPatch),
+    });
+    if (!acctResp.ok) {
+      const err = await acctResp.text();
       throw new Error(err);
     }
     showToast('✅ প্রোফাইল সেভ হয়েছে', 'success');
@@ -6237,6 +6532,86 @@ function profileLogoUpload(file) {
 function profileLogoRemove() {
   profileLogoApply(null);
   showToast('লোগো সরানো হয়েছে');
+}
+
+// ── Delete my own account (self-service, password-confirmed) ─────────
+// IMPORTANT SCOPE — same limitation as the admin-side deleteUnusedProfile:
+// this deletes the account's row in the app's `profiles` table (and, best
+// effort, doctor_profiles) but CANNOT delete the underlying Supabase Auth
+// account itself — that requires the service-role key / Admin API, which
+// must never be embedded in client-side code (anyone viewing page source
+// could then delete any account in the project). After this, the person's
+// login credentials still technically exist in Supabase Auth, but the app
+// treats them as gone: no profile row means no role/approval, so they
+// cannot get past the login gate — and this button already signs them out.
+// For a full account wipe, the admin must also remove the user from
+// Supabase Dashboard → Authentication → Users.
+function startDeleteMyAccount() {
+  document.getElementById('delete-acct-form').style.display = 'block';
+  document.getElementById('delete-acct-start-btn').style.display = 'none';
+  document.getElementById('delete-acct-password').value = '';
+  document.getElementById('delete-acct-msg').textContent = '';
+}
+function cancelDeleteMyAccount() {
+  document.getElementById('delete-acct-form').style.display = 'none';
+  document.getElementById('delete-acct-start-btn').style.display = '';
+}
+async function confirmDeleteMyAccount() {
+  const password = document.getElementById('delete-acct-password').value || '';
+  const msgEl = document.getElementById('delete-acct-msg');
+  const btn = document.getElementById('delete-acct-confirm-btn');
+  msgEl.textContent = '';
+  if (!password) {
+    msgEl.textContent = '❌ পাসওয়ার্ড দিন।';
+    return;
+  }
+  const email = localStorage.getItem(SB_USER_KEY) || '';
+  if (!email) {
+    msgEl.textContent = '❌ ইমেইল খুঁজে পাওয়া যায়নি। আবার লগইন করে চেষ্টা করুন।';
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = '⏳ যাচাই করা হচ্ছে...';
+  try {
+    // Re-authenticate with the password to confirm identity before deleting —
+    // same mechanism as normal login, just used here as a confirmation step.
+    const verifyResp = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=password', {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    if (!verifyResp.ok) {
+      msgEl.textContent = '❌ ভুল পাসওয়ার্ড।';
+      btn.disabled = false;
+      btn.textContent = '🗑️ স্থায়ীভাবে মুছুন';
+      return;
+    }
+    if (!confirm('আপনি কি নিশ্চিত? এই কাজটি ফিরিয়ে আনা যাবে না।')) {
+      btn.disabled = false;
+      btn.textContent = '🗑️ স্থায়ীভাবে মুছুন';
+      return;
+    }
+    btn.textContent = '⏳ মুছে ফেলা হচ্ছে...';
+    // Best-effort: remove doctor_profiles row too (RLS scopes it to this user).
+    try {
+      await fetch(SUPABASE_URL + '/rest/v1/doctor_profiles?user_id=eq.' + _currentUserId, {
+        method: 'DELETE',
+        headers: { ...sbHeaders, 'Prefer': 'return=minimal' }
+      });
+    } catch(de) { /* non-fatal */ }
+    const delResp = await fetch(SUPABASE_URL + '/rest/v1/profiles?id=eq.' + _currentUserId, {
+      method: 'DELETE',
+      headers: { ...sbHeaders, 'Prefer': 'return=minimal' }
+    });
+    if (!delResp.ok) throw new Error(await delResp.text());
+    showToast('🗑️ আপনার অ্যাকাউন্ট মুছে ফেলা হয়েছে', 'success');
+    await doSupabaseLogout(true);
+    location.reload();
+  } catch(e) {
+    msgEl.textContent = '❌ মুছতে ব্যর্থ: ' + e.message;
+    btn.disabled = false;
+    btn.textContent = '🗑️ স্থায়ীভাবে মুছুন';
+  }
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -8771,8 +9146,10 @@ async function mmbRender() {
       empty.innerHTML = `<div style="font-size:2rem;margin-bottom:8px">⚠️</div>ডেটা লোড করতে সমস্যা হয়েছে (রেমিডি আপলোড হয়ে আছে, শুধু দেখাতে পারছে না)।<br>
         <div style="font-size:0.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin:8px 0">${err}</div>
         <button class="upload-btn" style="font-size:0.75rem;padding:7px 16px;margin-top:6px" onclick="retryLoadKentMM()">🔄 আবার চেষ্টা করুন</button>`;
+    } else if (_loginAuthorized && _isAdmin) {
+      empty.innerHTML = `<div style="font-size:2rem;margin-bottom:8px">📥</div>এখনো কোনো ঔষধ ইম্পোর্ট করা হয়নি।<br>মেনু থেকে "📂 JSON আমদানি" পাতায় গিয়ে Kent's/Boericke's/Boger's JSON ইম্পোর্ট করুন।`;
     } else {
-      empty.innerHTML = `<div style="font-size:2rem;margin-bottom:8px">📥</div>এখনো কোনো ঔষধ ইম্পোর্ট করা হয়নি।<br>মেনু থেকে "📂 JSON আমদানি" পাতায় গিয়ে (লগইন প্রয়োজন) Kent's/Boericke's/Boger's JSON ইম্পোর্ট করুন।`;
+      empty.innerHTML = `<div style="font-size:2rem;margin-bottom:8px">📥</div>এখনো কোনো ঔষধ ইম্পোর্ট করা হয়নি।<br>এই ফিচারটি চালু করতে অ্যাডমিনের সাথে যোগাযোগ করুন।`;
     }
     document.getElementById('mmb-pagination').innerHTML = '';
     return;
